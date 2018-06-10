@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="spacefillerlib:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/spacefillerlib_jar</output-path>
+    <root id="archive" name="spacefillerlib.jar">
+      <element id="module-output" name="spacefillerlib" />
+      <element id="extracted-dir" path="/Applications/Processing.app/Contents/Java/core/library/core.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
