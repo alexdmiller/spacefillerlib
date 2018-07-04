@@ -1,20 +1,17 @@
-package spacefiller.particles;
+package spacefiller.particles.sources;
 
 import processing.core.PVector;
 
-/**
- * Created by miller on 7/31/17.
- */
-public class Source {
+public class PointSource implements Source {
   private PVector position;
   private int spawnRate;
   private int dimension;
 
-  public Source(float x, float y, int spawnRate, int dimension) {
+  public PointSource(float x, float y, int spawnRate, int dimension) {
     this(new PVector(x, y), spawnRate, dimension);
   }
 
-  public Source(PVector position, int spawnRate, int dimension) {
+  public PointSource(PVector position, int spawnRate, int dimension) {
     this.position = position;
     this.spawnRate = spawnRate;
     this.dimension = dimension;
@@ -38,5 +35,10 @@ public class Source {
 
   public int getDimension() {
     return dimension;
+  }
+
+  @Override
+  public PVector generatePoint() {
+    return getPosition().copy();
   }
 }

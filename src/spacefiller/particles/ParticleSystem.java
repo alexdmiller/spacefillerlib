@@ -2,6 +2,9 @@ package spacefiller.particles;
 
 import spacefiller.particles.behaviors.ParticleBehavior;
 import processing.core.PVector;
+import spacefiller.particles.sources.AreaSource;
+import spacefiller.particles.sources.PointSource;
+import spacefiller.particles.sources.Source;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +58,17 @@ public class ParticleSystem {
     return p;
   }
 
-  public void createSource(float x, float y, int spawnRate, int dimension) {
-    sources.add(new Source(new PVector(x, y), spawnRate, dimension));
+
+  public void createPointSource(float x, float y, int spawnRate, int dimension) {
+    sources.add(new PointSource(new PVector(x, y), spawnRate, dimension));
+  }
+
+  public void createAreaSource(PVector position, Bounds bounds, int spawnRate, int dimension) {
+    sources.add(new AreaSource(position, bounds, spawnRate, dimension));
+  }
+
+  public void createAreaSource(int spawnRate, int dimension) {
+    createAreaSource(new PVector(0, 0), this.bounds, spawnRate, dimension);
   }
 
   public List<Source> getSources() {
@@ -70,7 +82,7 @@ public class ParticleSystem {
         // all sources; not just update a single source.
         Source source = sources.get((int) Math.floor(Math.random() * sources.size()));
         for (int i = 0; i < source.getSpawnRate() && particles.size() < maxParticles; i++) {
-          createParticle(source.getPosition().copy(), source.getDimension());
+          createParticle(source.generatePoint(), source.getDimension());
         }
       }
     }

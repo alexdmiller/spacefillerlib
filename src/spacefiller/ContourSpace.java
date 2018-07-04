@@ -1,56 +1,74 @@
 package spacefiller;
 
+import processing.core.PApplet;
 import processing.core.PVector;
+import toxi.math.noise.PerlinNoise;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import javax.sound.sampled.Line;
+import java.util.*;
 
 public class ContourSpace {
   private int width;
   private int height;
   private float cellSize;
   private float[][] grid;
-  private List<LineSegment> lineSegments;
+  private SortedMap<Float, List<LineSegment>> layers;
+  private PerlinNoise noise;
 
   public ContourSpace(int width, int height, float cellSize) {
     this.width = width;
     this.height = height;
     this.cellSize = cellSize;
     this.grid = new float[(int) (this.height / this.cellSize)][(int) (this.width / this.cellSize)];
-    this.lineSegments = new ArrayList<>();
+    this.layers = new TreeMap<>();
+    this.noise = new PerlinNoise();
   }
 
-  public List<LineSegment> getLineSegments() {
-    return lineSegments;
+  public List<LineSegment> getLineSegmentLayerAtHeight(float height) {
+    return layers.get(height);
+  }
+
+  public List<List<LineSegment>> getLayers() {
+    Collection<List<LineSegment>> values = layers.values();
+    return new ArrayList<>(values);
   }
 
   public List<PVector[]> getVertexGroups() {
     VectorGroupBuilder builder = new VectorGroupBuilder();
-    for (LineSegment segment : lineSegments) {
-      builder.addGroup(new PVector[] { segment.p1, segment.p2 });
+    for (List<LineSegment> layer : layers.values()) {
+      for (LineSegment segment : layer) {
+        builder.addGroup(new PVector[]{segment.p1, segment.p2});
+      }
     }
 
     return builder.getGroups();
   }
 
   public void clearLineSegments() {
-    lineSegments.clear();
+    layers.clear();
   }
 
   public void resetGrid() {
     this.grid = new float[(int) (this.height / this.cellSize)][(int) (this.width / this.cellSize)];
-    this.lineSegments.clear();
+    this.layers.clear();
   }
 
-  public void addMetaBall(PVector position, float radius) {
+  public void addNoise(float scale, float height, float t) {
+    for (int row = 0; row < grid.length; row++) {
+      for (int col = 0; col < grid[0].length; col++) {
+        grid[row][col] += noise.noise(row * scale, col * scale, t) * height;
+      }
+    }
+  }
+
+  public void addMetaBall(PVector position, float radius, float height) {
     for (int row = 0; row < grid.length; row++) {
       for (int col = 0; col < grid[0].length; col++) {
         PVector sample = new PVector(col * cellSize, row * cellSize);
         float distance = position.dist(sample);
         //grid[row][col] = grid[row][col] + Math.min(50f / distance, 1000);
         //grid[row][col] = (float) (grid[row][col] + Math.pow((1 - distance * distance), 2));
-        grid[row][col] += Math.min(Math.pow(radius, 2) / (Math.pow(sample.x - position.x, 2) + Math.pow(sample.y - position.y, 2)), 1000);
+        grid[row][col] += Math.min((Math.min(Math.pow(radius, 2) / (Math.pow(sample.x - position.x, 2) + Math.pow(sample.y - position.y, 2)), 1000)), height);
       }
     }
   }
@@ -98,7 +116,7 @@ public class ContourSpace {
     if (intersections.size() == 2) {
       PVector l1 = intersections.get(0);
       PVector l2 = intersections.get(1);
-      vline(l1, l2);
+      vline(l1, l2, planeHeight);
     }
   }
 
@@ -113,7 +131,12 @@ public class ContourSpace {
     }
   }
 
-  void vline(PVector p1, PVector p2) {
-    lineSegments.add(new LineSegment(p1, p2));
+  void vline(PVector p1, PVector p2, float planeHeight) {
+    if (!layers.containsKey(planeHeight)) {
+      layers.put(planeHeight, new ArrayList<>());
+    }
+
+
+    layers.get(planeHeight).add(new LineSegment(p1, p2));
   }
 }
