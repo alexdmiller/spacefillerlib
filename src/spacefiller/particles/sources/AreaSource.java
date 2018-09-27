@@ -1,15 +1,15 @@
 package spacefiller.particles.sources;
 
-import processing.core.PVector;
+import spacefiller.Vector;
 import spacefiller.particles.Bounds;
 
 public class AreaSource implements Source {
-  private PVector position;
+  private Vector position;
   private Bounds bounds;
   private int spawnRate;
   private int dimension;
 
-  public AreaSource(PVector position, Bounds bounds, int spawnRate, int dimension) {
+  public AreaSource(Vector position, Bounds bounds, int spawnRate, int dimension) {
     this.position = position;
     this.bounds = bounds;
     this.spawnRate = spawnRate;
@@ -17,7 +17,7 @@ public class AreaSource implements Source {
   }
 
   @Override
-  public PVector generatePoint() {
+  public Vector generatePoint() {
     return this.bounds.getRandomPointInside(dimension).add(position);
   }
 

@@ -1,8 +1,8 @@
 package spacefiller.particles.behaviors;
 
+import spacefiller.Vector;
 import spacefiller.particles.Particle;
 import spacefiller.particles.ParticleUtils;
-import processing.core.PVector;
 
 import java.util.List;
 
@@ -33,6 +33,10 @@ public class FlockParticles extends ParticleBehavior {
     this.cohesionThreshold = cohesionThreshold;
     this.maxForce = maxForce;
     this.maxSpeed = maxSpeed;
+  }
+
+  public FlockParticles() {
+    this(2, 1, 1, 30, 100, 100, 0.1f, 4);
   }
 
   public float getMaxForce() {
@@ -72,11 +76,11 @@ public class FlockParticles extends ParticleBehavior {
 
   // We accumulate a new acceleration each time based on three rules
   void applyFlockingForces(Particle p, List<Particle> particles) {
-    PVector sep = separate(p, particles);   // Separation
-    PVector ali = align(p, particles);      // Alignment
-    PVector coh = cohesion(p, particles);   // Cohesion
+    Vector sep = separate(p, particles);   // Separation
+    Vector ali = align(p, particles);      // Alignment
+    Vector coh = cohesion(p, particles);   // Cohesion
     // Arbitrarily weight these forces
-    if (sep.mag() > 0) {
+    if (sep.magnitude() > 0) {
       ali.mult(0);
       coh.mult(0);
     }
@@ -91,17 +95,17 @@ public class FlockParticles extends ParticleBehavior {
 
   // Separation
   // Method checks for nearby boids and steers away
-  PVector separate(Particle p, List<Particle> particles) {
-    PVector steer = new PVector(0, 0, 0);
+  Vector separate(Particle p, List<Particle> particles) {
+    Vector steer = new Vector(0, 0, 0);
 
     int count = 0;
     // For every boid in the system, check if it's too close
     for (Particle other : particles) {
-      float d = PVector.dist(p.position, other.position);
+      float d = (float) p.position.dist(other.position);
       float desiredSeparation2 = desiredSeparation;
       if (other != p && (d < desiredSeparation2)) {
         // Calculate vector pointing away from neighbor
-        PVector diff = PVector.sub(p.position, other.position);
+        Vector diff = Vector.sub(p.position, other.position);
         diff.normalize();
         diff.div(d);        // Weight by distance
         steer.add(diff);
@@ -114,8 +118,8 @@ public class FlockParticles extends ParticleBehavior {
     }
 
     // As long as the vector is greater than 0
-    if (steer.mag() > 0) {
-      // First two lines of code below could be condensed with new PVector setMag() method
+    if (steer.magnitude() > 0) {
+      // First two lines of code below could be condensed with new Vector setMag() method
       // Not using this method until Processing.js catches up
       // steer.setMag(maxSpeed);
 
@@ -130,11 +134,11 @@ public class FlockParticles extends ParticleBehavior {
 
   // Alignment
   // For every nearby boid in the system, calculate the average velocity
-  PVector align(Particle p, List<Particle> particles) {
-    PVector sum = new PVector(0, 0);
+  Vector align(Particle p, List<Particle> particles) {
+    Vector sum = new Vector(0, 0);
     int count = 0;
     for (Particle other : particles) {
-      float d = PVector.dist(p.position, other.position);
+      float d = (float) p.position.dist(other.position);
       if ((d > 0) && (d < alignmentThreshold)) {
         sum.add(other.velocity);
         count++;
@@ -142,29 +146,29 @@ public class FlockParticles extends ParticleBehavior {
     }
     if (count > 0) {
       sum.div((float)count);
-      // First two lines of code below could be condensed with new PVector setMag() method
+      // First two lines of code below could be condensed with new Vector setMag() method
       // Not using this method until Processing.js catches up
       // sum.setMag(maxSpeed);
 
       // Implement Reynolds: Steering = Desired - Velocity
       sum.normalize();
       sum.mult(maxSpeed);
-      PVector steer = PVector.sub(sum, p.velocity);
+      Vector steer = Vector.sub(sum, p.velocity);
       steer.limit(maxForce);
       return steer;
     }
     else {
-      return new PVector(0, 0);
+      return new Vector(0, 0);
     }
   }
 
   // Cohesion
   // For the average position (i.e. center) of all nearby boids, calculate steering vector towards that position
-  PVector cohesion(Particle p, List<Particle> particles) {
-    PVector sum = new PVector(0, 0);   // Start with empty vector to accumulate all locations
+  Vector cohesion(Particle p, List<Particle> particles) {
+    Vector sum = new Vector(0, 0);   // Start with empty vector to accumulate all locations
     int count = 0;
     for (Particle other : particles) {
-      float d = PVector.dist(p.position, other.position);
+      float d = (float) p.position.dist(other.position);
       if ((d > 0) && (d < cohesionThreshold)) {
         sum.add(other.position); // Add position
         count++;
@@ -175,7 +179,7 @@ public class FlockParticles extends ParticleBehavior {
       return ParticleUtils.seek(p, sum, maxSpeed, maxForce);  // Steer towards the position
     }
     else {
-      return new PVector(0, 0);
+      return new Vector(0, 0);
     }
   }
 }

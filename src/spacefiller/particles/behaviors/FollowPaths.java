@@ -1,15 +1,15 @@
 package spacefiller.particles.behaviors;
 
 import javafx.util.Pair;
+import spacefiller.Vector;
 import spacefiller.particles.Particle;
 import spacefiller.particles.ParticleUtils;
-import processing.core.PVector;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FollowPaths extends ParticleBehavior {
-  private List<Pair<PVector, PVector>> pathSegments;
+  private List<Pair<Vector, Vector>> pathSegments;
   public float radius = 20;
   public float maxForce = 5;
   public float maxSpeed = 10;
@@ -18,20 +18,20 @@ public class FollowPaths extends ParticleBehavior {
     pathSegments = new ArrayList<>();
   }
 
-  public void addPathSegment(PVector start, PVector end) {
+  public void addPathSegment(Vector start, Vector end) {
     pathSegments.add(new Pair<>(start, end));
   }
 
   @Override
   public void apply(List<Particle> particles) {
     for (Particle particle : particles) {
-      PVector closestNormalPoint = null;
+      Vector closestNormalPoint = null;
       float closestDistance = 0;
 
-      for (Pair<PVector, PVector> p : pathSegments) {
+      for (Pair<Vector, Vector> p : pathSegments) {
         if (p != null) {
-          PVector normalPoint = getNormalPoint(p.getKey(), p.getValue(), particle);
-          float distance = PVector.sub(particle.position, normalPoint).mag();
+          Vector normalPoint = getNormalPoint(p.getKey(), p.getValue(), particle);
+          float distance = (float) Vector.sub(particle.position, normalPoint).magnitude();
           if (closestNormalPoint == null || distance < closestDistance) {
             closestNormalPoint = normalPoint;
             closestDistance = distance;
@@ -40,26 +40,26 @@ public class FollowPaths extends ParticleBehavior {
       }
 
       if (closestDistance > radius) {
-        PVector steer =
+        Vector steer =
             ParticleUtils.seek(particle, closestNormalPoint, maxSpeed, maxForce);
         particle.applyForce(steer);
       }
     }
   }
 
-  private PVector getNormalPoint(PVector start, PVector end, Particle particle) {
-    PVector predictedPosition = PVector.add(particle.position, particle.velocity);
-    PVector a = PVector.sub(predictedPosition, start);
-    PVector b = PVector.sub(end, start);
-    float segmentLength = b.mag();
+  private Vector getNormalPoint(Vector start, Vector end, Particle particle) {
+    Vector predictedPosition = Vector.add(particle.position, particle.velocity);
+    Vector a = Vector.sub(predictedPosition, start);
+    Vector b = Vector.sub(end, start);
+    float segmentLength = (float) b.magnitude();
 
-    float theta = PVector.angleBetween(a, b);
+    float theta = Vector.angleBetween(a, b);
 
-    float d = (float) (a.mag() * Math.cos(theta));
+    float d = (float) (a.magnitude() * Math.cos(theta));
     d = Math.max(Math.min(d, segmentLength), 0);
     b.setMag(d);
 
-    PVector normalPoint = PVector.add(start, b);
+    Vector normalPoint = Vector.add(start, b);
     return normalPoint;
   }
 }

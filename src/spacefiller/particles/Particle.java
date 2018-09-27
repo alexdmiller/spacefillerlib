@@ -1,6 +1,6 @@
 package spacefiller.particles;
 
-import processing.core.PVector;
+import spacefiller.Vector;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -10,48 +10,48 @@ import java.util.Map;
  * Created by miller on 9/28/16.
  */
 public class Particle {
-  public PVector position;
-  public PVector velocity;
+  public Vector position;
+  public Vector velocity;
   private Map<String, Object> userData;
 
   public Color color;
   private boolean teleportFlag = false;
 
-  public PVector forces;
+  public Vector forces;
 
   public Particle(float x, float y, float z, Color color) {
-    this.position = new PVector(x, y, z);
-    this.velocity = new PVector();
-    this.forces = new PVector();
+    this.position = new Vector(x, y, z);
+    this.velocity = new Vector();
+    this.forces = new Vector();
     this.color = color;
     this.userData = new HashMap<>();
   }
 
   public Particle() {
-    this.position = new PVector();
-    this.velocity = new PVector();
-    this.forces = new PVector();
+    this.position = new Vector();
+    this.velocity = new Vector();
+    this.forces = new Vector();
     this.userData = new HashMap<>();
   }
 
   public Particle(float x, float y, float z) {
-    this.position = new PVector(x, y, z);
-    this.velocity = new PVector();
-    this.forces = new PVector();
+    this.position = new Vector(x, y, z);
+    this.velocity = new Vector();
+    this.forces = new Vector();
     this.userData = new HashMap<>();
   }
 
   public Particle(float x, float y) {
-    this.position = new PVector(x, y);
-    this.velocity = new PVector();
-    this.forces = new PVector();
+    this.position = new Vector(x, y);
+    this.velocity = new Vector();
+    this.forces = new Vector();
     this.userData = new HashMap<>();
   }
 
-  public Particle(PVector p) {
+  public Particle(Vector p) {
     this.position = p;
-    this.velocity = new PVector();
-    this.forces = new PVector();
+    this.velocity = new Vector();
+    this.forces = new Vector();
     this.userData = new HashMap<>();
   }
 
@@ -66,19 +66,21 @@ public class Particle {
   public void flushForces(float limit) {
     forces.limit(limit);
     velocity.add(forces);
-    forces.setMag(0);
+    if (forces.magnitude() > 0) {
+      forces.setMag(0);
+    }
   }
 
-  public void applyForce(PVector force) {
+  public void applyForce(Vector force) {
     forces.add(force);
   }
 
   public void setRandomVelocity(float min, float max, int dimension) {
     if (dimension == 3) {
-      this.velocity = PVector.random3D();
+      this.velocity = Vector.random3D();
       this.velocity.setMag((float) Math.random() * (max - min) + min);
     } else if (dimension == 2) {
-      this.velocity = PVector.random2D();
+      this.velocity = Vector.random2D();
       this.velocity.setMag((float) Math.random() * (max - min) + min);
     }
   }

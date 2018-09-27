@@ -1,9 +1,9 @@
 package spacefiller.particles.sources;
 
-import processing.core.PVector;
+import spacefiller.Vector;
 
 public interface Source {
-  PVector generatePoint();
+  Vector generatePoint();
   int getSpawnRate();
   int getDimension();
 }

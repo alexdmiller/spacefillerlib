@@ -1,101 +1,95 @@
 package spacefiller.particles;
 
-import processing.core.PVector;
+import spacefiller.Vector;
 
 import java.io.Serializable;
 
 public class Bounds implements Serializable {
-	float width, height, depth;
+  Vector topBackLeft;
+  Vector bottomFrontRight;
 
-	public Bounds(float width, float height, float depth) {
-		this.width = width;
-		this.height = height;
-		this.depth = depth;
-	}
+  public Bounds(float width, float height, float depth) {
+    this.topBackLeft = new Vector(0, 0, 0);
+    this.bottomFrontRight = new Vector(width, height, depth);
+  }
 
-	public Bounds(float width, float height) {
-		this.width = width;
-		this.height = height;
-	}
+  public Bounds(float width, float height) {
+    this.topBackLeft = new Vector(0, 0, 0);
+    this.bottomFrontRight = new Vector(width, height, 0);
+  }
 
-	public Bounds(float size) {
-		width = height = depth = size;
-	}
+  public Bounds(float size) {
+    this(size, size, size);
+  }
 
-	public boolean contains(float x, float y) {
-		return 	(x > -width/2 && x < width/2) &&
-				(y > -height/2 && y < height/2);
-	}
+//  public boolean contains(double x, double y) {
+//    return (x > -width / 2 && x < width / 2) &&
+//        (y > -height / 2 && y < height / 2);
+//  }
 
-	public boolean contains(float x, float y, float z) {
-		return 	(x >= -width/2 && x <= width/2) &&
-				(y >= -height/2 && y <= height/2) &&
-				(z >= -depth/2 && z <= depth/2);
-	}
+  public boolean contains(float x, float y) {
+    return x >= topBackLeft.x && y >= topBackLeft.y && x <= bottomFrontRight.x && y <= bottomFrontRight.y;
+  }
 
-	public boolean contains(PVector p) {
-		return contains(p.x, p.y, p.z);
-	}
+  public boolean contains(float x, float y, float z) {
+    return x >= topBackLeft.x && y >= topBackLeft.y && z >= topBackLeft.z &&
+        x <= bottomFrontRight.x && y <= bottomFrontRight.y && z <= bottomFrontRight.z;
+  }
 
-	public void constrain(Particle p) {
-		if (p.position.x < -width / 2) {
-			p.position.x = -width / 2;
-			p.velocity.x *= -1;
-		} else if (p.position.x > width / 2) {
-			p.position.x = width / 2;
-			p.velocity.x *= -1;
-		}
+  public boolean contains(Vector p) {
+    return contains(p.x, p.y, p.z);
+  }
 
-		if (p.position.y < -height / 2) {
-			p.position.y = -height / 2;
-			p.velocity.y *= -1;
-		} else if (p.position.y > height / 2) {
-			p.position.y = height / 2;
-			p.velocity.y *= -1;
-		}
+  public void constrain(Particle p) {
+    if (p.position.x < topBackLeft.x) {
+      p.position.x = topBackLeft.x;
+      p.velocity.x *= -1;
+    } else if (p.position.x > bottomFrontRight.x) {
+      p.position.x = bottomFrontRight.x;
+      p.velocity.x *= -1;
+    }
 
-		if (p.position.z < -depth / 2) {
-			p.position.z = -depth / 2;
-			p.velocity.z *= -1;
-		} else if (p.position.z > depth / 2) {
-			p.position.z = depth / 2;
-			p.velocity.z *= -1;
-		}
+    if (p.position.y < topBackLeft.y) {
+      p.position.y = topBackLeft.y;
+      p.velocity.y *= -1;
+    } else if (p.position.y > bottomFrontRight.y) {
+      p.position.y = bottomFrontRight.y;
+      p.velocity.y *= -1;
+    }
 
-	}
+    if (p.position.z < topBackLeft.z) {
+      p.position.z = topBackLeft.z;
+      p.velocity.z *= -1;
+    } else if (p.position.z > bottomFrontRight.z) {
+      p.position.z = bottomFrontRight.z;
+      p.velocity.z *= -1;
+    }
+  }
 
-	public PVector getRandomPointInside(int dimension) {
-		return new PVector(
-				(float) Math.random() * width - width / 2,
-				(float) Math.random() * height - height / 2,
-				dimension == 3 ? (float) Math.random() * height - height / 2 : 0);
-	}
+  public Vector getTopBackLeft() {
+    return topBackLeft;
+  }
 
-	public float getWidth() {
-		return width;
-	}
+  public Vector getBottomFrontRight() {
+    return bottomFrontRight;
+  }
 
-	public float getHeight() {
-		return height;
-	}
+  public Vector getRandomPointInside(int dimension) {
+    return new Vector(
+        (float) Math.random() * getWidth() + topBackLeft.x,
+        (float) Math.random() * getHeight() + topBackLeft.y,
+        dimension == 3 ? (float) Math.random() * getHeight() + topBackLeft.z : 0);
+  }
 
-	public float getDepth() {
-		return depth;
-	}
+  public float getWidth() {
+    return bottomFrontRight.x - topBackLeft.x;
+  }
 
-	public void setSize(float newSize) {
-		width = height = depth = newSize;
-	}
+  public float getHeight() {
+    return bottomFrontRight.y - topBackLeft.y;
+  }
 
-	public void setWidth(float width) {
-		this.width = width;
-	}
-
-	public void setHeight(float height) {
-		this.height = height;
-	}
-
-	public void setDepth(float depth) {
-		this.depth = depth;
-	}
+  public float getDepth() {
+    return bottomFrontRight.z - topBackLeft.z;
+  }
 }

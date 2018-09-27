@@ -1,7 +1,7 @@
 package spacefiller.particles;
 
+import spacefiller.Vector;
 import spacefiller.particles.behaviors.ParticleBehavior;
-import processing.core.PVector;
 import spacefiller.particles.sources.AreaSource;
 import spacefiller.particles.sources.PointSource;
 import spacefiller.particles.sources.Source;
@@ -19,7 +19,7 @@ public class ParticleSystem {
   private List<ParticleBehavior> behaviors;
   private float maxForce = 10;
   private List<ParticleEventListener> particleEventListeners;
-  private int maxParticles = 200;
+  private int maxParticles;
 
   public ParticleSystem(Bounds bounds, int maxParticles) {
     this.maxParticles = maxParticles;
@@ -46,7 +46,7 @@ public class ParticleSystem {
     }
   }
 
-  public Particle createParticle(PVector position, int dimension) {
+  public Particle createParticle(Vector position, int dimension) {
     Particle p = new Particle(position);
     p.setRandomVelocity(1, 2, dimension);
     particles.add(p);
@@ -60,15 +60,15 @@ public class ParticleSystem {
 
 
   public void createPointSource(float x, float y, int spawnRate, int dimension) {
-    sources.add(new PointSource(new PVector(x, y), spawnRate, dimension));
+    sources.add(new PointSource(new Vector(x, y), spawnRate, dimension));
   }
 
-  public void createAreaSource(PVector position, Bounds bounds, int spawnRate, int dimension) {
+  public void createAreaSource(Vector position, Bounds bounds, int spawnRate, int dimension) {
     sources.add(new AreaSource(position, bounds, spawnRate, dimension));
   }
 
   public void createAreaSource(int spawnRate, int dimension) {
-    createAreaSource(new PVector(0, 0), this.bounds, spawnRate, dimension);
+    createAreaSource(new Vector(0, 0), this.bounds, spawnRate, dimension);
   }
 
   public List<Source> getSources() {

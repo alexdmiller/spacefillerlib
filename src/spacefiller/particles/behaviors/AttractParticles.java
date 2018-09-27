@@ -1,7 +1,7 @@
 package spacefiller.particles.behaviors;
 
+import spacefiller.Vector;
 import spacefiller.particles.Particle;
-import processing.core.PVector;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ public class AttractParticles extends ParticleBehavior {
   public void apply(List<Particle> particles) {
     for (Particle p1 : particles) {
       for (Particle p2 : particles) {
-        PVector delta = PVector.sub(p1.position, p2.position);
-        float dist = delta.mag();
+        Vector delta = Vector.sub(p1.position, p2.position);
+        float dist = (float) delta.magnitude();
         if (dist < attractThreshold) {
           delta.setMag(attractStrength);
           p2.applyForce(delta);

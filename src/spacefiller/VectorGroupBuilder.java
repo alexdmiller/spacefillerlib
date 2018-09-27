@@ -1,7 +1,5 @@
 package spacefiller;
 
-import processing.core.PVector;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +7,7 @@ import static spacefiller.VectorGroupHelpers.MergeStrategy;
 import static spacefiller.VectorGroupHelpers.MERGE_STRATEGIES;
 
 public class VectorGroupBuilder {
-  private List<PVector[]> groups;
+  private List<Vector[]> groups;
   private float tolerance = 0f;
 
   public VectorGroupBuilder(float tolerance) {
@@ -21,7 +19,7 @@ public class VectorGroupBuilder {
     this(0);
   }
 
-  public void addGroup(PVector[] newGroup) {
+  public void addGroup(Vector[] newGroup) {
     groups.add(newGroup);
   }
 
@@ -35,14 +33,14 @@ public class VectorGroupBuilder {
   private boolean doMerge() {
     // Find two closest points
     for (int i = 0; i < groups.size(); i++) {
-      PVector[] group1 = groups.get(i);
+      Vector[] group1 = groups.get(i);
 
       float minDistance = 9999;
       MergeStrategy minStrategy = null;
       int groupIndex = -1;
 
       for (int j = i + 1; j < groups.size(); j++) {
-        PVector[] group2 = groups.get(j);
+        Vector[] group2 = groups.get(j);
 
 
         for (MergeStrategy candidateStrategy : MERGE_STRATEGIES) {
@@ -56,7 +54,7 @@ public class VectorGroupBuilder {
       }
 
       if (minDistance <= tolerance) {
-        PVector[] mergedGroup = minStrategy.merge(group1, groups.get(groupIndex));
+        Vector[] mergedGroup = minStrategy.merge(group1, groups.get(groupIndex));
         groups.remove(i);
         groups.remove(groupIndex - 1);
         groups.add(mergedGroup);
@@ -67,7 +65,7 @@ public class VectorGroupBuilder {
     return false;
   }
 
-  public List<PVector[]> getGroups() {
+  public List<Vector[]> getGroups() {
     return groups;
   }
 }

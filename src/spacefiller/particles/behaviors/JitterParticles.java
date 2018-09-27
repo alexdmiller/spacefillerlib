@@ -1,7 +1,7 @@
 package spacefiller.particles.behaviors;
 
+import spacefiller.Vector;
 import spacefiller.particles.Particle;
-import processing.core.PVector;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class JitterParticles extends ParticleBehavior {
   @Override
   public void apply(List<Particle> particles) {
     for (Particle p1 : particles) {
-      p1.applyForce(PVector.random3D().setMag(jitterStrength));
+      p1.applyForce(Vector.random3D().setMag(jitterStrength));
     }
   }
 }

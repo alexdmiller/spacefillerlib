@@ -1,7 +1,7 @@
 package spacefiller.particles.behaviors;
 
+import spacefiller.Vector;
 import spacefiller.particles.Particle;
-import processing.core.PVector;
 import java.util.List;
 
 public class SpawnParticles extends ParticleBehavior {
@@ -11,16 +11,16 @@ public class SpawnParticles extends ParticleBehavior {
   @Override
   public void apply(List<Particle> particles) {
     for (Particle particle : particles) {
-      PVector wiggleDirection = particle.position.copy().rotate((float) Math.PI / 2f);
+      Vector wiggleDirection = particle.position.copy().rotate((float) Math.PI / 2f);
 
       if (!particle.hasUserData("wiggleStep")) {
         particle.setUserData("wiggleStep", 0f);
       }
       float wiggleStep = (float) particle.getUserData("wiggleStep");
 
-      wiggleDirection.setMag((float) Math.sin(wiggleStep) * particle.velocity.mag() * wiggleAmplitudeMultiplier);
+      wiggleDirection.setMag((float) Math.sin(wiggleStep) * particle.velocity.magnitude() * wiggleAmplitudeMultiplier);
       particle.position.add(wiggleDirection);
-      wiggleStep += particle.position.mag() * wiggleStepMultiplier;
+      wiggleStep += particle.position.magnitude() * wiggleStepMultiplier;
       particle.setUserData("wiggleStep", wiggleStep);
     }
   }

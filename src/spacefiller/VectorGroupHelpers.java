@@ -1,82 +1,80 @@
 package spacefiller;
 
-import processing.core.PVector;
-
 public class VectorGroupHelpers {
   protected static abstract class MergeStrategy {
-    public float distance(PVector[] group1, PVector[] group2) {
-      return point1(group1).dist(point2(group2));
+    public float distance(Vector[] group1, Vector[] group2) {
+      return (float) point1(group1).dist(point2(group2));
     }
 
-    abstract PVector point1(PVector[] group1);
-    abstract PVector point2(PVector[] group2);
-    abstract PVector[] merge(PVector[] group1, PVector[] group2);
+    abstract Vector point1(Vector[] group1);
+    abstract Vector point2(Vector[] group2);
+    abstract Vector[] merge(Vector[] group1, Vector[] group2);
   }
 
   protected static final MergeStrategy HEAD_TO_HEAD = new MergeStrategy() {
     @Override
-    public PVector point1(PVector[] group1) {
+    public Vector point1(Vector[] group1) {
       return group1[0];
     }
 
     @Override
-    public PVector point2(PVector[] group2) {
+    public Vector point2(Vector[] group2) {
       return group2[0];
     }
 
     @Override
-    public PVector[] merge(PVector[] group1, PVector[] group2) {
+    public Vector[] merge(Vector[] group1, Vector[] group2) {
       return VectorGroupHelpers.merge(reverse(group1), group2);
     }
   };
 
   protected static final MergeStrategy HEAD_TO_TAIL = new MergeStrategy() {
     @Override
-    public PVector point1(PVector[] group1) {
+    public Vector point1(Vector[] group1) {
       return group1[0];
     }
 
     @Override
-    public PVector point2(PVector[] group2) {
+    public Vector point2(Vector[] group2) {
       return group2[group2.length - 1];
     }
 
     @Override
-    public PVector[] merge(PVector[] group1, PVector[] group2) {
+    public Vector[] merge(Vector[] group1, Vector[] group2) {
       return VectorGroupHelpers.merge(group2, group1);
     }
   };
 
   protected static final MergeStrategy TAIL_TO_HEAD = new MergeStrategy() {
     @Override
-    public PVector point1(PVector[] group1) {
+    public Vector point1(Vector[] group1) {
       return group1[group1.length - 1];
     }
 
     @Override
-    public PVector point2(PVector[] group2) {
+    public Vector point2(Vector[] group2) {
       return group2[0];
     }
 
     @Override
-    public PVector[] merge(PVector[] group1, PVector[] group2) {
+    public Vector[] merge(Vector[] group1, Vector[] group2) {
       return VectorGroupHelpers.merge(group1, group2);
     }
   };
 
   protected static final MergeStrategy TAIL_TO_TAIL = new MergeStrategy() {
     @Override
-    public PVector point1(PVector[] group1) {
+    public Vector point1(Vector[] group1) {
       return group1[group1.length - 1];
     }
 
     @Override
-    public PVector point2(PVector[] group2) {
+    public Vector point2(Vector[] group2) {
       return group2[group2.length - 1];
     }
 
     @Override
-    public PVector[] merge(PVector[] group1, PVector[] group2) {
+    public Vector[] merge(Vector[] group1, Vector[] group2) {
       return VectorGroupHelpers.merge(group1, reverse(group2));
     }
   };
@@ -85,16 +83,16 @@ public class VectorGroupHelpers {
       HEAD_TO_HEAD, HEAD_TO_TAIL, TAIL_TO_HEAD, TAIL_TO_TAIL
   };
 
-  protected static PVector[] reverse(PVector[] group) {
-    PVector[] reversed = new PVector[group.length];
+  protected static Vector[] reverse(Vector[] group) {
+    Vector[] reversed = new Vector[group.length];
     for (int i = 0; i < group.length; i++) {
       reversed[i] = group[group.length - 1 - i];
     }
     return reversed;
   }
 
-  protected static PVector[] merge(PVector[] group1, PVector[] group2) {
-    PVector[] merged = new PVector[group1.length + group2.length - 1];
+  protected static Vector[] merge(Vector[] group1, Vector[] group2) {
+    Vector[] merged = new Vector[group1.length + group2.length - 1];
     for (int i = 0; i < group1.length; i++) {
       merged[i] = group1[i];
     }
@@ -106,11 +104,11 @@ public class VectorGroupHelpers {
     return merged;
   }
 
-  protected static PVector head(PVector[] group) {
+  protected static Vector head(Vector[] group) {
     return group[0];
   }
 
-  protected static PVector tail(PVector[] group) {
+  protected static Vector tail(Vector[] group) {
     return group[group.length - 1];
   }
 }
