@@ -137,4 +137,13 @@ public class Vector {
     y = temp * (float) Math.sin(theta) + y * (float) Math.cos(theta);
     return this;
   }
+
+  public void zero() {
+    x = y = z = 0;
+  }
+
+  public void set(float x, float y) {
+    this.x = x;
+    this.y = y;
+  }
 }

@@ -8,6 +8,9 @@ import spacefiller.particles.sources.Source;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by miller on 7/13/17.
@@ -23,6 +26,8 @@ public class ParticleSystem {
 
   private ArrayList<Particle>[] hash;
   private int rows, cols;
+  private float cellSize;
+  private ExecutorService pool;
 
   public ParticleSystem(Bounds bounds, int maxParticles) {
     this.maxParticles = maxParticles;
@@ -31,8 +36,20 @@ public class ParticleSystem {
     this.behaviors = new ArrayList<>();
     this.particleEventListeners = new ArrayList<>();
     this.sources = new ArrayList<>();
-    this.rows = this.cols = 10;
+    this.pool = Executors.newFixedThreadPool(10);
+    computeHash(100);
+  }
+
+  private void computeHash(int cellSize) {
+    this.cellSize = cellSize;
+    this.rows = (int) Math.ceil((bounds.getHeight() + cellSize) / cellSize);
+    this.cols = (int) Math.ceil((bounds.getWidth() + cellSize) / cellSize);
     this.hash = new ArrayList[rows * cols];
+    for (int i = 0; i < hash.length; i++) {
+      hash[i] = new ArrayList<>();
+    }
+
+    // TODO: rehash particles
   }
 
   public void setMaxParticles(int maxParticles) {
@@ -55,6 +72,10 @@ public class ParticleSystem {
     Particle p = new Particle(position);
     p.setRandomVelocity(1, 2, dimension);
     particles.add(p);
+
+    if (bounds.contains(position)) {
+      hash[hashPosition(position)].add(p);
+    }
 
     for (ParticleEventListener eventListener : particleEventListeners) {
       eventListener.particleAdded(p);
@@ -80,7 +101,7 @@ public class ParticleSystem {
     return sources;
   }
 
-  public void update() {
+  public void update() throws InterruptedException {
     if (particles.size() < maxParticles) {
       if (sources.size() > 0) {
         // TODO: This is a strange way to spawn particles. Should spread them around to
@@ -92,14 +113,43 @@ public class ParticleSystem {
       }
     }
 
+    List<Callable<Object>> runnables = new ArrayList<>();
     for (Particle p : particles) {
-      for (ParticleBehavior behavior : behaviors) {
-        behavior.apply(p, particles);
-      }
-
-      p.flushForces(maxForce);
-      p.update();
+      runnables.add(Executors.callable(new ParticleRunnable(p)));
     }
+    pool.invokeAll(runnables);
+  }
+
+  private int hashPosition(Vector position) {
+    return (int) (position.y / cellSize) * cols + (int) (position.x / cellSize);
+  }
+
+  protected List<Particle> getNeighbors(Vector position, float radius) {
+    // return particles;
+
+    if (radius == 0) {
+      return null;
+    }
+
+    if (radius > cellSize) {
+      // TODO: recompute hash
+      // System.out.println("BAD");
+    }
+
+    int cx = (int) (position.x / cellSize);
+    int cy = (int) (position.y / cellSize);
+
+    List<Particle> neighbors = new ArrayList<>();
+
+    for (int x = cx - 1; x <= cx + 1; x++) {
+      for (int y = cy - 1; y <= cy + 1; y++) {
+        if (x >= 0 && x < cols && y >= 0 && y < rows) {
+          neighbors.addAll(hash[x + y * cols]);
+        }
+      }
+    }
+
+    return neighbors;
   }
 
   public List<Particle> getParticles() {
@@ -122,6 +172,46 @@ public class ParticleSystem {
   public void notifyRemoved(Particle p) {
     for (ParticleEventListener particleEventListener : particleEventListeners) {
       particleEventListener.particleRemoved(p);
+    }
+  }
+
+  public float getCellSize() {
+    return cellSize;
+  }
+
+  public int getRows() {
+    return rows;
+  }
+
+  public int getCols() {
+    return cols;
+  }
+
+  private class ParticleRunnable implements Runnable {
+    private Particle p;
+
+    public ParticleRunnable(Particle particle) {
+      this.p = particle;
+    }
+
+    @Override
+    public void run() {
+      int oldHash = hashPosition(p.position);
+
+      for (ParticleBehavior behavior : behaviors) {
+        behavior.apply(p, getNeighbors(p.position, behavior.neighborhoodRadius()));
+      }
+
+      p.flushForces(maxForce);
+      p.update();
+
+      int newHash = hashPosition(p.position);
+      if (newHash != oldHash) {
+        synchronized (hash) {
+          hash[oldHash].remove(p);
+          hash[newHash].add(p);
+        }
+      }
     }
   }
 }

@@ -68,6 +68,11 @@ public class FlockParticles extends ParticleBehavior {
   }
 
   @Override
+  public float neighborhoodRadius() {
+    return Math.max(Math.max(desiredSeparation, alignmentThreshold), cohesionThreshold);
+  }
+
+  @Override
   public void apply(Particle p, List<Particle> particles) {
     Vector sep = separate(p, particles);   // Separation
     Vector ali = align(p, particles);      // Alignment
@@ -144,7 +149,10 @@ public class FlockParticles extends ParticleBehavior {
       // sum.setMag(maxSpeed);
 
       // Implement Reynolds: Steering = Desired - Velocity
-      sum.normalize();
+      if (sum.magnitude() > 0) {
+        sum.normalize();
+      }
+
       sum.mult(maxSpeed);
       Vector steer = Vector.sub(sum, p.velocity);
       steer.limit(maxForce);
