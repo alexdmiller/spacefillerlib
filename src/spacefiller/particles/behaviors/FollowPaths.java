@@ -23,27 +23,25 @@ public class FollowPaths extends ParticleBehavior {
   }
 
   @Override
-  public void apply(List<Particle> particles) {
-    for (Particle particle : particles) {
-      Vector closestNormalPoint = null;
-      float closestDistance = 0;
+  public void apply(Particle particle, List<Particle> neighbors) {
+    Vector closestNormalPoint = null;
+    float closestDistance = 0;
 
-      for (Pair<Vector, Vector> p : pathSegments) {
-        if (p != null) {
-          Vector normalPoint = getNormalPoint(p.getKey(), p.getValue(), particle);
-          float distance = (float) Vector.sub(particle.position, normalPoint).magnitude();
-          if (closestNormalPoint == null || distance < closestDistance) {
-            closestNormalPoint = normalPoint;
-            closestDistance = distance;
-          }
+    for (Pair<Vector, Vector> p : pathSegments) {
+      if (p != null) {
+        Vector normalPoint = getNormalPoint(p.getKey(), p.getValue(), particle);
+        float distance = (float) Vector.sub(particle.position, normalPoint).magnitude();
+        if (closestNormalPoint == null || distance < closestDistance) {
+          closestNormalPoint = normalPoint;
+          closestDistance = distance;
         }
       }
+    }
 
-      if (closestDistance > radius) {
-        Vector steer =
-            ParticleUtils.seek(particle, closestNormalPoint, maxSpeed, maxForce);
-        particle.applyForce(steer);
-      }
+    if (closestDistance > radius) {
+      Vector steer =
+          ParticleUtils.seek(particle, closestNormalPoint, maxSpeed, maxForce);
+      particle.applyForce(steer);
     }
   }
 

@@ -15,9 +15,7 @@ public class ParticleFriction extends ParticleBehavior {
   }
 
   @Override
-  public void apply(List<Particle> particles) {
-    for (Particle p : particles) {
-      p.applyFriction(friction);
-    }
+  public void apply(Particle p, List<Particle> neighbors) {
+    p.applyFriction(friction);
   }
 }

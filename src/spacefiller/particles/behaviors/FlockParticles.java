@@ -68,14 +68,7 @@ public class FlockParticles extends ParticleBehavior {
   }
 
   @Override
-  public void apply(List<Particle> particles) {
-    for (Particle p : particles) {
-      applyFlockingForces(p, particles);
-    }
-  }
-
-  // We accumulate a new acceleration each time based on three rules
-  void applyFlockingForces(Particle p, List<Particle> particles) {
+  public void apply(Particle p, List<Particle> particles) {
     Vector sep = separate(p, particles);   // Separation
     Vector ali = align(p, particles);      // Alignment
     Vector coh = cohesion(p, particles);   // Cohesion

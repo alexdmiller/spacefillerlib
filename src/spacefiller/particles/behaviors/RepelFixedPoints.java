@@ -35,15 +35,13 @@ public class RepelFixedPoints extends ParticleBehavior {
   }
 
   @Override
-  public void apply(List<Particle> particles) {
-    for (Particle p1 : particles) {
-      for (Vector fixed : fixedPoints) {
-        Vector delta = Vector.sub(p1.position, fixed);
-        float dist = (float) delta.magnitude();
-        if (dist < repelThreshold) {
-          delta.setMag(dist * repelStrength);
-          p1.applyForce(delta);
-        }
+  public void apply(Particle particle, List<Particle> neighbors) {
+    for (Vector fixed : fixedPoints) {
+      Vector delta = Vector.sub(particle.position, fixed);
+      float dist = (float) delta.magnitude();
+      if (dist < repelThreshold) {
+        delta.setMag(dist * repelStrength);
+        particle.applyForce(delta);
       }
     }
   }

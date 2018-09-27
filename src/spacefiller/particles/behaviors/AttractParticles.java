@@ -15,17 +15,15 @@ public class AttractParticles extends ParticleBehavior {
   }
 
   @Override
-  public void apply(List<Particle> particles) {
-    for (Particle p1 : particles) {
-      for (Particle p2 : particles) {
-        Vector delta = Vector.sub(p1.position, p2.position);
-        float dist = (float) delta.magnitude();
-        if (dist < attractThreshold) {
-          delta.setMag(attractStrength);
-          p2.applyForce(delta);
-          delta.mult(-1);
-          p1.applyForce(delta);
-        }
+public void apply(Particle particle, List<Particle> neighbors) {
+    for (Particle p2 : neighbors) {
+      Vector delta = Vector.sub(particle.position, p2.position);
+      float dist = (float) delta.magnitude();
+      if (dist < attractThreshold) {
+        delta.setMag(attractStrength);
+        p2.applyForce(delta);
+        delta.mult(-1);
+        particle.applyForce(delta);
       }
     }
   }

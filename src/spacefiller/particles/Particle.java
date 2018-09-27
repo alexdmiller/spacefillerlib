@@ -12,10 +12,12 @@ import java.util.Map;
 public class Particle {
   public Vector position;
   public Vector velocity;
+  public boolean removeFlag = false;
   private Map<String, Object> userData;
 
   public Color color;
   private boolean teleportFlag = false;
+
 
   public Vector forces;
 

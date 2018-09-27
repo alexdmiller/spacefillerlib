@@ -8,15 +8,9 @@ import java.util.List;
 
 public class FatalBounds extends ParticleBehavior {
   @Override
-  public void apply(List<Particle> particles) {
-    Iterator<Particle> iter = particles.iterator();
-    while (iter.hasNext()) {
-      Particle p = iter.next();
-
-      if (!getParticleSystem().getBounds().contains(p.position)) {
-        iter.remove();
-        getParticleSystem().notifyRemoved(p);
-      }
+  public void apply(Particle particle, List<Particle> neighbors) {
+    if (!getParticleSystem().getBounds().contains(particle.position)) {
+      particle.removeFlag = true;
     }
   }
 }

@@ -11,10 +11,8 @@ public abstract class ParticleBehavior {
   public ParticleSystem getParticleSystem() {
     return particleSystem;
   }
-
   public void setParticleSystem(ParticleSystem particleSystem) {
     this.particleSystem = particleSystem;
   }
-
-  public abstract void apply(List<Particle> particles);
+  public abstract void apply(Particle particle, List<Particle> neighbors);
 }

@@ -13,9 +13,7 @@ public class JitterParticles extends ParticleBehavior {
   }
 
   @Override
-  public void apply(List<Particle> particles) {
-    for (Particle p1 : particles) {
-      p1.applyForce(Vector.random3D().setMag(jitterStrength));
-    }
+  public void apply(Particle particle, List<Particle> neighbors) {
+    particle.applyForce(Vector.random3D().setMag(jitterStrength));
   }
 }

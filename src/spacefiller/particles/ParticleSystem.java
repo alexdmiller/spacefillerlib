@@ -21,6 +21,9 @@ public class ParticleSystem {
   private List<ParticleEventListener> particleEventListeners;
   private int maxParticles;
 
+  private ArrayList<Particle>[] hash;
+  private int rows, cols;
+
   public ParticleSystem(Bounds bounds, int maxParticles) {
     this.maxParticles = maxParticles;
     this.bounds = bounds;
@@ -28,6 +31,8 @@ public class ParticleSystem {
     this.behaviors = new ArrayList<>();
     this.particleEventListeners = new ArrayList<>();
     this.sources = new ArrayList<>();
+    this.rows = this.cols = 10;
+    this.hash = new ArrayList[rows * cols];
   }
 
   public void setMaxParticles(int maxParticles) {
@@ -87,11 +92,11 @@ public class ParticleSystem {
       }
     }
 
-    for (ParticleBehavior behavior : behaviors) {
-      behavior.apply(particles);
-    }
-
     for (Particle p : particles) {
+      for (ParticleBehavior behavior : behaviors) {
+        behavior.apply(p, particles);
+      }
+
       p.flushForces(maxForce);
       p.update();
     }

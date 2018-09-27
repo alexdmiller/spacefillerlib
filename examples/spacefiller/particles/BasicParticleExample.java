@@ -16,8 +16,8 @@ public class BasicParticleExample extends PApplet {
   }
 
   public void setup() {
-    system = new ParticleSystem(new Bounds(width, height), 1000);
-    system.fillWithParticles(1000, 2);
+    system = new ParticleSystem(new Bounds(width, height), 700);
+    system.fillWithParticles(700, 2);
     system.addBehavior(new DonutBounds());
     system.addBehavior(new FlockParticles());
   }
