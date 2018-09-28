@@ -15,8 +15,4 @@ public abstract class ParticleBehavior {
     this.particleSystem = particleSystem;
   }
   public abstract void apply(Particle particle, List<Particle> neighbors);
-
-  public float neighborhoodRadius() {
-    return 0;
-  }
 }

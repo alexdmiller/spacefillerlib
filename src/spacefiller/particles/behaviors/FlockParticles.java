@@ -1,8 +1,11 @@
 package spacefiller.particles.behaviors;
 
+import spacefiller.FloatField2;
+import spacefiller.FloatField3;
 import spacefiller.Vector;
 import spacefiller.particles.Particle;
 import spacefiller.particles.ParticleUtils;
+import sun.jvm.hotspot.oops.FloatField;
 
 import java.util.List;
 
@@ -10,11 +13,15 @@ public class FlockParticles extends ParticleBehavior {
   public float separationWeight = 1;
   public float alignmentWeight = 1;
   public float cohesionWeight = 1;
-  public float desiredSeparation = 10;
   public float alignmentThreshold = 100;
   public float cohesionThreshold = 100;
-  private float maxForce = 1;
-  public float maxSpeed = 2;
+
+  private FloatField2 desiredSeparation;
+  private FloatField2 separationField = FloatField2.ONE;
+  private FloatField2 cohesionField = FloatField2.ONE;
+  private FloatField2 alignmentField = FloatField2.ONE;
+  private FloatField2 maxSpeed = FloatField2.ONE;
+  private FloatField2 maxForce = FloatField2.ONE;
 
   public FlockParticles(
       float separationWeight,
@@ -28,30 +35,26 @@ public class FlockParticles extends ParticleBehavior {
     this.separationWeight = separationWeight;
     this.alignmentWeight = alignmentWeight;
     this.cohesionWeight = cohesionWeight;
-    this.desiredSeparation = desiredSeparation;
+    this.desiredSeparation = new FloatField2.Constant(desiredSeparation);
     this.alignmentThreshold = alignmentThreshold;
     this.cohesionThreshold = cohesionThreshold;
-    this.maxForce = maxForce;
-    this.maxSpeed = maxSpeed;
+    this.maxForce = new FloatField2.Constant(maxForce);
+    this.maxSpeed = new FloatField2.Constant(maxSpeed);
   }
 
   public FlockParticles() {
     this(2, 1, 1, 30, 100, 100, 0.1f, 4);
   }
 
-  public float getMaxForce() {
-    return maxForce;
-  }
-
-  public void setMaxSpeed(float maxSpeed) {
+  public void setMaxSpeed(FloatField2 maxSpeed) {
     this.maxSpeed = maxSpeed;
   }
 
-  public float getDesiredSeparation() {
+  public FloatField2 getDesiredSeparation() {
     return desiredSeparation;
   }
 
-  public void setDesiredSeparation(float desiredSeparation) {
+  public void setDesiredSeparation(FloatField2 desiredSeparation) {
     this.desiredSeparation = desiredSeparation;
   }
 
@@ -67,25 +70,35 @@ public class FlockParticles extends ParticleBehavior {
     this.alignmentThreshold = alignmentThreshold;
   }
 
-  @Override
-  public float neighborhoodRadius() {
-    return Math.max(Math.max(desiredSeparation, alignmentThreshold), cohesionThreshold);
+  public void setSeparationField(FloatField2 separationField) {
+    this.separationField = separationField;
+  }
+
+  public void setCohesionField(FloatField2 cohesionField) {
+    this.cohesionField = cohesionField;
+  }
+
+  public void setAlignmentField(FloatField2 alignmentField) {
+    this.alignmentField = alignmentField;
+  }
+
+  public void setMaxForce(FloatField2 maxForce) {
+    this.maxForce = maxForce;
   }
 
   @Override
   public void apply(Particle p, List<Particle> particles) {
-    Vector sep = separate(p, particles);   // Separation
-    Vector ali = align(p, particles);      // Alignment
-    Vector coh = cohesion(p, particles);   // Cohesion
-    // Arbitrarily weight these forces
-    if (sep.magnitude() > 0) {
-      ali.mult(0);
-      coh.mult(0);
-    }
-    sep.mult(separationWeight);
-    ali.mult(alignmentWeight);
-    coh.mult(cohesionWeight);
-    // Add the force vectors to acceleration
+    float localMaxSpeed = maxSpeed.get(p.position.x, p.position.y);
+    float localMaxForce = maxForce.get(p.position.x, p.position.y);
+
+    Vector sep = separate(p, particles, localMaxSpeed, localMaxForce);
+    Vector ali = align(p, particles, localMaxSpeed, localMaxForce);
+    Vector coh = cohesion(p, particles, localMaxSpeed, localMaxForce);
+
+    sep.mult(separationWeight * separationField.get(p.position.x, p.position.y));
+    ali.mult(alignmentWeight * alignmentField.get(p.position.x, p.position.y));
+    coh.mult(cohesionWeight * cohesionField.get(p.position.x, p.position.y));
+
     p.applyForce(sep);
     p.applyForce(ali);
     p.applyForce(coh);
@@ -93,15 +106,16 @@ public class FlockParticles extends ParticleBehavior {
 
   // Separation
   // Method checks for nearby boids and steers away
-  Vector separate(Particle p, List<Particle> particles) {
+  Vector separate(Particle p, List<Particle> particles, float maxSpeed, float maxForce) {
     Vector steer = new Vector(0, 0, 0);
 
     int count = 0;
     // For every boid in the system, check if it's too close
     for (Particle other : particles) {
       float d = (float) p.position.dist(other.position);
-      float desiredSeparation2 = desiredSeparation;
-      if (other != p && (d < desiredSeparation2)) {
+      float separation = desiredSeparation.get(p.position.x, p.position.y);
+      separation *= p.team == other.team ? 1 : 2;
+      if (other != p && (d < separation)) {
         // Calculate vector pointing away from neighbor
         Vector diff = Vector.sub(p.position, other.position);
         diff.normalize();
@@ -117,11 +131,6 @@ public class FlockParticles extends ParticleBehavior {
 
     // As long as the vector is greater than 0
     if (steer.magnitude() > 0) {
-      // First two lines of code below could be condensed with new Vector setMag() method
-      // Not using this method until Processing.js catches up
-      // steer.setMag(maxSpeed);
-
-      // Implement Reynolds: Steering = Desired - Velocity
       steer.normalize();
       steer.mult(maxSpeed);
       steer.sub(p.velocity);
@@ -132,7 +141,7 @@ public class FlockParticles extends ParticleBehavior {
 
   // Alignment
   // For every nearby boid in the system, calculate the average velocity
-  Vector align(Particle p, List<Particle> particles) {
+  Vector align(Particle p, List<Particle> particles, float maxSpeed, float maxForce) {
     Vector sum = new Vector(0, 0);
     int count = 0;
     for (Particle other : particles) {
@@ -165,12 +174,16 @@ public class FlockParticles extends ParticleBehavior {
 
   // Cohesion
   // For the average position (i.e. center) of all nearby boids, calculate steering vector towards that position
-  Vector cohesion(Particle p, List<Particle> particles) {
+  Vector cohesion(Particle p, List<Particle> particles, float maxSpeed, float maxForce) {
     Vector sum = new Vector(0, 0);   // Start with empty vector to accumulate all locations
     int count = 0;
     for (Particle other : particles) {
       float d = (float) p.position.dist(other.position);
-      if ((d > 0) && (d < cohesionThreshold)) {
+
+      float cohesionThreshold2 = cohesionThreshold;
+
+
+      if ((d > 0) && (d < cohesionThreshold2)) {
         sum.add(other.position); // Add position
         count++;
       }

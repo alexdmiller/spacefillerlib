@@ -29,18 +29,18 @@ public class ParticleSystem {
   private float cellSize;
   private ExecutorService pool;
 
-  public ParticleSystem(Bounds bounds, int maxParticles) {
+  public ParticleSystem(Bounds bounds, int maxParticles, float cellSize, int threads) {
     this.maxParticles = maxParticles;
     this.bounds = bounds;
     this.particles = new ArrayList<>();
     this.behaviors = new ArrayList<>();
     this.particleEventListeners = new ArrayList<>();
     this.sources = new ArrayList<>();
-    this.pool = Executors.newFixedThreadPool(10);
-    computeHash(100);
+    this.pool = Executors.newFixedThreadPool(threads);
+    computeHash(cellSize);
   }
 
-  private void computeHash(int cellSize) {
+  private void computeHash(float cellSize) {
     this.cellSize = cellSize;
     this.rows = (int) Math.ceil((bounds.getHeight() + cellSize) / cellSize);
     this.cols = (int) Math.ceil((bounds.getWidth() + cellSize) / cellSize);
@@ -61,10 +61,11 @@ public class ParticleSystem {
     this.particleEventListeners.add(particleEventListener);
   }
 
-  public void fillWithParticles(int numParticles, int dimension) {
+  public void fillWithParticles(int numParticles, int dimension, int teams) {
     for (int i = 0; i < numParticles; i++) {
       Particle p = createParticle(bounds.getRandomPointInside(dimension), dimension);
       p.setRandomVelocity(1, 2, dimension);
+      p.team = (int) (Math.random() * teams);
     }
   }
 
@@ -83,7 +84,6 @@ public class ParticleSystem {
 
     return p;
   }
-
 
   public void createPointSource(float x, float y, int spawnRate, int dimension) {
     sources.add(new PointSource(new Vector(x, y), spawnRate, dimension));
@@ -124,18 +124,7 @@ public class ParticleSystem {
     return (int) (position.y / cellSize) * cols + (int) (position.x / cellSize);
   }
 
-  protected List<Particle> getNeighbors(Vector position, float radius) {
-    // return particles;
-
-    if (radius == 0) {
-      return null;
-    }
-
-    if (radius > cellSize) {
-      // TODO: recompute hash
-      // System.out.println("BAD");
-    }
-
+  protected List<Particle> getNeighbors(Vector position) {
     int cx = (int) (position.x / cellSize);
     int cy = (int) (position.y / cellSize);
 
@@ -199,7 +188,7 @@ public class ParticleSystem {
       int oldHash = hashPosition(p.position);
 
       for (ParticleBehavior behavior : behaviors) {
-        behavior.apply(p, getNeighbors(p.position, behavior.neighborhoodRadius()));
+        behavior.apply(p, getNeighbors(p.position));
       }
 
       p.flushForces(maxForce);
