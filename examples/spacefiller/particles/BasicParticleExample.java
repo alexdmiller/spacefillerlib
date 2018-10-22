@@ -56,7 +56,7 @@ public class BasicParticleExample extends PApplet {
     poly.addPoint(400, 400);
     poly.addPoint(100, 400);
 
-    flock.setDesiredSeparation((x, y) -> poly.contains(x, y) ? 25 : 25);
+    //flock.setDesiredSeparation((x, y) -> poly.contains(x, y) ? 25 : 25);
     flock.setMaxSpeed((x, y) -> poly.contains(x, y) ? 2 : 3);
     flock.setMaxForce((x, y) -> poly.contains(x, y) ? 0.01f : 0.1f);
 

@@ -5,7 +5,6 @@ import spacefiller.FloatField3;
 import spacefiller.Vector;
 import spacefiller.particles.Particle;
 import spacefiller.particles.ParticleUtils;
-import sun.jvm.hotspot.oops.FloatField;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class FlockParticles extends ParticleBehavior {
   public float alignmentThreshold = 100;
   public float cohesionThreshold = 100;
 
-  private FloatField2 desiredSeparation;
+  private FloatField3 desiredSeparation;
   private FloatField2 separationField = FloatField2.ONE;
   private FloatField2 cohesionField = FloatField2.ONE;
   private FloatField2 alignmentField = FloatField2.ONE;
@@ -35,7 +34,7 @@ public class FlockParticles extends ParticleBehavior {
     this.separationWeight = separationWeight;
     this.alignmentWeight = alignmentWeight;
     this.cohesionWeight = cohesionWeight;
-    this.desiredSeparation = new FloatField2.Constant(desiredSeparation);
+    this.desiredSeparation = new FloatField3.Constant(desiredSeparation);
     this.alignmentThreshold = alignmentThreshold;
     this.cohesionThreshold = cohesionThreshold;
     this.maxForce = new FloatField2.Constant(maxForce);
@@ -50,11 +49,11 @@ public class FlockParticles extends ParticleBehavior {
     this.maxSpeed = maxSpeed;
   }
 
-  public FloatField2 getDesiredSeparation() {
+  public FloatField3 getDesiredSeparation() {
     return desiredSeparation;
   }
 
-  public void setDesiredSeparation(FloatField2 desiredSeparation) {
+  public void setDesiredSeparation(FloatField3 desiredSeparation) {
     this.desiredSeparation = desiredSeparation;
   }
 
@@ -113,8 +112,7 @@ public class FlockParticles extends ParticleBehavior {
     // For every boid in the system, check if it's too close
     for (Particle other : particles) {
       float d = (float) p.position.dist(other.position);
-      float separation = desiredSeparation.get(p.position.x, p.position.y);
-      separation *= p.team == other.team ? 1 : 2;
+      float separation = desiredSeparation.get(p.position.x, p.position.y, p.team == other.team ? 1 : 2);
       if (other != p && (d < separation)) {
         // Calculate vector pointing away from neighbor
         Vector diff = Vector.sub(p.position, other.position);
@@ -195,5 +193,9 @@ public class FlockParticles extends ParticleBehavior {
     else {
       return new Vector(0, 0);
     }
+  }
+
+  interface FlockParameterField {
+    // TODO: determine interface. goal is to check polygon inclusion once for a particle.
   }
 }

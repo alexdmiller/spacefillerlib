@@ -15,6 +15,7 @@ public class Particle {
   public boolean removeFlag = false;
   public Color color;
   public int team;
+  public Vector lastPosition;
 
   private Map<String, Object> userData;
   private boolean teleportFlag = false;
@@ -58,6 +59,7 @@ public class Particle {
   }
 
   public void update() {
+    lastPosition = position.copy();
     position.add(velocity);
   }
 

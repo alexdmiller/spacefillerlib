@@ -30,6 +30,10 @@ public class RepelFixedPoints extends ParticleBehavior {
     fixedPoints.add(p);
   }
 
+  public void clearPoints() {
+    fixedPoints.clear();
+  }
+
   public List<Vector> getFixedPoints() {
     return fixedPoints;
   }
@@ -40,7 +44,7 @@ public class RepelFixedPoints extends ParticleBehavior {
       Vector delta = Vector.sub(particle.position, fixed);
       float dist = (float) delta.magnitude();
       if (dist < repelThreshold) {
-        delta.setMag(dist * repelStrength);
+        delta.setMag(repelStrength / dist);
         particle.applyForce(delta);
       }
     }
