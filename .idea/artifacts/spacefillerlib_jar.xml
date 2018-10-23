@@ -4,6 +4,7 @@
     <root id="archive" name="spacefillerlib.jar">
       <element id="module-output" name="spacefillerlib" />
       <element id="extracted-dir" path="/Applications/Processing.app/Contents/Java/core/library/core.jar" path-in-jar="/" />
+      <element id="library" level="project" name="jai_core" />
     </root>
   </artifact>
 </component>
