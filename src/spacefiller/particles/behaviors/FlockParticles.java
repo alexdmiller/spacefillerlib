@@ -49,12 +49,21 @@ public class FlockParticles extends ParticleBehavior {
     this.maxSpeed = maxSpeed;
   }
 
+  public void setMaxSpeed(float maxSpeed) {
+    this.maxSpeed = new FloatField2.Constant(maxSpeed);
+  }
+
+
   public FloatField3 getDesiredSeparation() {
     return desiredSeparation;
   }
 
   public void setDesiredSeparation(FloatField3 desiredSeparation) {
     this.desiredSeparation = desiredSeparation;
+  }
+
+  public void setDesiredSeparation(float desiredSeparation) {
+    this.desiredSeparation = new FloatField3.Constant(desiredSeparation);
   }
 
   public void setCohesionThreshold(float cohesionThreshold) {
@@ -83,6 +92,10 @@ public class FlockParticles extends ParticleBehavior {
 
   public void setMaxForce(FloatField2 maxForce) {
     this.maxForce = maxForce;
+  }
+
+  public void setMaxForce(float maxForce) {
+    this.maxForce = new FloatField2.Constant(maxForce);
   }
 
   @Override

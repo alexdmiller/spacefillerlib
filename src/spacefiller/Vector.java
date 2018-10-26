@@ -76,6 +76,14 @@ public class Vector {
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
   }
 
+  public Vector sub(Vector other) {
+    x -= other.x;
+    y -= other.y;
+    z -= other.z;
+    return this;
+
+  }
+
   public Vector add(Vector other) {
     x += other.x;
     y += other.y;
@@ -83,13 +91,10 @@ public class Vector {
     return this;
   }
 
-
-  public Vector sub(Vector other) {
-    x -= other.x;
-    y -= other.y;
-    z -= other.z;
+  public Vector add(double x, double y) {
+    this.x += x;
+    this.y += y;
     return this;
-
   }
 
   public void div(double i) {

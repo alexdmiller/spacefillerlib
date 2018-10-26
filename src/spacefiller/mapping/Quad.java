@@ -5,6 +5,7 @@ import spacefiller.graph.Node;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -49,6 +50,10 @@ public class Quad implements Serializable {
     list.add(bottomRight.position);
     list.add(bottomLeft.position);
     return list;
+  }
+
+  public List<Node> getNodes() {
+    return Arrays.asList(new Node[] {topLeft, topRight, bottomLeft, bottomRight});
   }
 
   public void translate(float dx, float dy) {

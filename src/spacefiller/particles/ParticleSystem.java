@@ -40,6 +40,10 @@ public class ParticleSystem {
     computeHash(cellSize);
   }
 
+  public ParticleSystem(Bounds bounds, int maxParticles) {
+    this(bounds, maxParticles, 100, 4);
+  }
+
   private void computeHash(float cellSize) {
     this.cellSize = cellSize;
     this.rows = (int) Math.ceil((bounds.getHeight() + cellSize) / cellSize);
@@ -67,6 +71,10 @@ public class ParticleSystem {
       p.setRandomVelocity(1, 2, dimension);
       p.team = (int) (Math.random() * teams);
     }
+  }
+
+  public void fillWithParticles(int numParticles, int dimension) {
+    fillWithParticles(numParticles, dimension, 1);
   }
 
   public Particle createParticle(Vector position, int dimension) {
