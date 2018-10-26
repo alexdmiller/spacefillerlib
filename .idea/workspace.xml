@@ -7,25 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5ea7cf0-83ce-442b-98a9-66ae154f2058" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/spacefiller/mapping/Mapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/spacefillerlib_jar/spacefillerlib.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/spacefillerlib_jar/spacefillerlib.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/graph/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/graph/Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/Draggable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/Draggable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/GraphTransformer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/GraphTransformer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/MappingHost.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/modes/WarpMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/modes/WarpMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/graph/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/graph/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/Draggable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/Draggable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/GraphTransformer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/GraphTransformer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/MappingHost.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/Quad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/Quad.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/modes/EditMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/modes/EditMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/modes/Mode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/modes/Mode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/modes/NoOpMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/modes/NoOpMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/modes/RotateMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/modes/RotateMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/modes/ScaleMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/modes/ScaleMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/modes/WarpMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/modes/WarpMode.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,8 +22,8 @@
       <file leaf-file-name="GraphTransformer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/GraphTransformer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="397">
-              <caret line="257" column="4" selection-start-line="257" selection-start-column="4" selection-end-line="257" selection-end-column="4" />
+            <state relative-caret-position="2431">
+              <caret line="283" lean-forward="true" selection-start-line="283" selection-end-line="283" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1410#1411#0" expanded="true" />
@@ -64,7 +46,7 @@
                 <element signature="e#11335#11336#0" expanded="true" />
                 <element signature="e#11489#11490#0" expanded="true" />
                 <element signature="e#11524#11525#0" expanded="true" />
-                <marker date="1540592136735" expanded="true" signature="9558:9618" ph="..." />
+                <marker date="1540592430656" expanded="true" signature="10117:10177" ph="..." />
               </folding>
             </state>
           </provider>
@@ -292,9 +274,9 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1920" />
+    <option name="width" value="960" />
     <option name="height" value="1178" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -338,21 +320,6 @@
               <item name="spacefillerlib" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="spacefiller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spacefillerlib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spacefillerlib" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="spacefiller" type="462c0819:PsiDirectoryNode" />
-              <item name="mapping" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spacefillerlib" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spacefillerlib" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="spacefiller" type="462c0819:PsiDirectoryNode" />
-              <item name="mapping" type="462c0819:PsiDirectoryNode" />
-              <item name="modes" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -508,15 +475,15 @@
       <workItem from="1539710103983" duration="1220000" />
       <workItem from="1540251548634" duration="12095000" />
       <workItem from="1540413671903" duration="624000" />
-      <workItem from="1540489662055" duration="16445000" />
+      <workItem from="1540489662055" duration="18315000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="222923000" />
+    <option name="totallyTimeSpent" value="224793000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1178" extended-state="6" />
+    <frame x="0" y="22" width="960" height="1178" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -541,7 +508,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Run with VisualVM" order="8" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1400426" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.1400426" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug with VisualVM" order="8" />
@@ -1008,8 +975,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/GraphTransformer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="257" column="4" selection-start-line="257" selection-start-column="4" selection-end-line="257" selection-end-column="4" />
+        <state relative-caret-position="2431">
+          <caret line="283" lean-forward="true" selection-start-line="283" selection-end-line="283" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1410#1411#0" expanded="true" />
@@ -1032,7 +999,7 @@
             <element signature="e#11335#11336#0" expanded="true" />
             <element signature="e#11489#11490#0" expanded="true" />
             <element signature="e#11524#11525#0" expanded="true" />
-            <marker date="1540592136735" expanded="true" signature="9558:9618" ph="..." />
+            <marker date="1540592430656" expanded="true" signature="10117:10177" ph="..." />
           </folding>
         </state>
       </provider>

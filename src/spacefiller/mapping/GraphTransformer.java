@@ -268,7 +268,26 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
 
   @Override
   public void rotate(float theta) {
+    PVector origin = getCenter();
+    translate(PVector.mult(origin, -1));
 
+    for (Node node : postTransformGrid.getNodes()) {
+      rotate(theta, node);
+    }
+
+    for (Node node : postTransformGrid.getBoundingQuad().getNodes()) {
+      rotate(theta, node);
+    }
+
+    translate(origin);
+  }
+
+  private void rotate(float theta, Node node) {
+    PVector p = node.getPosition();
+    float newX = (float) (p.x * Math.cos(theta) - p.y * Math.sin(theta));
+    float newY = (float) (p.x * Math.sin(theta) + p.y * Math.cos(theta));
+    p.x = newX;
+    p.y = newY;
   }
 
   /*
