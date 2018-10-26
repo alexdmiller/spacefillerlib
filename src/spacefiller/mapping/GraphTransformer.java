@@ -48,6 +48,10 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
     postTransformGrid.getBoundingQuad().translate(dx, dy);
   }
 
+  public void translate(PVector vector) {
+    translate(vector.x, vector.y);
+  }
+
   // TODO: where to move this?
   public void drawUI(PGraphics graphics) {
     graphics.stroke(255);
@@ -245,7 +249,21 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
 
   @Override
   public void scale(float scale) {
+    scale(getPostTransformGrid().getBoundingQuad().getComputedCenter(), scale);
+  }
 
+  public void scale(PVector origin, float scale) {
+    translate(origin.mult(-1));
+
+    for (Node node : getPostTransformGrid().getNodes()) {
+      node.position.mult(scale);
+    }
+
+    for (Node node : getPostTransformGrid().getBoundingQuad().getNodes()) {
+      node.position.mult(scale);
+    }
+
+    translate(origin.mult(-1));
   }
 
   @Override
@@ -312,8 +330,6 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
 
       // then, see if the surface itself is selected
       if (isPointOver(point)) {
-//        clickX = point.x;
-//        clickY = point.y;
         return this;
       }
     }
@@ -374,7 +390,7 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
 
   @Override
   public PVector getCenter() {
-    return null;
+    return getPostTransformGrid().getBoundingQuad().getComputedCenter();
   }
 
   @Override

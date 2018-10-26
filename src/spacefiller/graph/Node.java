@@ -46,4 +46,12 @@ public class Node implements Serializable, Pin {
       listener.nodeUpdated();
     }
   }
+
+  @Override
+  public void translate(float dx, float dy) {
+    position.add(dx, dy);
+    for (NodeListener listener : listeners) {
+      listener.nodeUpdated();
+    }
+  }
 }

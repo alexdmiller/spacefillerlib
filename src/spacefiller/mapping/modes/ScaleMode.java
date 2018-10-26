@@ -2,13 +2,13 @@ package spacefiller.mapping.modes;
 
 import processing.core.PVector;
 import processing.event.MouseEvent;
-import spacefiller.mapping.MappingHost;
+import spacefiller.mapping.Mapper;
 import spacefiller.mapping.Transformable;
 
 public class ScaleMode extends EditMode {
   private PVector lastMouse;
 
-  public ScaleMode(MappingHost mooYoung) {
+  public ScaleMode(Mapper mooYoung) {
     super(mooYoung);
     lastMouse = new PVector();
   }

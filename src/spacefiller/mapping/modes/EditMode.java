@@ -2,11 +2,10 @@ package spacefiller.mapping.modes;
 
 import geomerative.RShape;
 import processing.core.PGraphics;
-import spacefiller.mapping.MappingHost;
+import spacefiller.mapping.Mapper;
 
 public class EditMode extends Mode {
-  public EditMode(MappingHost mooYoung) {
+  public EditMode(Mapper mooYoung) {
     super(mooYoung);
-    mooYoung.cursor();
   }
 }

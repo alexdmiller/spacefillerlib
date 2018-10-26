@@ -2,13 +2,13 @@ package spacefiller.mapping.modes;
 
 import processing.core.PVector;
 import processing.event.MouseEvent;
-import spacefiller.mapping.MappingHost;
+import spacefiller.mapping.Mapper;
 import spacefiller.mapping.Transformable;
 
 public class RotateMode extends EditMode {
   private PVector lastMouse;
 
-  public RotateMode(MappingHost mooYoung) {
+  public RotateMode(Mapper mooYoung) {
     super(mooYoung);
     lastMouse = new PVector();
   }

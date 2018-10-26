@@ -4,16 +4,17 @@ import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 import spacefiller.mapping.Draggable;
-import spacefiller.mapping.MappingHost;
+import spacefiller.mapping.Mapper;
 import spacefiller.mapping.Pin;
 import spacefiller.mapping.Transformable;
 
 public class WarpMode extends EditMode {
   private Draggable dragged;
   private PVector clickedPointDelta;
+  private PVector lastClicked;
   private boolean forceDrag;
 
-  public WarpMode(MappingHost mooYoung) {
+  public WarpMode(Mapper mooYoung) {
     super(mooYoung);
   }
 
@@ -32,15 +33,19 @@ public class WarpMode extends EditMode {
           clickedPointDelta = PVector.sub(draggedPin.getPosition(), mouse);
         } else {
           dragged = target.select(mouse);
+          lastClicked = mouse;
         }
         break;
 
       case MouseEvent.DRAG:
+        PVector delta = PVector.sub(mouse, lastClicked);
+        lastClicked = mouse;
         if (dragged != null) {
           if (clickedPointDelta != null) {
+            // TODO: change this to translate; remove moveTo from draggable interface?
             dragged.moveTo(mouse.x + clickedPointDelta.x, mouse.y + clickedPointDelta.y);
           } else {
-            dragged.moveTo(mouse.x, mouse.y);
+            dragged.translate(delta.x, delta.y);
           }
         }
         break;

@@ -2,12 +2,12 @@ package spacefiller.mapping.modes;
 
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import spacefiller.mapping.MappingHost;
+import spacefiller.mapping.Mapper;
 
 public class Mode {
-  protected MappingHost mooYoung;
+  protected Mapper mooYoung;
 
-  public Mode(MappingHost mooYoung) {
+  public Mode(Mapper mooYoung) {
     this.mooYoung = mooYoung;
   }
 

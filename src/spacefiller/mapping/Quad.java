@@ -103,6 +103,16 @@ public class Quad implements Serializable {
     this.center = center;
   }
 
+  public PVector getComputedCenter() {
+    PVector center = new PVector();
+    for (PVector vertex : getVertices()) {
+      center.add(vertex);
+    }
+
+    center.div(getVertices().size());
+    return center;
+  }
+
   public Quad copy() {
     return new Quad(
         topLeft.copy(), topRight.copy(), bottomRight.copy(), bottomLeft.copy(), center != null ? center.copy() : null
