@@ -23,37 +23,40 @@ public class WarpMode extends EditMode {
     PVector mouse = new PVector(e.getX(), e.getY());
     Transformable target = mooYoung.getTransformTarget();
 
-    mouse = target.getRelativePoint(mouse);
+    if (target != null) {
+      mouse = target.getParentRelativePoint(mouse);
 
-    switch (e.getAction()) {
-      case MouseEvent.PRESS:
-        if (forceDrag) {
-          Pin draggedPin = target.selectClosestPin(mouse);
-          dragged = draggedPin;
-          clickedPointDelta = PVector.sub(draggedPin.getPosition(), mouse);
-        } else {
-          dragged = target.select(mouse);
-          lastClicked = mouse;
-        }
-        break;
-
-      case MouseEvent.DRAG:
-        PVector delta = PVector.sub(mouse, lastClicked);
-        lastClicked = mouse;
-        if (dragged != null) {
-          if (clickedPointDelta != null) {
-            // TODO: change this to translate; remove moveTo from draggable interface?
-            dragged.moveTo(mouse.x + clickedPointDelta.x, mouse.y + clickedPointDelta.y);
+      switch (e.getAction()) {
+        case MouseEvent.PRESS:
+          if (forceDrag) {
+            Pin draggedPin = target.selectClosestPin(mouse);
+            dragged = draggedPin;
+            clickedPointDelta = PVector.sub(draggedPin.getPosition(), mouse);
+            lastClicked = mouse;
           } else {
-            dragged.translate(delta.x, delta.y);
+            dragged = target.select(mouse);
+            lastClicked = mouse;
           }
-        }
-        break;
+          break;
 
-      case MouseEvent.RELEASE:
-        dragged = null;
-        clickedPointDelta = null;
-        break;
+        case MouseEvent.DRAG:
+          PVector delta = PVector.sub(mouse, lastClicked);
+          lastClicked = mouse;
+          if (dragged != null) {
+            if (clickedPointDelta != null) {
+              // TODO: change this to translate; remove moveTo from draggable interface?
+              dragged.moveTo(mouse.x + clickedPointDelta.x, mouse.y + clickedPointDelta.y);
+            } else {
+              dragged.translate(delta.x, delta.y);
+            }
+          }
+          break;
+
+        case MouseEvent.RELEASE:
+          dragged = null;
+          clickedPointDelta = null;
+          break;
+      }
     }
   }
 

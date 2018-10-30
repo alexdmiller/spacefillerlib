@@ -6,10 +6,38 @@ import spacefiller.mapping.Quad;
 
 public class GridUtils {
   public static GraphTransformer createGraphTransformer(int rows, int cols, float spacing) {
-    return new GraphTransformer(createGrid(rows, cols, spacing));
+    return new GraphTransformer(createTriangleGrid(rows, cols, spacing));
   }
 
-  public static Grid createGrid(int rows, int cols, float spacing) {
+  public static Grid createSimpleGrid(int rows, int cols, float xSpacing, float ySpacing) {
+    rows++; cols++;
+
+    Node[][] nodes = new Node[rows][cols];
+    Grid grid = new Grid();
+
+    for (int row = 0; row < rows; row++) {
+      for (int col = 0; col < cols; col++) {
+        nodes[row][col] = grid.createNode(col * xSpacing, row * ySpacing);
+      }
+    }
+
+    grid.setBoundingQuad(new Quad(
+        nodes[0][0].copy(),
+        nodes[0][cols - 1].copy(),
+        nodes[rows - 1][cols - 1].copy(),
+        nodes[rows - 1][0].copy()));
+
+    for (int row = 0; row < rows - 1; row++) {
+      for (int col = 0; col < cols - 1; col++) {
+        grid.addTriangle(nodes[row][col], nodes[row + 1][col], nodes[row][col + 1]);
+        grid.addTriangle(nodes[row + 1][col + 1], nodes[row + 1][col], nodes[row][col + 1]);
+      }
+    }
+
+    return grid;
+  }
+
+  public static Grid createTriangleGrid(int rows, int cols, float spacing) {
     rows *= 2;
     rows += 1;
     cols += 1;

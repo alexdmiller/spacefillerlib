@@ -17,7 +17,7 @@ public class RotateMode extends EditMode {
   public void mouseEvent(MouseEvent e) {
     PVector mouse = new PVector(e.getX(), e.getY());
     Transformable target = mooYoung.getTransformTarget();
-    mouse = target.getRelativePoint(mouse);
+    mouse = target.getParentRelativePoint(mouse);
 
     switch (e.getAction()) {
       case MouseEvent.PRESS:

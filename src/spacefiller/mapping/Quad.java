@@ -53,7 +53,7 @@ public class Quad implements Serializable {
   }
 
   public List<Node> getNodes() {
-    return Arrays.asList(new Node[] {topLeft, topRight, bottomLeft, bottomRight});
+    return Arrays.asList(new Node[] {topLeft, topRight, bottomRight, bottomLeft});
   }
 
   public void translate(float dx, float dy) {
