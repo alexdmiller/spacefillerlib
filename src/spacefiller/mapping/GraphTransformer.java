@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GraphTransformer implements Transformable, Draggable, NodeListener, Serializable {
+public class GraphTransformer extends Transformable implements Draggable, NodeListener, Serializable {
   // This grid stores the original node positions, before a perspective transformation
   // is applied.
   private Grid preTransformGrid;
@@ -28,9 +28,7 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
 
   private WarpPerspective currentPerspective;
 
-  // TODO: it's really overloading this class to have it contain transformable children.
-  // probably should separate parent/child relationships from warped rendering or something?
-  private List<Transformable> children;
+  private transient PGraphics canvas;
 
   public GraphTransformer(Grid grid) {
     this.postTransformGrid = grid;
@@ -43,18 +41,14 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
     makeGraphCopy();
 
     recomputeNodesFromQuad();
-
-    children = new ArrayList<>();
   }
 
-  public void addChild(Transformable transformable) {
-    transformable.setParent(this);
-    children.add(transformable);
+  public PGraphics getCanvas() {
+    return canvas;
   }
 
-  @Override
-  public List<Transformable> getChildren() {
-    return children;
+  public void setCanvas(PGraphics canvas) {
+    this.canvas = canvas;
   }
 
   public void translate(float dx, float dy) {
@@ -64,6 +58,7 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
     }
 
     postTransformGrid.getBoundingQuad().translate(dx, dy);
+    recomputeNodesFromQuad();
   }
 
   public void translate(PVector vector) {
@@ -119,10 +114,10 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
     }
   }
 
-  public void drawImage(PGraphics graphics, PImage texture) {
+  public void drawImage(PGraphics graphics) {
     graphics.beginShape(PApplet.TRIANGLES);
     graphics.noStroke();
-    graphics.texture(texture);
+    graphics.texture(canvas);
     for (Node[] triangle : postTransformGrid.getTriangles()) {
       for (int i = 0; i < triangle.length; i++) {
         Node preNode = postToPre.get(triangle[i]);
@@ -197,6 +192,7 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
     }
 
     translate(origin.mult(-1));
+    recomputeNodesFromQuad();
   }
 
   @Override
@@ -213,6 +209,7 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
     }
 
     translate(origin);
+    recomputeNodesFromQuad();
   }
 
   private void rotate(float theta, Node node) {
@@ -348,22 +345,12 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
   public PVector getRelativePoint(PVector p) {
     System.out.println(p);
     Point2D point = currentPerspective.mapSourcePoint(new Point((int) p.x, (int) p.y));
+    System.out.println(point.getX() + ", " + point.getY());
     return new PVector((int) point.getX(), (int) point.getY());
   }
 
-  @Override
-  public PVector getParentRelativePoint(PVector point) {
-    // TODO: allow graph transformers to have parents?
-    return point;
-  }
-
-  @Override
-  public void setParent(Transformable parent) {
-    // TODO: allow graph transformers to have parents?
-  }
-
-  @Override
-  public void renderControlPoints(PGraphics graphics, boolean active) {
+//  @Override
+//  public void renderUI(PGraphics graphics) {
 //    graphics.stroke(255);
 //    graphics.noFill();
 //
@@ -385,30 +372,32 @@ public class GraphTransformer implements Transformable, Draggable, NodeListener,
 //      graphics.strokeWeight(1);
 //      graphics.line(e.n1.position.x, e.n1.position.y, e.n2.position.x, e.n2.position.y);
 //    }
+//
+//
+//  }
 
-    graphics.noFill();
-    graphics.stroke(active ? 0xffffffff : 0x33ffffff);
-    graphics.beginShape();
-    for (Node node : postTransformGrid.getBoundingQuad().getNodes()) {
-      graphics.vertex(node.getPosition().x, node.getPosition().y);
-    }
-    graphics.endShape(PConstants.CLOSE);
 
-    for (Node node : postTransformGrid.getBoundingQuad().getNodes()) {
+  @Override
+  public void renderUI(PGraphics graphics) {
+    if (showUI) {
       graphics.noFill();
-      graphics.stroke(255);
-      graphics.ellipse(node.getPosition().x, node.getPosition().y, 10, 10);
+      graphics.stroke(active ? 0xffffffff : 0x33ffffff);
+      graphics.beginShape();
+      for (Node node : postTransformGrid.getBoundingQuad().getNodes()) {
+        graphics.vertex(node.getPosition().x, node.getPosition().y);
+      }
+      graphics.endShape(PConstants.CLOSE);
+
+      for (Node node : postTransformGrid.getBoundingQuad().getNodes()) {
+        graphics.noFill();
+        graphics.stroke(255);
+        graphics.ellipse(node.getPosition().x, node.getPosition().y, 10, 10);
+      }
     }
-  }
 
-  @Override
-  public PVector[] getControlPoints() {
-    return new PVector[0];
-  }
-
-  @Override
-  public void setControlPoints(PVector[] points) {
-
+    for (Transformable t : getChildren()) {
+      t.renderUI(canvas);
+    }
   }
 
   @Override

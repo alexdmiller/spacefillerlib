@@ -16,6 +16,8 @@ import java.util.concurrent.Executors;
  * Created by miller on 7/13/17.
  */
 public class ParticleSystem {
+  private static ExecutorService pool = Executors.newFixedThreadPool(4);
+
   private Bounds bounds;
   private List<Particle> particles;
   private List<Source> sources;
@@ -27,21 +29,19 @@ public class ParticleSystem {
   private ArrayList<Particle>[] hash;
   private int rows, cols;
   private float cellSize;
-  private ExecutorService pool;
 
-  public ParticleSystem(Bounds bounds, int maxParticles, float cellSize, int threads) {
+  public ParticleSystem(Bounds bounds, int maxParticles, float cellSize) {
     this.maxParticles = maxParticles;
     this.bounds = bounds;
     this.particles = new ArrayList<>();
     this.behaviors = new ArrayList<>();
     this.particleEventListeners = new ArrayList<>();
     this.sources = new ArrayList<>();
-    this.pool = Executors.newFixedThreadPool(threads);
     computeHash(cellSize);
   }
 
   public ParticleSystem(Bounds bounds, int maxParticles) {
-    this(bounds, maxParticles, 100, 4);
+    this(bounds, maxParticles, 100);
   }
 
   private void computeHash(float cellSize) {

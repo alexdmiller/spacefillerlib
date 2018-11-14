@@ -1,16 +1,19 @@
 package spacefiller.mapping;
 
+import geomerative.RCommand;
+import geomerative.RPath;
 import geomerative.RPoint;
 import geomerative.RShape;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class RShapeTransformer implements Draggable, Transformable {
+public class RShapeTransformer extends Transformable implements Draggable {
   private RShape shape;
   private RShape originalShape;
-  private Transformable parent;
   private RShapePin topLeft;
   private RShapePin topRight;
   private RShapePin bottomLeft;
@@ -19,11 +22,12 @@ public class RShapeTransformer implements Draggable, Transformable {
   private float lastX;
   private float lastY;
 
-  private RShapePin[] pins;
+  private List<RShapePin> pins;
 
   public RShapeTransformer(RShape shape) {
     this.shape = shape;
     this.originalShape = new RShape(shape);
+    this.pins = new ArrayList<>();
 
 //    topLeft = new RShapePin(shape.getTopLeft(), this);
 //    topRight = new RShapePin(shape.getTopRight(), this);
@@ -31,17 +35,42 @@ public class RShapeTransformer implements Draggable, Transformable {
 //    bottomRight = new RShapePin(shape.getBottomRight(), this);
 //
 //    pins = new RShapePin[] {topLeft, topRight, bottomRight, bottomLeft};
-    RPoint[] points = shape.getHandles();
-    pins = new RShapePin[points.length];
-    for (int i = 0; i < points.length; i++) {
-      pins[i] = new RShapePin(points[i], this);
-    }
+    addHandles(shape);
   }
 
-  @Override
-  public void setParent(Transformable transformable) {
-    this.parent = transformable;
+  private void addHandles(RShape shape) {
+    for (RPath path : shape.paths) {
+      for (RCommand command : path.commands) {
+        addPoint(command.startPoint);
+        addPoint(command.endPoint);
+
+        if (command.controlPoints != null) {
+          for (RPoint point : command.controlPoints) {
+            addPoint(point);
+          }
+        }
+      }
+    }
+
+
+//    if (shape.children != null && shape.children.length > 0) {
+//    } else {
+//
+//    }
   }
+
+  // Collapses identical points to a single pin so that they can be
+  // dragged around at the same time
+  private void addPoint(RPoint p) {
+    for (RShapePin pin : pins) {
+      if (pin.mergePoint(p)) {
+        return;
+      }
+    }
+
+    pins.add(new RShapePin(p, this));
+  }
+
 
   @Override
   public void scale(float scale) {
@@ -77,13 +106,12 @@ public class RShapeTransformer implements Draggable, Transformable {
 
   @Override
   public Draggable select(PVector point) {
-    for (RShapePin pin : pins) {
-      if (pin.getPosition().dist(point) < 30) {
-        return pin;
-      }
+    Pin closest = selectClosestPin(point);
+    if (closest.getPosition().dist(point) < 30) {
+      return closest;
     }
 
-    if (shape.contains(point.x, point.y)) {
+    if (isPointOver(point)) {
       lastX = point.x;
       lastY = point.y;
       return this;
@@ -117,44 +145,28 @@ public class RShapeTransformer implements Draggable, Transformable {
   }
 
   @Override
-  public PVector getParentRelativePoint(PVector point) {
-    return parent.getRelativePoint(point);
-  }
-
-  @Override
   public boolean isPointOver(PVector point) {
+    for (RShapePin pin : pins) {
+      if (pin.getPosition().dist(point) < 10) {
+        return true;
+      }
+    }
     return false;
+//    return shape.contains(point.x, point.y);
   }
 
-  public void renderControlPoints(PGraphics canvas, boolean active) {
-    for (int i = 0; i < pins.length; i++) {
-      RShapePin pin = pins[i];
-      canvas.fill(255);
-      canvas.ellipse(pin.getPosition().x, pin.getPosition().y, 30, 30);
-
-      RShapePin pin2 = pins[(i + 1) % pins.length];
-      canvas.stroke(255);
+  @Override
+  public void renderUI(PGraphics canvas) {
+    if (showUI) {
+      canvas.noFill();
       canvas.strokeWeight(2);
-      canvas.line(pin.getPosition().x, pin.getPosition().y, pin2.getPosition().x, pin2.getPosition().y);
-    }
-  }
+      canvas.stroke(active ? Mapper.ACTIVE_COLOR : Mapper.DESELECTED_COLOR);
 
-  @Override
-  public PVector[] getControlPoints() {
-    PVector[] points = new PVector[4];
-    for (int i = 0; i < 4; i++) {
-      points[i] = new PVector(pins[i].getPosition().x, pins[i].getPosition().y);
+      for (int i = 0; i < pins.size(); i ++) {
+        RShapePin pin = pins.get(i);
+        canvas.ellipse(pin.getPosition().x, pin.getPosition().y, 10, 10);
+      }
     }
-    return points;
-  }
-
-  @Override
-  public void setControlPoints(PVector[] points) {
-    for (int i = 0; i < 4; i++) {
-      pins[i].setPosition(points[i].x, points[i].y);
-    }
-
-    computeWarp();
   }
 
   @Override
@@ -193,9 +205,9 @@ public class RShapeTransformer implements Draggable, Transformable {
   public void translate(float x, float y) {
     shape.translate(x, y);
 
-    for (RShapePin pin : pins) {
-      pin.translate(x, y);
-    }
+//    for (RShapePin pin : pins) {
+//      pin.translate(x, y);
+//    }
   }
 
   @Override

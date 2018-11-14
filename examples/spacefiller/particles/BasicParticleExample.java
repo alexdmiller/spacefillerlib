@@ -21,7 +21,7 @@ public class BasicParticleExample extends PApplet {
   }
 
   public void setup() {
-    system = new ParticleSystem(new Bounds(width, height), 8000, 50, 5);
+    system = new ParticleSystem(new Bounds(width, height), 8000, 50);
     system.fillWithParticles(7000, 2, 6);
 //    system.createParticle(new Vector(400, 400), 2).velocity.zero();
 //    system.createParticle(new Vector(499, 400), 2).velocity.zero();

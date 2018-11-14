@@ -1,5 +1,6 @@
 package spacefiller.graph;
 
+import processing.core.PGraphics;
 import spacefiller.mapping.GraphTransformer;
 import spacefiller.mapping.Grid;
 import spacefiller.mapping.Quad;

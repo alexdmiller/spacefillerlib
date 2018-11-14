@@ -40,14 +40,16 @@ public class WarpMode extends EditMode {
           break;
 
         case MouseEvent.DRAG:
-          PVector delta = PVector.sub(mouse, lastClicked);
-          lastClicked = mouse;
-          if (dragged != null) {
-            if (clickedPointDelta != null) {
-              // TODO: change this to translate; remove moveTo from draggable interface?
-              dragged.moveTo(mouse.x + clickedPointDelta.x, mouse.y + clickedPointDelta.y);
-            } else {
-              dragged.translate(delta.x, delta.y);
+          if (lastClicked != null) {
+            PVector delta = PVector.sub(mouse, lastClicked);
+            lastClicked = mouse;
+            if (dragged != null) {
+              if (clickedPointDelta != null) {
+                // TODO: change this to translate; remove moveTo from draggable interface?
+                dragged.moveTo(mouse.x + clickedPointDelta.x, mouse.y + clickedPointDelta.y);
+              } else {
+                dragged.translate(delta.x, delta.y);
+              }
             }
           }
           break;

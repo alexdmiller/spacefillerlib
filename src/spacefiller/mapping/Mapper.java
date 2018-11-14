@@ -5,10 +5,7 @@ import processing.core.PGraphics;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import spacefiller.mapping.modes.Mode;
-import spacefiller.mapping.modes.RotateMode;
-import spacefiller.mapping.modes.ScaleMode;
-import spacefiller.mapping.modes.WarpMode;
+import spacefiller.mapping.modes.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +13,12 @@ import java.util.Stack;
 
 import static processing.core.PConstants.LEFT;
 import static processing.core.PConstants.RIGHT;
+import static processing.core.PConstants.SCREEN;
 
 public class Mapper {
+  public static final int ACTIVE_COLOR = 0xFFFF0000;
+  public static final int DESELECTED_COLOR = 0x33FFFFFF;
+
   private Stack<List<Transformable>> transformables;
   private Transformable activeTransformable;
   private Mode mode;
@@ -35,6 +36,7 @@ public class Mapper {
   }
 
   public void addTransformable(Transformable transformable) {
+    transformable.setShowUI(true);
     transformables.peek().add(transformable);
   }
 
@@ -50,13 +52,15 @@ public class Mapper {
     if (event.getAction() == MouseEvent.PRESS) {
       PVector mouse = new PVector(event.getX(), event.getY());
 
-      for (int i = 0; i < transformables.peek().size(); i++) {
-        Transformable transformable = transformables.peek().get(i);
-        if (transformable.isPointOver(mouse)) {
+      for (int i = 0; i < getCurrentActiveLayer().size(); i++) {
+        Transformable transformable = getCurrentActiveLayer().get(i);
+        PVector local = transformable.getParentRelativePoint(mouse);
+        if (transformable.isPointOver(local)) {
           if (event.isControlDown()) {
-            pushTransformables(transformable.getChildren());
+            drillIn(transformable);
+            return;
           } else {
-            activeTransformable = transformable;
+            setActiveTransformable(transformable);
           }
         }
       }
@@ -65,26 +69,69 @@ public class Mapper {
     mode.mouseEvent(event);
   }
 
+  public void setActiveTransformable(Transformable transformable) {
+    if (activeTransformable != null) {
+      activeTransformable.setActive(false);
+    }
+
+    transformable.setActive(true);
+    activeTransformable = transformable;
+  }
+
+  public void clearActiveTransformable() {
+    if (activeTransformable != null) {
+      activeTransformable.setActive(false);
+    }
+    activeTransformable = null;
+  }
+
+  public List<Transformable> getCurrentActiveLayer() {
+    return transformables.peek();
+  }
+
+  public void drillOut() {
+    for (Transformable t : getCurrentActiveLayer()) {
+      t.setShowUI(false);
+    }
+
+    transformables.pop();
+    clearActiveTransformable();
+
+    for (Transformable t : getCurrentActiveLayer()) {
+      t.setShowUI(true);
+    }
+  }
+
+  public void drillIn(Transformable transformable) {
+    for (Transformable t : getCurrentActiveLayer()) {
+      t.setShowUI(false);
+    }
+
+    clearActiveTransformable();
+    pushTransformables(transformable.getChildren());
+
+    for (Transformable t : getCurrentActiveLayer()) {
+      t.setShowUI(true);
+    }
+  }
+
   public void keyEvent(KeyEvent keyEvent) {
-    System.out.println(keyEvent.getKeyCode());
     if (keyEvent.getAction() == KeyEvent.PRESS) {
-      if (keyEvent.getKey() == 'e') {
+      if (keyEvent.getKey() == 'u') {
+        drillOut();
+      } else if (keyEvent.getKey() == 'e') {
         mode = new WarpMode(this);
       } else if (keyEvent.getKey() == 'r') {
         mode = new RotateMode(this);
       } else if (keyEvent.getKey() == 's') {
         mode = new ScaleMode(this);
+      } else if (keyEvent.getKey() == 't') {
+        mode = new TranslateMode(this);
       }
     } else if (keyEvent.getAction() == KeyEvent.RELEASE) {
       mode = new WarpMode(this);
     }
 
     mode.keyEvent(keyEvent);
-  }
-
-  public void draw(PGraphics canvas) {
-    for (Transformable t : transformables.peek()) {
-      t.renderControlPoints(canvas, t == activeTransformable);
-    }
   }
 }
