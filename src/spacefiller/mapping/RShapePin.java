@@ -8,61 +8,86 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RShapePin implements Pin, Serializable {
-  private PVector originalPosition;
+  private PVector position;
   private RShapeTransformer parent;
-  private List<RPoint> points;
+  private List<Integer> pointIndices;
+  private transient List<RPoint> points;
 
-  public RShapePin(RPoint point, RShapeTransformer parent) {
-    this.originalPosition = new PVector(point.x, point.y);
+  public RShapePin(RPoint point, int pointIndex, RShapeTransformer parent) {
+    this.position = new PVector(point.x, point.y);
     this.points = new ArrayList<>();
+    this.pointIndices = new ArrayList<>();
     this.points.add(point);
+    this.pointIndices.add(pointIndex);
     this.parent = parent;
+  }
+
+  public List<Integer> getPointIndices() {
+    return pointIndices;
   }
 
   @Override
   public void moveTo(float x, float y) {
-    for (RPoint point : points) {
-      point.x = x;
-      point.y = y;
-    }
-    this.parent.computeWarp();
+    position.set(x, y);
+    updatePoints();
+    parent.computeWarp();
   }
 
   @Override
   public void translate(float dx, float dy) {
-    for (RPoint point : points) {
-      point.x += dx;
-      point.y += dy;
-    }
-
-    this.parent.computeWarp();
+    position.add(dx, dy);
+    updatePoints();
+    parent.computeWarp();
   }
 
   public void setPosition(float x, float y) {
-    for (RPoint point : points) {
-      point.x = x;
-      point.y = y;
-    }
+    position.set(x, y);
+    updatePoints();
   }
 
-  public PVector getOriginalPosition() {
-    return originalPosition;
+  public void updatePoints() {
+    for (RPoint point : points) {
+      point.x = position.x;
+      point.y = position.y;
+    }
   }
 
   @Override
   public PVector getPosition() {
-    return new PVector(points.get(0).x, points.get(0).y);
+    return position;
   }
 
-  public boolean mergePoint(RPoint point) {
-    if (points.get(0).dist(point) == 0 && points.get(0) != point) {
-      addPoint(point);
+  private void ensurePointArraysInitialized() {
+    if (points == null) {
+      points = new ArrayList<>();
+    }
+
+    if (pointIndices == null) {
+      pointIndices = new ArrayList<>();
+    }
+  }
+
+  public boolean mergePoint(RPoint point, int index) {
+    ensurePointArraysInitialized();
+
+    PVector newPosition = new PVector(point.x, point.y);
+    if (position.dist(newPosition) == 0 && !points.contains(point)) {
+      addPoint(point, index);
       return true;
     }
     return false;
   }
 
+  public void addPoint(RPoint point, int index) {
+    ensurePointArraysInitialized();
+
+    points.add(point);
+    pointIndices.add(index);
+  }
+
   public void addPoint(RPoint point) {
+    ensurePointArraysInitialized();
+
     points.add(point);
   }
 }

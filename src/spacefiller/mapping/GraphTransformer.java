@@ -343,9 +343,7 @@ public class GraphTransformer extends Transformable implements Draggable, NodeLi
   }
 
   public PVector getRelativePoint(PVector p) {
-    System.out.println(p);
     Point2D point = currentPerspective.mapSourcePoint(new Point((int) p.x, (int) p.y));
-    System.out.println(point.getX() + ", " + point.getY());
     return new PVector((int) point.getX(), (int) point.getY());
   }
 

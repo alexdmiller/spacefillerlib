@@ -7,26 +7,22 @@ import geomerative.RShape;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-public class RShapeTransformer extends Transformable implements Draggable {
-  private RShape shape;
-  private RShape originalShape;
-  private RShapePin topLeft;
-  private RShapePin topRight;
-  private RShapePin bottomLeft;
-  private RShapePin bottomRight;
-
-  private float lastX;
-  private float lastY;
+public class RShapeTransformer extends Transformable implements Draggable, Serializable {
+  private transient RShape shape;
+  private transient float lastX;
+  private transient float lastY;
+//  private RShape originalShape;
 
   private List<RShapePin> pins;
 
-  public RShapeTransformer(RShape shape) {
-    this.shape = shape;
-    this.originalShape = new RShape(shape);
+  public RShapeTransformer() {
+//    this.originalShape = new RShape(shape);
     this.pins = new ArrayList<>();
 
 //    topLeft = new RShapePin(shape.getTopLeft(), this);
@@ -35,40 +31,68 @@ public class RShapeTransformer extends Transformable implements Draggable {
 //    bottomRight = new RShapePin(shape.getBottomRight(), this);
 //
 //    pins = new RShapePin[] {topLeft, topRight, bottomRight, bottomLeft};
-    addHandles(shape);
   }
 
-  private void addHandles(RShape shape) {
-    for (RPath path : shape.paths) {
-      for (RCommand command : path.commands) {
-        addPoint(command.startPoint);
-        addPoint(command.endPoint);
+  public void setShape(RShape shape) {
+    this.shape = shape;
+  }
 
-        if (command.controlPoints != null) {
-          for (RPoint point : command.controlPoints) {
-            addPoint(point);
-          }
-        }
+  public void createHandlesFromShape() {
+    addHandles();
+  }
+
+  private List<RPoint> getCandidatePointList() {
+//    List<RPoint> points = new ArrayList<>();
+//    for (RPath path : shape.paths) {
+//      for (RCommand command : path.commands) {
+//        points.add(command.startPoint);
+//        points.add(command.endPoint);
+//
+//        if (command.controlPoints != null) {
+//          for (RPoint point : command.controlPoints) {
+//            points.add(point);
+//          }
+//        }
+//      }
+//    }
+//
+//    return points;
+
+    return Arrays.asList(shape.getHandles());
+  }
+
+  public void matchHandlesToShape() {
+    List<RPoint> candidatePointList = getCandidatePointList();
+    for (RShapePin pin : pins) {
+      for (int pointIndex : pin.getPointIndices()) {
+        RPoint point = candidatePointList.get(pointIndex);
+        pin.addPoint(candidatePointList.get(pointIndex));
+        pin.updatePoints();
+      }
+    }
+  }
+
+  private void addHandles() {
+    List<RPoint> candidatePointList = getCandidatePointList();
+    for (int i = 0; i < candidatePointList.size(); i++) {
+      addPoint(candidatePointList.get(i), i);
+    }
+  }
+
+  private boolean mergePoint(RPoint p, int index) {
+    for (RShapePin pin : pins) {
+      if (pin.mergePoint(p, index)) {
+        return true;
       }
     }
 
-
-//    if (shape.children != null && shape.children.length > 0) {
-//    } else {
-//
-//    }
+    return false;
   }
 
   // Collapses identical points to a single pin so that they can be
   // dragged around at the same time
-  private void addPoint(RPoint p) {
-    for (RShapePin pin : pins) {
-      if (pin.mergePoint(p)) {
-        return;
-      }
-    }
-
-    pins.add(new RShapePin(p, this));
+  private void addPoint(RPoint p, int pointIndex) {
+    if (!mergePoint(p, pointIndex)) pins.add(new RShapePin(p, pointIndex, this));
   }
 
 
@@ -205,9 +229,9 @@ public class RShapeTransformer extends Transformable implements Draggable {
   public void translate(float x, float y) {
     shape.translate(x, y);
 
-//    for (RShapePin pin : pins) {
-//      pin.translate(x, y);
-//    }
+    for (RShapePin pin : pins) {
+      pin.translate(x, y);
+    }
   }
 
   @Override
