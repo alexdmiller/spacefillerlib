@@ -3,16 +3,21 @@ package spacefiller.mapping.modes;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import spacefiller.mapping.Draggable;
-import spacefiller.mapping.Mapper;
-import spacefiller.mapping.Pin;
-import spacefiller.mapping.Transformable;
+import spacefiller.graph.Graph;
+import spacefiller.mapping.*;
+
+import static processing.core.PConstants.LEFT;
+import static processing.core.PConstants.RIGHT;
+import static processing.core.PConstants.DOWN;
+import static processing.core.PConstants.UP;
 
 public class WarpMode extends EditMode {
   private Draggable dragged;
   private PVector clickedPointDelta;
   private PVector lastClicked;
   private boolean forceDrag;
+  private float bumpAmount = 1f;
+  private boolean innerNodes;
 
   public WarpMode(Mapper mooYoung) {
     super(mooYoung);
@@ -34,7 +39,8 @@ public class WarpMode extends EditMode {
             clickedPointDelta = PVector.sub(draggedPin.getPosition(), mouse);
             lastClicked = mouse;
           } else {
-            dragged = target.select(mouse);
+            dragged = target.select(mouse, innerNodes);
+            mooYoung.setLastDragged(dragged);
             lastClicked = mouse;
           }
           break;
@@ -62,6 +68,12 @@ public class WarpMode extends EditMode {
     }
   }
 
+  private void bump(int x, int y) {
+    if (mooYoung.getLastDragged() != null) {
+      mooYoung.getLastDragged().translate(x * bumpAmount, y * bumpAmount);
+    }
+  }
+
   @Override
   public void keyEvent(KeyEvent keyEvent) {
     if (keyEvent.getKey() == 'f') {
@@ -69,6 +81,22 @@ public class WarpMode extends EditMode {
         forceDrag = true;
       } else if (keyEvent.getAction() == KeyEvent.RELEASE) {
         forceDrag = false;
+      }
+    } else if (keyEvent.getKey() == 'n') {
+      if (keyEvent.getAction() == KeyEvent.PRESS) {
+        innerNodes = true;
+      } else if (keyEvent.getAction() == KeyEvent.RELEASE) {
+        innerNodes = false;
+      }
+    } else if (keyEvent.getAction() == KeyEvent.PRESS) {
+      if (keyEvent.getKeyCode() == LEFT) {
+        bump(-1, 0);
+      } else if (keyEvent.getKeyCode() == RIGHT) {
+        bump(1, 0);
+      } else if (keyEvent.getKeyCode() == DOWN) {
+        bump(0, 1);
+      } else if (keyEvent.getKeyCode() == UP) {
+        bump(0, -1);
       }
     }
   }

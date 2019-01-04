@@ -126,7 +126,7 @@ public class MarchingSquares {
 
         canvas.beginShape(LINES);
         for (PVector p : template) {
-          canvas.vertex(noiseSpace.x + p.x * cellSize, noiseSpace.y + p.y * cellSize);
+          canvas.vertex(noiseSpace.x + p.x * cellSize / 2f, noiseSpace.y + p.y * cellSize/ 2f);
         }
         canvas.endShape();
       }

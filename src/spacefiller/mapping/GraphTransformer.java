@@ -4,6 +4,8 @@ import processing.core.*;
 import spacefiller.graph.Edge;
 import spacefiller.graph.Node;
 import spacefiller.graph.NodeListener;
+import spacefiller.graph.renderer.BasicGraphRenderer;
+import spacefiller.graph.renderer.GraphRenderer;
 
 import javax.media.jai.PerspectiveTransform;
 import javax.media.jai.WarpPerspective;
@@ -43,6 +45,14 @@ public class GraphTransformer extends Transformable implements Draggable, NodeLi
     recomputeNodesFromQuad();
   }
 
+  public void createCanvas(PApplet parent) {
+    canvas = parent.createGraphics((int) preTransformGrid.getWidth(), (int) preTransformGrid.getHeight());
+  }
+
+  public WarpPerspective getPerspective() {
+    return currentPerspective;
+  }
+
   public PGraphics getCanvas() {
     return canvas;
   }
@@ -58,7 +68,6 @@ public class GraphTransformer extends Transformable implements Draggable, NodeLi
     }
 
     postTransformGrid.getBoundingQuad().translate(dx, dy);
-    recomputeNodesFromQuad();
   }
 
   public void translate(PVector vector) {
@@ -77,7 +86,7 @@ public class GraphTransformer extends Transformable implements Draggable, NodeLi
     return postToPre.get(postNode);
   }
 
-  private void recomputeNodesFromQuad() {
+  public void recomputeNodesFromQuad() {
     Quad postQuad = postTransformGrid.getBoundingQuad();
     Quad preQuad = preTransformGrid.getBoundingQuad();
 
@@ -112,6 +121,7 @@ public class GraphTransformer extends Transformable implements Draggable, NodeLi
       node.position.y = destPoints[i + 1];
       i += 2;
     }
+
   }
 
   public void drawImage(PGraphics graphics) {
@@ -192,7 +202,6 @@ public class GraphTransformer extends Transformable implements Draggable, NodeLi
     }
 
     translate(origin.mult(-1));
-    recomputeNodesFromQuad();
   }
 
   @Override
@@ -209,7 +218,6 @@ public class GraphTransformer extends Transformable implements Draggable, NodeLi
     }
 
     translate(origin);
-    recomputeNodesFromQuad();
   }
 
   private void rotate(float theta, Node node) {
@@ -261,14 +269,15 @@ public class GraphTransformer extends Transformable implements Draggable, NodeLi
   }
   */
 
-
   @Override
-  public Draggable select(PVector point) {
-    return select(point, true);
-  }
-
-  public Draggable select(PVector point, boolean controlPoints) {
-    if (controlPoints) {
+  public Draggable select(PVector point, boolean innerNodes) {
+    if (innerNodes) {
+      for (Node node : postTransformGrid.getNodes()) {
+        if (point.dist(node.position) < 30) {
+          return node;
+        }
+      }
+    } else {
       // first, see if one of the control points are selected
       List<Node> nodes = postTransformGrid.getBoundingQuad().getNodes();
       for (int i = 0; i < nodes.size(); i++) {
@@ -276,12 +285,13 @@ public class GraphTransformer extends Transformable implements Draggable, NodeLi
           return nodes.get(i);
         }
       }
-
-      // then, see if the surface itself is selected
-      if (isPointOver(point)) {
-        return this;
-      }
     }
+
+    // then, see if the surface itself is selected
+    if (isPointOver(point)) {
+      return this;
+    }
+
     return null;
   }
 
@@ -391,6 +401,9 @@ public class GraphTransformer extends Transformable implements Draggable, NodeLi
         graphics.stroke(255);
         graphics.ellipse(node.getPosition().x, node.getPosition().y, 10, 10);
       }
+
+      GraphRenderer graphRenderer = new BasicGraphRenderer(1);
+      graphRenderer.render(canvas, preTransformGrid);
     }
 
     for (Transformable t : getChildren()) {
@@ -400,6 +413,14 @@ public class GraphTransformer extends Transformable implements Draggable, NodeLi
 
   @Override
   public void nodeUpdated() {
+    recomputeNodesFromQuad();
+  }
+
+  public void resetTransform() {
+    postTransformGrid.getBoundingQuad().getTopLeft().position.set(preTransformGrid.getBoundingQuad().getTopLeft().position);
+    postTransformGrid.getBoundingQuad().getTopRight().position.set(preTransformGrid.getBoundingQuad().getTopRight().position);
+    postTransformGrid.getBoundingQuad().getBottomLeft().position.set(preTransformGrid.getBoundingQuad().getBottomLeft().position);
+    postTransformGrid.getBoundingQuad().getBottomRight().position.set(preTransformGrid.getBoundingQuad().getBottomRight().position);
     recomputeNodesFromQuad();
   }
 }

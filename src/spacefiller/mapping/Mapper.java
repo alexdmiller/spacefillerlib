@@ -21,6 +21,7 @@ public class Mapper {
 
   private Stack<List<Transformable>> transformables;
   private Transformable activeTransformable;
+  private Draggable lastDragged;
   private Mode mode;
   private PApplet parent;
 
@@ -69,6 +70,14 @@ public class Mapper {
     mode.mouseEvent(event);
   }
 
+  public Draggable getLastDragged() {
+    return lastDragged;
+  }
+
+  public void setLastDragged(Draggable lastDragged) {
+    this.lastDragged = lastDragged;
+  }
+
   public void setActiveTransformable(Transformable transformable) {
     if (activeTransformable != null) {
       activeTransformable.setActive(false);
@@ -86,7 +95,11 @@ public class Mapper {
   }
 
   public List<Transformable> getCurrentActiveLayer() {
-    return transformables.peek();
+    if (!transformables.empty()) {
+      return transformables.peek();
+    } else {
+      return null;
+    }
   }
 
   public void drillOut() {
@@ -103,15 +116,17 @@ public class Mapper {
   }
 
   public void drillIn(Transformable transformable) {
-    for (Transformable t : getCurrentActiveLayer()) {
-      t.setShowUI(false);
-    }
+    if (transformable.getChildren() != null && !transformable.getChildren().isEmpty()) {
+      for (Transformable t : getCurrentActiveLayer()) {
+        t.setShowUI(false);
+      }
 
-    clearActiveTransformable();
-    pushTransformables(transformable.getChildren());
+      clearActiveTransformable();
+      pushTransformables(transformable.getChildren());
 
-    for (Transformable t : getCurrentActiveLayer()) {
-      t.setShowUI(true);
+      for (Transformable t : getCurrentActiveLayer()) {
+        t.setShowUI(true);
+      }
     }
   }
 

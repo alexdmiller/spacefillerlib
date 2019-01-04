@@ -68,4 +68,8 @@ public class SinGraphRenderer implements GraphRenderer {
   public void setColor(int color) {
     this.color = color;
   }
+
+  public void setSpacing(float spacing) {
+    this.spacing = spacing;
+  }
 }

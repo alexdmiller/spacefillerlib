@@ -18,6 +18,7 @@ public class BasicGraphRenderer implements GraphRenderer {
   public void render(PGraphics graphics, Graph graph) {
     graphics.fill(color);
     graphics.stroke(color);
+    graphics.strokeWeight(thickness);
 
     for (Node n : graph.getNodes()) {
       graphics.ellipse(n.position.x, n.position.y, 3, 3);

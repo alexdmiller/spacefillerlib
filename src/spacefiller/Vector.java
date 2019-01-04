@@ -22,12 +22,16 @@ public class Vector {
     return new Vector(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
   }
 
-  public static Vector random2D() {
-    return fromAngle(Math.random() * Math.PI*2);
+  public static Vector div(Vector p1, float s) { return new Vector(p1.x / s, p1.y / s, p1.z / s); }
+
+  public static Vector mult(Vector p1, float s) { return new Vector(p1.x * s, p1.y * s, p1.z * s); }
+
+  public static Vector fromAngle(float a) {
+    return new Vector((float) Math.cos(a), (float) Math.sin(a));
   }
 
-  private static Vector fromAngle(double theta) {
-    return new Vector((float) Math.cos(theta), (float) Math.sin(theta));
+  public static Vector random2D() {
+    return fromAngle((float) (Math.random() * Math.PI*2));
   }
 
   // based on Daniel Shiffman's PVector class
@@ -47,11 +51,11 @@ public class Vector {
     if (v1.x == 0 && v1.y == 0 && v1.z == 0 ) return 0.0f;
     if (v2.x == 0 && v2.y == 0 && v2.z == 0 ) return 0.0f;
 
-    double dot = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
-    double v1mag = Math.sqrt(v1.x * v1.x + v1.y * v1.y + v1.z * v1.z);
-    double v2mag = Math.sqrt(v2.x * v2.x + v2.y * v2.y + v2.z * v2.z);
+    float dot = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+    float v1mag = (float) Math.sqrt(v1.x * v1.x + v1.y * v1.y + v1.z * v1.z);
+    float v2mag = (float) Math.sqrt(v2.x * v2.x + v2.y * v2.y + v2.z * v2.z);
     // This should be a number between -1 and 1, since it's "normalized"
-    double amt = dot / (v1mag * v2mag);
+    float amt = dot / (v1mag * v2mag);
     // But if it's not due to rounding error, then we need to fix it
     // http://code.google.com/p/processing/issues/detail?id=340
     // Otherwise if outside the range, acos() will return NaN
@@ -69,11 +73,11 @@ public class Vector {
     return new Vector(p1.x + p2.x, p1.y + p2.y, p1.z + p2.z);
   }
 
-  public double dist(Vector other) {
-    double dx = other.x - x;
-    double dy = other.y - y;
-    double dz = other.z - z;
-    return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  public float dist(Vector other) {
+    float dx = other.x - x;
+    float dy = other.y - y;
+    float dz = other.z - z;
+    return (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
   }
 
   public Vector sub(Vector other) {
@@ -81,9 +85,15 @@ public class Vector {
     y -= other.y;
     z -= other.z;
     return this;
-
   }
 
+  public Vector sub(float x, float y) {
+    x -= x;
+    y -= y;
+    return this;
+  }
+
+  // TODO: returning a Vector implies that the Vector object is immutable. bad pattern here
   public Vector add(Vector other) {
     x += other.x;
     y += other.y;
@@ -91,41 +101,51 @@ public class Vector {
     return this;
   }
 
-  public Vector add(double x, double y) {
+  public Vector add(float x, float y) {
     this.x += x;
     this.y += y;
     return this;
   }
 
-  public void div(double i) {
+  public Vector add(float x, float y, float z) {
+    this.x += x;
+    this.y += y;
+    this.z += z;
+    return this;
+  }
+
+  public Vector div(float i) {
     x /= i;
     y /= i;
     z /= i;
+    return this;
   }
 
-  public double magnitude() {
-    return Math.sqrt(x * x + y * y + z * z);
+  public float magnitude() {
+    return (float) Math.sqrt(x * x + y * y + z * z);
   }
 
-  public void normalize() {
-    double mag = magnitude();
-    div(mag);
+  public Vector normalize() {
+    float mag = magnitude();
+    return div(mag);
   }
 
-  public void mult(double s) {
+  public Vector mult(float s) {
     this.x *= s;
     this.y *= s;
     this.z *= s;
+    return this;
   }
 
-  public void limit(double limit) {
-    double mag = magnitude();
+  public Vector limit(float limit) {
+    float mag = magnitude();
     if (mag > limit) {
       setMag(limit);
     }
+    return this;
   }
 
-  public Vector setMag(double mag) {
+  public Vector setMag(float mag) {
     normalize();
     mult(mag);
     return this;
@@ -150,5 +170,11 @@ public class Vector {
   public void set(float x, float y) {
     this.x = x;
     this.y = y;
+  }
+
+  public void set(float x, float y, float z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
   }
 }

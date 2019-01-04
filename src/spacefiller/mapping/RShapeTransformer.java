@@ -129,7 +129,7 @@ public class RShapeTransformer extends Transformable implements Draggable, Seria
   }
 
   @Override
-  public Draggable select(PVector point) {
+  public Draggable select(PVector point, boolean innerNodes) {
     Pin closest = selectClosestPin(point);
     if (closest.getPosition().dist(point) < 30) {
       return closest;

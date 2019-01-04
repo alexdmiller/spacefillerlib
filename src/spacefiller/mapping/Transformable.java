@@ -59,7 +59,7 @@ public abstract  class Transformable {
   public abstract void translate(float dx, float dy);
   public abstract void scale(float scale);
   public abstract void rotate(float theta);
-  public abstract Draggable select(PVector point);
+  public abstract Draggable select(PVector point, boolean innerNodes);
   public abstract Pin selectClosestPin(PVector point);
   public abstract PVector getCenter();
   public abstract PVector getRelativePoint(PVector point);

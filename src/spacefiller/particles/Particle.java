@@ -3,8 +3,8 @@ package spacefiller.particles;
 import spacefiller.Vector;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by miller on 9/28/16.
@@ -14,53 +14,83 @@ public class Particle {
   public Vector velocity;
   public boolean removeFlag = false;
   public Color color;
-  public int team;
-  public Vector lastPosition;
 
+  private Vector lastPosition;
+  private Vector forces;
+  private int team = -1;
   private Map<String, Object> userData;
+  private Set<String> tags;
   private boolean teleportFlag = false;
+  private ParticleSystem system;
+  private int life;
 
-  public Vector forces;
+  protected List<Spring> connections;
+  protected boolean staticBody;
 
-  public Particle(float x, float y, float z, Color color) {
-    this.position = new Vector(x, y, z);
+  public Particle(ParticleSystem system, Vector position, Color color) {
+    this.position = position;
     this.velocity = new Vector();
     this.forces = new Vector();
     this.color = color;
     this.userData = new HashMap<>();
+    this.connections = new ArrayList<>();
+    this.tags = new HashSet<>();
+    this.system = system;
   }
 
-  public Particle() {
-    this.position = new Vector();
-    this.velocity = new Vector();
-    this.forces = new Vector();
-    this.userData = new HashMap<>();
+  public void seek(Vector target) {
+    if (!staticBody) {
+      Vector delta = Vector.sub(target, position);
+      delta.mult(0.1f);
+      velocity.add(delta);
+    }
   }
 
-  public Particle(float x, float y, float z) {
-    this.position = new Vector(x, y, z);
-    this.velocity = new Vector();
-    this.forces = new Vector();
-    this.userData = new HashMap<>();
+  public Particle(ParticleSystem system, float x, float y, float z, Color color) {
+    this(system, new Vector(x, y, z), color);
   }
 
-  public Particle(float x, float y) {
-    this.position = new Vector(x, y);
-    this.velocity = new Vector();
-    this.forces = new Vector();
-    this.userData = new HashMap<>();
+  public Particle(ParticleSystem system) {
+    this(system, new Vector(), null);
   }
 
-  public Particle(Vector p) {
-    this.position = p;
-    this.velocity = new Vector();
-    this.forces = new Vector();
-    this.userData = new HashMap<>();
+  public Particle(ParticleSystem system, float x, float y, float z) {
+    this(system, new Vector(x, y, z), null);
+  }
+
+  public Particle(ParticleSystem system, float x, float y) {
+    this(system, new Vector(x, y), null);
+  }
+
+  public Particle(ParticleSystem system, Vector p) {
+    this(system, p, null);
+  }
+
+  public void addTag(String tag) {
+    tags.add(tag);
+  }
+
+  public boolean hasTag(String tag) {
+    return tags.contains(tag);
+  }
+
+  public int getTeam() {
+    return team;
+  }
+
+  public void setTeam(int team) {
+    system.registerTeam(this, team);
+    this.team = team;
   }
 
   public void update() {
     lastPosition = position.copy();
-    position.add(velocity);
+
+    if (!staticBody) {
+      position.add(velocity);
+    }
+
+    life++;
   }
 
   public void applyFriction(float friction) {
@@ -76,7 +106,9 @@ public class Particle {
   }
 
   public void applyForce(Vector force) {
-    forces.add(force);
+    if (!staticBody) {
+      forces.add(force);
+    }
   }
 
   public void setRandomVelocity(float min, float max, int dimension) {
@@ -109,4 +141,19 @@ public class Particle {
     teleportFlag = value;
   }
 
+  public void addConnection(Spring spring) {
+    connections.add(spring);
+  }
+
+  public List<Spring> getConnections() {
+    return connections;
+  }
+
+  public void setStatic(boolean value) {
+    this.staticBody = value;
+  }
+
+  public int getLife() {
+    return life;
+  }
 }

@@ -6,4 +6,5 @@ public interface Source {
   Vector generatePoint();
   int getSpawnRate();
   int getDimension();
+  int getTeam();
 }

@@ -7,6 +7,7 @@ public class PointSource implements Source {
   private Vector position;
   private int spawnRate;
   private int dimension;
+  private int team;
 
   public PointSource(float x, float y, int spawnRate, int dimension) {
     this(new Vector(x, y), spawnRate, dimension);
@@ -16,6 +17,7 @@ public class PointSource implements Source {
     this.position = position;
     this.spawnRate = spawnRate;
     this.dimension = dimension;
+    this.team = -1;
   }
 
   public Vector getPosition() {
@@ -36,6 +38,16 @@ public class PointSource implements Source {
 
   public int getDimension() {
     return dimension;
+  }
+
+  public PointSource setTeam(int team) {
+    this.team = team;
+    return this;
+  }
+
+  @Override
+  public int getTeam() {
+    return team;
   }
 
   @Override

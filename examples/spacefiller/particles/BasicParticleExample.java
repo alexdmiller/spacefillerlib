@@ -22,14 +22,14 @@ public class BasicParticleExample extends PApplet {
 
   public void setup() {
     system = new ParticleSystem(new Bounds(width, height), 8000, 50);
-    system.fillWithParticles(7000, 2, 6);
+    system.fillWithParticles(3000, 2, 6);
 //    system.createParticle(new Vector(400, 400), 2).velocity.zero();
 //    system.createParticle(new Vector(499, 400), 2).velocity.zero();
     system.addBehavior(new ReflectiveBounds());
 
-    flock = new FlockParticles(3, 1, 1, 50, 50, 50, 0.1f, 4);
+    flock = new FlockParticles(3, 1, 1, 20, 50, 50, 0.1f, 10);
     system.addBehavior(flock);
-    system.addBehavior(new ParticleFriction(0.7f));
+    system.addBehavior(new ParticleFriction(0.9f));
 //    shapeField = new FieldAttractParticles(FloatField3.ZERO);
 //    system.addBehavior(shapeField);
   }
@@ -57,8 +57,8 @@ public class BasicParticleExample extends PApplet {
     poly.addPoint(100, 400);
 
     //flock.setDesiredSeparation((x, y) -> poly.contains(x, y) ? 25 : 25);
-    flock.setMaxSpeed((x, y) -> poly.contains(x, y) ? 2 : 3);
-    flock.setMaxForce((x, y) -> poly.contains(x, y) ? 0.01f : 0.1f);
+//    flock.setMaxSpeed((x, y) -> poly.contains(x, y) ? 2 : 3);
+//    flock.setMaxForce((x, y) -> poly.contains(x, y) ? 0.01f : 0.1f);
 
     //shapeField.setAttractionField((x, y, z) -> poly.contains(x, y) && z < 50 ? 10 / z : 0);
     //println(poly.contains(200, 200));
@@ -75,7 +75,7 @@ public class BasicParticleExample extends PApplet {
     stroke(255);
     strokeWeight(3);
     for (Particle p : system.getParticles()) {
-      strokeWeight((float) p.velocity.magnitude() * (float) p.team + 1);
+      strokeWeight((float) p.getTeam() + 1);
       point(p.position.x, p.position.y);
     }
 

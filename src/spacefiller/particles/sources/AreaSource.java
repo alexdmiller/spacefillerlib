@@ -8,12 +8,14 @@ public class AreaSource implements Source {
   private Bounds bounds;
   private int spawnRate;
   private int dimension;
+  private int team;
 
   public AreaSource(Vector position, Bounds bounds, int spawnRate, int dimension) {
     this.position = position;
     this.bounds = bounds;
     this.spawnRate = spawnRate;
     this.dimension = dimension;
+    this.team = -1;
   }
 
   @Override
@@ -29,5 +31,15 @@ public class AreaSource implements Source {
   @Override
   public int getDimension() {
     return dimension;
+  }
+
+  public AreaSource setTeam(int team) {
+    this.team = team;
+    return this;
+  }
+
+  @Override
+  public int getTeam() {
+    return team;
   }
 }

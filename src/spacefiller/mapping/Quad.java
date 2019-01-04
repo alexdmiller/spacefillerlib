@@ -133,6 +133,6 @@ public class Quad implements Serializable {
   }
 
   public float getHeight() {
-    return topRight.position.x - topLeft.position.x;
+    return bottomLeft.position.y - topLeft.position.y;
   }
 }

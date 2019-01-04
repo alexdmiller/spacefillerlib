@@ -9,12 +9,19 @@ import spacefiller.particles.ParticleUtils;
 import java.util.List;
 
 public class FlockParticles extends ParticleBehavior {
+  public enum TeamMode {
+    ALL, DIFFERENT, SAME
+  }
+
   public float separationWeight = 1;
   public float alignmentWeight = 1;
   public float cohesionWeight = 1;
   public float alignmentThreshold = 100;
   public float cohesionThreshold = 100;
 
+  private TeamMode teamMode = TeamMode.ALL;
+
+  private String filterTag = null;
   private FloatField3 desiredSeparation;
   private FloatField2 separationField = FloatField2.ONE;
   private FloatField2 cohesionField = FloatField2.ONE;
@@ -45,75 +52,108 @@ public class FlockParticles extends ParticleBehavior {
     this(2, 1, 1, 30, 100, 100, 0.1f, 4);
   }
 
-  public void setMaxSpeed(FloatField2 maxSpeed) {
+  public FlockParticles setMaxSpeed(FloatField2 maxSpeed) {
     this.maxSpeed = maxSpeed;
+    return this;
   }
 
-  public void setMaxSpeed(float maxSpeed) {
+  public FlockParticles setMaxSpeed(float maxSpeed) {
     this.maxSpeed = new FloatField2.Constant(maxSpeed);
+    return this;
   }
-
 
   public FloatField3 getDesiredSeparation() {
     return desiredSeparation;
   }
 
-  public void setDesiredSeparation(FloatField3 desiredSeparation) {
+  public FlockParticles setDesiredSeparation(FloatField3 desiredSeparation) {
     this.desiredSeparation = desiredSeparation;
+    return this;
   }
 
-  public void setDesiredSeparation(float desiredSeparation) {
+  public FlockParticles setDesiredSeparation(float desiredSeparation) {
     this.desiredSeparation = new FloatField3.Constant(desiredSeparation);
+    return this;
   }
 
-  public void setCohesionThreshold(float cohesionThreshold) {
+  public FlockParticles setCohesionThreshold(float cohesionThreshold) {
     this.cohesionThreshold = cohesionThreshold;
+    return this;
   }
 
-  public void setCohesionWeight(float cohesionWeight) {
+  public FlockParticles setCohesionWeight(float cohesionWeight) {
     this.cohesionWeight = cohesionWeight;
+    return this;
   }
 
-  public void setAlignmentThreshold(float alignmentThreshold) {
+  public FlockParticles setAlignmentThreshold(float alignmentThreshold) {
     this.alignmentThreshold = alignmentThreshold;
+    return this;
   }
 
-  public void setSeparationField(FloatField2 separationField) {
+  public FlockParticles setSeparationField(FloatField2 separationField) {
     this.separationField = separationField;
+    return this;
   }
 
-  public void setCohesionField(FloatField2 cohesionField) {
+  public FlockParticles setCohesionField(FloatField2 cohesionField) {
     this.cohesionField = cohesionField;
+    return this;
   }
 
-  public void setAlignmentField(FloatField2 alignmentField) {
+  public FlockParticles setAlignmentField(FloatField2 alignmentField) {
     this.alignmentField = alignmentField;
+    return this;
   }
 
-  public void setMaxForce(FloatField2 maxForce) {
+  public FlockParticles setMaxForce(FloatField2 maxForce) {
     this.maxForce = maxForce;
+    return this;
   }
 
-  public void setMaxForce(float maxForce) {
+  public FlockParticles setMaxForce(float maxForce) {
     this.maxForce = new FloatField2.Constant(maxForce);
+    return this;
   }
 
   @Override
   public void apply(Particle p, List<Particle> particles) {
-    float localMaxSpeed = maxSpeed.get(p.position.x, p.position.y);
-    float localMaxForce = maxForce.get(p.position.x, p.position.y);
+    if (filterTag == null || p.hasTag(filterTag)) {
+      float localMaxSpeed = maxSpeed.get(p.position.x, p.position.y);
+      float localMaxForce = maxForce.get(p.position.x, p.position.y);
 
-    Vector sep = separate(p, particles, localMaxSpeed, localMaxForce);
-    Vector ali = align(p, particles, localMaxSpeed, localMaxForce);
-    Vector coh = cohesion(p, particles, localMaxSpeed, localMaxForce);
+      Vector sep = separate(p, particles, localMaxSpeed, localMaxForce);
+      Vector ali = align(p, particles, localMaxSpeed, localMaxForce);
+      Vector coh = cohesion(p, particles, localMaxSpeed, localMaxForce);
 
-    sep.mult(separationWeight * separationField.get(p.position.x, p.position.y));
-    ali.mult(alignmentWeight * alignmentField.get(p.position.x, p.position.y));
-    coh.mult(cohesionWeight * cohesionField.get(p.position.x, p.position.y));
+      sep.mult(separationWeight * separationField.get(p.position.x, p.position.y));
+      ali.mult(alignmentWeight * alignmentField.get(p.position.x, p.position.y));
+      coh.mult(cohesionWeight * cohesionField.get(p.position.x, p.position.y));
 
-    p.applyForce(sep);
-    p.applyForce(ali);
-    p.applyForce(coh);
+      p.applyForce(sep);
+      p.applyForce(ali);
+      p.applyForce(coh);
+    }
+  }
+
+  private boolean shouldCompareParticles(Particle p1, Particle p2) {
+    if (p1 == p2) {
+      return false;
+    }
+
+    if (teamMode == TeamMode.ALL) {
+      return true;
+    }
+
+    if (teamMode == TeamMode.DIFFERENT) {
+      return p1.getTeam() != p2.getTeam();
+    }
+
+    if (teamMode == TeamMode.SAME) {
+      return p1.getTeam() == p2.getTeam();
+    }
+
+    return true;
   }
 
   // Separation
@@ -124,15 +164,17 @@ public class FlockParticles extends ParticleBehavior {
     int count = 0;
     // For every boid in the system, check if it's too close
     for (Particle other : particles) {
-      float d = (float) p.position.dist(other.position);
-      float separation = desiredSeparation.get(p.position.x, p.position.y, p.team == other.team ? 1 : 2);
-      if (other != p && (d < separation)) {
-        // Calculate vector pointing away from neighbor
-        Vector diff = Vector.sub(p.position, other.position);
-        diff.normalize();
-        diff.div(d);        // Weight by distance
-        steer.add(diff);
-        count++;            // Keep track of how many
+      if (shouldCompareParticles(p, other)) {
+        float d = (float) p.position.dist(other.position);
+        float separation = desiredSeparation.get(p.position.x, p.position.y, p.getTeam() == other.getTeam() ? 1 : 2);
+        if (other != p && (d < separation)) {
+          // Calculate vector pointing away from neighbor
+          Vector diff = Vector.sub(p.position, other.position);
+          diff.normalize();
+          diff.div(d);        // Weight by distance
+          steer.add(diff);
+          count++;            // Keep track of how many
+        }
       }
     }
     // Average -- divide by how many
@@ -156,10 +198,12 @@ public class FlockParticles extends ParticleBehavior {
     Vector sum = new Vector(0, 0);
     int count = 0;
     for (Particle other : particles) {
-      float d = (float) p.position.dist(other.position);
-      if ((d > 0) && (d < alignmentThreshold)) {
-        sum.add(other.velocity);
-        count++;
+      if (shouldCompareParticles(p, other)) {
+        float d = (float) p.position.dist(other.position);
+        if ((d > 0) && (d < alignmentThreshold)) {
+          sum.add(other.velocity);
+          count++;
+        }
       }
     }
     if (count > 0) {
@@ -189,14 +233,13 @@ public class FlockParticles extends ParticleBehavior {
     Vector sum = new Vector(0, 0);   // Start with empty vector to accumulate all locations
     int count = 0;
     for (Particle other : particles) {
-      float d = (float) p.position.dist(other.position);
-
-      float cohesionThreshold2 = cohesionThreshold;
-
-
-      if ((d > 0) && (d < cohesionThreshold2)) {
-        sum.add(other.position); // Add position
-        count++;
+      if (shouldCompareParticles(p, other)) {
+        float d = (float) p.position.dist(other.position);
+        float cohesionThreshold2 = cohesionThreshold;
+        if ((d > 0) && (d < cohesionThreshold2)) {
+          sum.add(other.position); // Add position
+          count++;
+        }
       }
     }
     if (count > 0) {
@@ -208,7 +251,21 @@ public class FlockParticles extends ParticleBehavior {
     }
   }
 
-  interface FlockParameterField {
-    // TODO: determine interface. goal is to check polygon inclusion once for a particle.
+  public TeamMode getTeamMode() {
+    return teamMode;
+  }
+
+  public FlockParticles setTeamMode(TeamMode teamMode) {
+    this.teamMode = teamMode;
+    return this;
+  }
+
+  public String getFilterTag() {
+    return filterTag;
+  }
+
+  public FlockParticles setFilterTag(String filterTag) {
+    this.filterTag = filterTag;
+    return this;
   }
 }
