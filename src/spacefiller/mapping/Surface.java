@@ -206,7 +206,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
 
   @Override
   public Draggable select(PVector point, boolean innerNodes) {
-    if (innerNodes) {
+    if (showMesh) {
       for (Node node : postTransformGrid.getNodes()) {
         if (point.dist(node.position) < 30) {
           return node;

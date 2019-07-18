@@ -4,6 +4,8 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import spacefiller.graph.Graph;
 import spacefiller.graph.Node;
+import spacefiller.graph.renderer.GraphRenderer;
+import spacefiller.graph.renderer.SinGraphRenderer;
 
 public class NestedGraphInSurface extends PApplet {
   public static void main(String[] args) {
@@ -19,6 +21,7 @@ public class NestedGraphInSurface extends PApplet {
   private Surface surface;
   private Graph graph;
   private GraphTransformer graphTransformer;
+  private GraphRenderer renderer;
 
   @Override
   public void setup() {
@@ -32,6 +35,8 @@ public class NestedGraphInSurface extends PApplet {
 
     graphTransformer = new GraphTransformer(graph);
     surface.addChild(graphTransformer);
+
+    renderer = new SinGraphRenderer();
   }
 
   @Override
@@ -39,7 +44,7 @@ public class NestedGraphInSurface extends PApplet {
     background(0);
 
     surface.drawToCanvas(graphics -> {
-      graphics.ellipse(400, 400, 100, 100);
+      renderer.render(graphics, graph);
     });
   }
 }

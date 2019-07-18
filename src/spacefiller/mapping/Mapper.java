@@ -15,12 +15,16 @@ public class Mapper {
   public static final int ACTIVE_COLOR = 0xFFFFFFFF;
   public static final int DESELECTED_COLOR = 0x33FFFFFF;
 
-  private static final char DRILL_OUT = 'u';
-  private static final char WARP_MODE = 'e';
-  private static final char ROTATE_MODE = 'r';
-  private static final char SCALE_MODE = 's';
-  private static final char TRANSLATE_MODE = 't';
-  private static final char SHOW_MESH = 'm';
+
+
+  protected static final char DRILL_OUT = 'u';
+  protected static final char WARP_MODE = 'e';
+  protected static final char ROTATE_MODE = 'r';
+  protected static final char SCALE_MODE = 's';
+  protected static final char TRANSLATE_MODE = 't';
+  protected static final char SHOW_MESH = 'm';
+  protected static final char FORCE_DRAG = 'f';
+  protected static final char EDIT_MESH = 'n';
 
   private Stack<List<Transformable>> transformables;
   private List<Drawable> drawables;
@@ -42,6 +46,19 @@ public class Mapper {
     transformables.add(new ArrayList<>());
 
     drawables = new ArrayList<>();
+
+    System.out.println();
+    System.out.println("SPACEFILLER MAPPER");
+    System.out.println("==================");
+    System.out.println();
+    System.out.println("ctrl+click" + "\t drill into surface");
+    System.out.println(DRILL_OUT + "\t\t\t drill out");
+    System.out.println(WARP_MODE + "+drag" + "\t\t warp");
+    System.out.println(ROTATE_MODE + "+drag\t\t rotate");
+    System.out.println(TRANSLATE_MODE + "+drag\t\t translate");
+    System.out.println(SHOW_MESH + "\t\t\t toggle mesh");
+    System.out.println(FORCE_DRAG + "\t\t\t force drag");
+    System.out.println();
   }
 
   public void mouseEvent(MouseEvent event) {

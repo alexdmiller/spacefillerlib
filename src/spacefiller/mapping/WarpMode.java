@@ -74,13 +74,13 @@ public class WarpMode extends EditMode {
 
   @Override
   public void keyEvent(KeyEvent keyEvent) {
-    if (keyEvent.getKey() == 'f') {
+    if (keyEvent.getKey() == Mapper.FORCE_DRAG) {
       if (keyEvent.getAction() == KeyEvent.PRESS) {
         forceDrag = true;
       } else if (keyEvent.getAction() == KeyEvent.RELEASE) {
         forceDrag = false;
       }
-    } else if (keyEvent.getKey() == 'n') {
+    } else if (keyEvent.getKey() == Mapper.EDIT_MESH) {
       if (keyEvent.getAction() == KeyEvent.PRESS) {
         innerNodes = true;
       } else if (keyEvent.getAction() == KeyEvent.RELEASE) {
