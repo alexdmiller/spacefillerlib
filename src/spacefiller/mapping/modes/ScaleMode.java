@@ -17,27 +17,30 @@ public class ScaleMode extends EditMode {
   public void mouseEvent(MouseEvent e) {
     PVector mouse = new PVector(e.getX(), e.getY());
     Transformable target = mooYoung.getTransformTarget();
-    mouse = target.getParentRelativePoint(mouse);
 
-    switch (e.getAction()) {
-      case MouseEvent.PRESS:
-        lastMouse = mouse;
-        break;
+    if (target != null) {
+      mouse = target.getParentRelativePoint(mouse);
 
-      case MouseEvent.DRAG:
-        if (target != null) {
-          PVector center = target.getCenter();
-
-          float lastDistance = center.dist(lastMouse);
-          float currentDistance = center.dist(mouse);
-
-          float scale = currentDistance / lastDistance;
-          target.scale(scale);
-
+      switch (e.getAction()) {
+        case MouseEvent.PRESS:
           lastMouse = mouse;
-        }
+          break;
 
-        break;
+        case MouseEvent.DRAG:
+          if (target != null) {
+            PVector center = target.getCenter();
+
+            float lastDistance = center.dist(lastMouse);
+            float currentDistance = center.dist(mouse);
+
+            float scale = currentDistance / lastDistance;
+            target.scale(scale);
+
+            lastMouse = mouse;
+          }
+
+          break;
+      }
     }
   }
 }

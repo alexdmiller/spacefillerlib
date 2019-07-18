@@ -96,6 +96,7 @@ public class Grid extends Graph {
 
   @Override
   public void scale(float scale) {
+    super.scale(scale);
     for (Node node : boundingQuad.getNodes()) {
       node.position.mult(scale);
     }

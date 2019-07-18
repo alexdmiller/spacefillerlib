@@ -7,29 +7,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5ea7cf0-83ce-442b-98a9-66ae154f2058" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/examples/spacefiller/mapping/BasicGraphTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/examples/spacefiller/mapping/BasicMappingTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/spacefiller/mapping/Surface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/spacefiller/mapping/NestedGraphInSurface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/spacefiller/mapping/PerspectiveOptimizerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/examples/spacefiller/mapping/PerspectiveOptimizerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/spacefiller/particles/BasicParticleExample.java" beforeDir="false" afterPath="$PROJECT_DIR$/examples/spacefiller/particles/BasicParticleExample.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/spacefillerlib_jar/spacefillerlib.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/spacefillerlib_jar/spacefillerlib.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/graph/Graph.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/graph/Graph.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/graph/GridUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/graph/GridUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/GraphTransformer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/GraphTransformer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/Grid.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/Grid.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/PerspectiveOptimizer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/PerspectiveOptimizer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/PerspectiveOptimizerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/PerspectiveOptimizerTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/particles/BasicParticleExample.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/particles/BasicParticleExample.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/particles/ParticleSystem$ParticleRunnable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/particles/ParticleSystem$ParticleRunnable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/particles/ParticleSystem.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/particles/ParticleSystem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/graph/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/graph/Graph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/graph/GridUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/graph/GridUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/spacefiller/mapping/BasicMappingTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/examples/spacefiller/mapping/BasicMappingTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/Surface.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/Surface.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/GraphTransformer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/GraphTransformer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/Grid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/PerspectiveOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/PerspectiveOptimizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/Transformable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/Transformable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/particles/ParticleSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/particles/ParticleSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/Mapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/Mapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/Surface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/Surface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/modes/RotateMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/modes/RotateMode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/modes/ScaleMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/modes/ScaleMode.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,8 +31,8 @@
       <file leaf-file-name="Surface.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/Surface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-97">
-              <caret line="284" column="14" selection-start-line="284" selection-start-column="14" selection-end-line="284" selection-end-column="14" />
+            <state relative-caret-position="352">
+              <caret line="193" column="3" lean-forward="true" selection-start-line="193" selection-start-column="3" selection-end-line="193" selection-end-column="3" />
               <folding>
                 <element signature="e#1533#1534#0" expanded="true" />
                 <element signature="e#1568#1569#0" expanded="true" />
@@ -59,12 +46,6 @@
                 <element signature="e#2156#2157#0" expanded="true" />
                 <element signature="e#2199#2200#0" expanded="true" />
                 <element signature="e#2239#2240#0" expanded="true" />
-                <element signature="e#5402#5403#0" expanded="true" />
-                <element signature="e#5427#5428#0" expanded="true" />
-                <element signature="e#5494#5495#0" expanded="true" />
-                <element signature="e#5538#5539#0" expanded="true" />
-                <element signature="e#5582#5583#0" expanded="true" />
-                <element signature="e#5607#5608#0" expanded="true" />
                 <element signature="e#10358#10359#0" expanded="true" />
                 <element signature="e#10435#10436#0" expanded="true" />
                 <element signature="e#12287#12288#0" expanded="true" />
@@ -74,23 +55,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Transformable.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/Transformable.java">
+      <file leaf-file-name="ScaleMode.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/modes/ScaleMode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-177">
-              <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+            <state relative-caret-position="418">
+              <caret line="36" column="15" lean-forward="true" selection-start-line="36" selection-start-column="15" selection-end-line="36" selection-end-column="15" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Mapper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/Mapper.java">
+      <file leaf-file-name="NestedGraphInSurface.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/examples/spacefiller/mapping/NestedGraphInSurface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="634">
-              <caret line="58" column="26" selection-start-line="58" selection-start-column="26" selection-end-line="58" selection-end-column="26" />
+            <state relative-caret-position="389">
+              <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
               <folding>
-                <element signature="e#1356#1357#0" expanded="true" />
-                <element signature="e#1392#1393#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -99,17 +79,43 @@
       <file leaf-file-name="Grid.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/Grid.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="769">
-              <caret line="105" column="24" lean-forward="true" selection-start-line="105" selection-start-column="24" selection-end-line="105" selection-end-column="24" />
+            <state relative-caret-position="235">
+              <caret line="96" column="11" lean-forward="true" selection-start-line="96" selection-start-column="11" selection-end-line="96" selection-end-column="11" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GraphTransformer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RotateMode.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/modes/RotateMode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="356">
+              <caret line="30" column="32" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Mapper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/Mapper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2692">
+              <caret line="155" column="7" lean-forward="true" selection-start-line="155" selection-start-column="7" selection-end-line="155" selection-end-column="7" />
+              <folding>
+                <element signature="e#1356#1357#0" expanded="true" />
+                <element signature="e#1392#1393#0" expanded="true" />
+                <element signature="e#2356#2357#0" expanded="true" />
+                <element signature="e#2384#2385#0" expanded="true" />
+                <element signature="e#2439#2440#0" expanded="true" />
+                <element signature="e#2479#2480#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GraphTransformer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/GraphTransformer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="98" column="20" lean-forward="true" selection-start-line="98" selection-start-column="20" selection-end-line="98" selection-end-column="20" />
+            <state relative-caret-position="374">
+              <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#543#544#0" expanded="true" />
@@ -128,8 +134,8 @@
       <file leaf-file-name="BasicMappingTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/examples/spacefiller/mapping/BasicMappingTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="467">
-              <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+            <state relative-caret-position="78">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -140,8 +146,8 @@
       <file leaf-file-name="BasicGraphTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/examples/spacefiller/mapping/BasicGraphTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="27" column="41" lean-forward="true" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
+            <state relative-caret-position="477">
+              <caret line="31" column="46" lean-forward="true" selection-start-line="25" selection-end-line="31" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -149,29 +155,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GraphWobbler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/spacefiller/graph/GraphWobbler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Node.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/spacefiller/graph/Node.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Graph.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/spacefiller/graph/Graph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="103" column="14" selection-start-line="103" selection-start-column="14" selection-end-line="103" selection-end-column="14" />
+            <state relative-caret-position="129">
+              <caret line="94" column="5" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
               <folding>
                 <element signature="e#454#455#0" expanded="true" />
                 <element signature="e#476#477#0" expanded="true" />
@@ -193,9 +181,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>staticBody</find>
-      <find>forces</find>
-      <find>color</find>
       <find>steer</find>
       <find>getTeam</find>
       <find>createPooo</find>
@@ -203,7 +188,6 @@
       <find>flag</find>
       <find>set</find>
       <find>removeFlag</find>
-      <find>add</find>
       <find>createParticle</find>
       <find>update</find>
       <find>teleportFlag</find>
@@ -220,9 +204,13 @@
       <find>getBounding</find>
       <find>showUI</find>
       <find>@Override</find>
-      <find>translate</find>
       <find>isPointOver</find>
       <find>isPoint</find>
+      <find>setShowUI</find>
+      <find>add</find>
+      <find>n</find>
+      <find>updatePerspective</find>
+      <find>translate</find>
     </findStrings>
     <replaceStrings>
       <replace>Vector</replace>
@@ -236,7 +224,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/spacefiller/graph/renderer/CrosshairGraphRenderer.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/graph/renderer/DottedLineGraphRenderer.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/mapping/Pin.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/graph/NodeContainer.java" />
@@ -246,13 +233,10 @@
         <option value="$PROJECT_DIR$/src/spacefiller/mapping/modes/Mode.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/mapping/modes/EditMode.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/mapping/modes/NoOpMode.java" />
-        <option value="$PROJECT_DIR$/src/spacefiller/mapping/modes/ScaleMode.java" />
-        <option value="$PROJECT_DIR$/src/spacefiller/mapping/modes/RotateMode.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/mapping/modes/TranslateMode.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/particles/behaviors/ShapeBounds.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/color/SmoothColorTheme.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/mapping/RShapePin.java" />
-        <option value="$PROJECT_DIR$/src/spacefiller/mapping/Mapper.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/mapping/PerspectiveOptimizer.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/shader/GeometryShader.java" />
         <option value="$PROJECT_DIR$/examples/spacefiller/mapping/PerspectiveOptimizerTest.java" />
@@ -281,12 +265,16 @@
         <option value="$PROJECT_DIR$/src/spacefiller/graph/GridUtils.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/mapping/Transformable.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/mapping/GridTransformer.java" />
-        <option value="$PROJECT_DIR$/src/spacefiller/graph/Graph.java" />
-        <option value="$PROJECT_DIR$/src/spacefiller/mapping/Grid.java" />
-        <option value="$PROJECT_DIR$/src/spacefiller/mapping/Surface.java" />
-        <option value="$PROJECT_DIR$/examples/spacefiller/mapping/BasicMappingTest.java" />
         <option value="$PROJECT_DIR$/examples/spacefiller/mapping/BasicGraphTest.java" />
+        <option value="$PROJECT_DIR$/examples/spacefiller/mapping/BasicMappingTest.java" />
+        <option value="$PROJECT_DIR$/examples/spacefiller/mapping/NestedGraphInSurface.java" />
+        <option value="$PROJECT_DIR$/src/spacefiller/mapping/Mapper.java" />
+        <option value="$PROJECT_DIR$/src/spacefiller/graph/Graph.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/mapping/GraphTransformer.java" />
+        <option value="$PROJECT_DIR$/src/spacefiller/mapping/Surface.java" />
+        <option value="$PROJECT_DIR$/src/spacefiller/mapping/modes/ScaleMode.java" />
+        <option value="$PROJECT_DIR$/src/spacefiller/mapping/Grid.java" />
+        <option value="$PROJECT_DIR$/src/spacefiller/mapping/modes/RotateMode.java" />
       </list>
     </option>
   </component>
@@ -300,7 +288,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="23" />
+    <option name="x" value="9" />
+    <option name="y" value="110" />
     <option name="width" value="1920" />
     <option name="height" value="1177" />
   </component>
@@ -398,7 +387,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.BasicMappingTest (1)">
+  <component name="RunManager" selected="Application.NestedGraphInSurface">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
     </configuration>
@@ -437,6 +426,17 @@
     </configuration>
     <configuration name="GeometryShaderExample" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="spacefiller.shader.GeometryShaderExample" />
+      <module name="spacefillerlib" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="spacefiller.particles.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
+    <configuration name="NestedGraphInSurface" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="spacefiller.mapping.NestedGraphInSurface" />
       <module name="spacefillerlib" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <extension name="coverage">
@@ -509,6 +509,7 @@
       <item itemvalue="Application.PerspectiveOptimizerTest" />
       <item itemvalue="Application.BasicMappingTest" />
       <item itemvalue="Application.BasicMappingTest (1)" />
+      <item itemvalue="Application.NestedGraphInSurface" />
       <item itemvalue="Application.BasicParticleExample" />
     </list>
     <recent_temporary>
@@ -601,12 +602,12 @@
       <workItem from="1563313907808" duration="20000" />
       <workItem from="1563314294044" duration="2526000" />
       <workItem from="1563398148732" duration="13000" />
-      <workItem from="1563400061021" duration="10158000" />
+      <workItem from="1563400061021" duration="16417000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="459727000" />
+    <option name="totallyTimeSpent" value="465986000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1177" extended-state="6" />
@@ -658,20 +659,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/behaviors/RepelParticles.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="27" column="3" lean-forward="true" selection-start-line="27" selection-start-column="3" selection-end-line="27" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/Vector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2706">
-          <caret line="135" column="11" selection-start-line="135" selection-start-column="11" selection-end-line="135" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/Spring.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
@@ -868,20 +855,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/modes/ScaleMode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/modes/RotateMode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/modes/NoOpMode.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="110">
@@ -959,24 +932,105 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/Grid.java">
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/Transformable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="769">
-          <caret line="105" column="24" lean-forward="true" selection-start-line="105" selection-start-column="24" selection-end-line="105" selection-end-column="24" />
+        <state relative-caret-position="267">
+          <caret line="22" column="19" lean-forward="true" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/Transformable.java">
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/graph/renderer/BasicGraphRenderer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-177">
-          <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+        <state relative-caret-position="118">
+          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/spacefiller/mapping/BasicGraphTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="477">
+          <caret line="31" column="46" lean-forward="true" selection-start-line="25" selection-end-line="31" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/spacefiller/mapping/BasicMappingTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/spacefiller/mapping/NestedGraphInSurface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="389">
+          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/Mapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2692">
+          <caret line="155" column="7" lean-forward="true" selection-start-line="155" selection-start-column="7" selection-end-line="155" selection-end-column="7" />
+          <folding>
+            <element signature="e#1356#1357#0" expanded="true" />
+            <element signature="e#1392#1393#0" expanded="true" />
+            <element signature="e#2356#2357#0" expanded="true" />
+            <element signature="e#2384#2385#0" expanded="true" />
+            <element signature="e#2439#2440#0" expanded="true" />
+            <element signature="e#2479#2480#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/graph/Graph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="94" column="5" selection-start-line="94" selection-start-column="5" selection-end-line="94" selection-end-column="5" />
+          <folding>
+            <element signature="e#454#455#0" expanded="true" />
+            <element signature="e#476#477#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/modes/ScaleMode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="36" column="15" lean-forward="true" selection-start-line="36" selection-start-column="15" selection-end-line="36" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/GraphTransformer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#543#544#0" expanded="true" />
+            <element signature="e#556#557#0" expanded="true" />
+            <element signature="e#730#731#0" expanded="true" />
+            <element signature="e#763#764#0" expanded="true" />
+            <element signature="e#607#608#0" expanded="true" />
+            <element signature="e#691#692#0" expanded="true" />
+            <element signature="e#2284#2285#0" expanded="true" />
+            <element signature="e#2305#2306#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/Surface.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-97">
-          <caret line="284" column="14" selection-start-line="284" selection-start-column="14" selection-end-line="284" selection-end-column="14" />
+        <state relative-caret-position="352">
+          <caret line="193" column="3" lean-forward="true" selection-start-line="193" selection-start-column="3" selection-end-line="193" selection-end-column="3" />
           <folding>
             <element signature="e#1533#1534#0" expanded="true" />
             <element signature="e#1568#1569#0" expanded="true" />
@@ -990,12 +1044,6 @@
             <element signature="e#2156#2157#0" expanded="true" />
             <element signature="e#2199#2200#0" expanded="true" />
             <element signature="e#2239#2240#0" expanded="true" />
-            <element signature="e#5402#5403#0" expanded="true" />
-            <element signature="e#5427#5428#0" expanded="true" />
-            <element signature="e#5494#5495#0" expanded="true" />
-            <element signature="e#5538#5539#0" expanded="true" />
-            <element signature="e#5582#5583#0" expanded="true" />
-            <element signature="e#5607#5608#0" expanded="true" />
             <element signature="e#10358#10359#0" expanded="true" />
             <element signature="e#10435#10436#0" expanded="true" />
             <element signature="e#12287#12288#0" expanded="true" />
@@ -1004,63 +1052,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/spacefiller/mapping/BasicMappingTest.java">
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/Grid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="467">
-          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="235">
+          <caret line="96" column="11" lean-forward="true" selection-start-line="96" selection-start-column="11" selection-end-line="96" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/graph/Graph.java">
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/modes/RotateMode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="103" column="14" selection-start-line="103" selection-start-column="14" selection-end-line="103" selection-end-column="14" />
-          <folding>
-            <element signature="e#454#455#0" expanded="true" />
-            <element signature="e#476#477#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/spacefiller/mapping/BasicGraphTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="27" column="41" lean-forward="true" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/Mapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="634">
-          <caret line="58" column="26" selection-start-line="58" selection-start-column="26" selection-end-line="58" selection-end-column="26" />
-          <folding>
-            <element signature="e#1356#1357#0" expanded="true" />
-            <element signature="e#1392#1393#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/mapping/GraphTransformer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="98" column="20" lean-forward="true" selection-start-line="98" selection-start-column="20" selection-end-line="98" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#543#544#0" expanded="true" />
-            <element signature="e#556#557#0" expanded="true" />
-            <element signature="e#730#731#0" expanded="true" />
-            <element signature="e#763#764#0" expanded="true" />
-            <element signature="e#607#608#0" expanded="true" />
-            <element signature="e#691#692#0" expanded="true" />
-            <element signature="e#2284#2285#0" expanded="true" />
-            <element signature="e#2305#2306#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="356">
+          <caret line="30" column="32" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
         </state>
       </provider>
     </entry>

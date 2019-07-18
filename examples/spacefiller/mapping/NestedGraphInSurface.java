@@ -3,20 +3,22 @@ package spacefiller.mapping;
 import processing.core.PApplet;
 import spacefiller.graph.Graph;
 import spacefiller.graph.GridUtils;
+import spacefiller.graph.Node;
 
-public class BasicMappingTest extends PApplet {
+public class NestedGraphInSurface extends PApplet {
   public static void main(String[] args) {
-    main("spacefiller.mapping.BasicMappingTest");
+    main("spacefiller.mapping.NestedGraphInSurface");
   }
-
-  private Mapper mapper;
-  private Surface surface;
 
   @Override
   public void settings() {
     size(1920, 1080, P3D);
   }
 
+  private Mapper mapper;
+  private Surface surface;
+  private Graph graph;
+  private GraphTransformer graphTransformer;
 
   @Override
   public void setup() {
@@ -26,6 +28,14 @@ public class BasicMappingTest extends PApplet {
     surface.createCanvas(this);
 
     mapper.addTransformable(surface);
+
+    graph = new Graph();
+    Node n1 = graph.createNode(200, 200);
+    Node n2 = graph.createNode(200, 250);
+    graph.createEdge(n1, n2);
+
+    graphTransformer = new GraphTransformer(graph);
+    surface.addChild(graphTransformer);
   }
 
   @Override
@@ -33,8 +43,7 @@ public class BasicMappingTest extends PApplet {
     background(0);
 
     surface.getCanvas().beginDraw();
-    surface.getCanvas().fill(255, 0 , 250);
-    surface.getCanvas().ellipse(250, 250, 300, 300);
+    surface.getCanvas().background(0);
     surface.renderUI(getGraphics());
     surface.getCanvas().endDraw();
 

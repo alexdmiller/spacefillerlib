@@ -16,8 +16,14 @@ import static processing.core.PConstants.RIGHT;
 import static processing.core.PConstants.SCREEN;
 
 public class Mapper {
-  public static final int ACTIVE_COLOR = 0xFFFF0000;
+  public static final int ACTIVE_COLOR = 0xFFFFFFFF;
   public static final int DESELECTED_COLOR = 0x33FFFFFF;
+
+  private static final char DRILL_OUT = 'u';
+  private static final char WARP_MODE = 'e';
+  private static final char ROTATE_MODE = 'r';
+  private static final char SCALE_MODE = 's';
+  private static final char TRANSLATE_MODE = 't';
 
   private Stack<List<Transformable>> transformables;
   private Transformable activeTransformable;
@@ -53,15 +59,17 @@ public class Mapper {
     if (event.getAction() == MouseEvent.PRESS) {
       PVector mouse = new PVector(event.getX(), event.getY());
 
-      for (int i = 0; i < getCurrentActiveLayer().size(); i++) {
-        Transformable transformable = getCurrentActiveLayer().get(i);
-        PVector local = transformable.getParentRelativePoint(mouse);
-        if (transformable.isPointOver(local)) {
-          if (event.isControlDown()) {
-            drillIn(transformable);
-            return;
-          } else {
-            setActiveTransformable(transformable);
+      if (getCurrentActiveLayer() != null) {
+        for (int i = 0; i < getCurrentActiveLayer().size(); i++) {
+          Transformable transformable = getCurrentActiveLayer().get(i);
+          PVector local = transformable.getParentRelativePoint(mouse);
+          if (transformable.isPointOver(local)) {
+            if (event.isControlDown()) {
+              drillIn(transformable);
+              return;
+            } else {
+              setActiveTransformable(transformable);
+            }
           }
         }
       }
@@ -107,7 +115,10 @@ public class Mapper {
       t.setShowUI(false);
     }
 
-    transformables.pop();
+    if (transformables.size() > 1) {
+      transformables.pop();
+    }
+
     clearActiveTransformable();
 
     for (Transformable t : getCurrentActiveLayer()) {
@@ -132,15 +143,15 @@ public class Mapper {
 
   public void keyEvent(KeyEvent keyEvent) {
     if (keyEvent.getAction() == KeyEvent.PRESS) {
-      if (keyEvent.getKey() == 'u') {
+      if (keyEvent.getKey() == DRILL_OUT) {
         drillOut();
-      } else if (keyEvent.getKey() == 'e') {
+      } else if (keyEvent.getKey() == WARP_MODE) {
         mode = new WarpMode(this);
-      } else if (keyEvent.getKey() == 'r') {
+      } else if (keyEvent.getKey() == ROTATE_MODE) {
         mode = new RotateMode(this);
-      } else if (keyEvent.getKey() == 's') {
+      } else if (keyEvent.getKey() == SCALE_MODE) {
         mode = new ScaleMode(this);
-      } else if (keyEvent.getKey() == 't') {
+      } else if (keyEvent.getKey() == TRANSLATE_MODE) {
         mode = new TranslateMode(this);
       }
     } else if (keyEvent.getAction() == KeyEvent.RELEASE) {

@@ -54,7 +54,6 @@ public class GraphTransformer extends Transformable implements Draggable {
   }
 
 
-
   @Override
   public Draggable select(PVector point, boolean innerNodes) {
     // first, see if the point is over a node

@@ -17,24 +17,27 @@ public class RotateMode extends EditMode {
   public void mouseEvent(MouseEvent e) {
     PVector mouse = new PVector(e.getX(), e.getY());
     Transformable target = mooYoung.getTransformTarget();
-    mouse = target.getParentRelativePoint(mouse);
 
-    switch (e.getAction()) {
-      case MouseEvent.PRESS:
-        lastMouse = mouse;
-        break;
+    if (target != null) {
+      mouse = target.getParentRelativePoint(mouse);
 
-      case MouseEvent.DRAG:
-        if (target != null) {
-          PVector center = target.getCenter();
-
-          float initialAngle = (float) Math.atan2(center.y - lastMouse.y, center.x - lastMouse.x);
-          float currentAngle = (float) Math.atan2(center.y - mouse.y, center.x - mouse.x);
-
-          target.rotate(currentAngle - initialAngle);
+      switch (e.getAction()) {
+        case MouseEvent.PRESS:
           lastMouse = mouse;
-        }
-        break;
+          break;
+
+        case MouseEvent.DRAG:
+          if (target != null) {
+            PVector center = target.getCenter();
+
+            float initialAngle = (float) Math.atan2(center.y - lastMouse.y, center.x - lastMouse.x);
+            float currentAngle = (float) Math.atan2(center.y - mouse.y, center.x - mouse.x);
+
+            target.rotate(currentAngle - initialAngle);
+            lastMouse = mouse;
+          }
+          break;
+      }
     }
   }
 }

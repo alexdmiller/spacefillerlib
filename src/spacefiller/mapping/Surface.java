@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static spacefiller.mapping.Mapper.ACTIVE_COLOR;
+import static spacefiller.mapping.Mapper.DESELECTED_COLOR;
+
 public class Surface extends Transformable implements Draggable, NodeListener, Serializable {
   // This grid stores the original node positions, before a perspective transformation
   // is applied.
@@ -33,6 +36,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
   private WarpPerspective currentPerspective;
 
   private transient PGraphics canvas;
+  private transient BasicGraphRenderer graphRenderer;
 
   public Surface(Grid grid) {
     this.postTransformGrid = grid;
@@ -47,6 +51,8 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
     graphTransformer = new GraphTransformer(postTransformGrid);
 
     recomputeNodesFromQuad();
+
+    graphRenderer = new BasicGraphRenderer(1);
   }
 
   public void createCanvas(PApplet parent) {
@@ -77,7 +83,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
     return postToPre.get(postNode);
   }
 
-  public void recomputeNodesFromQuad() {
+  public PerspectiveTransform updatePerspective() {
     Quad postQuad = postTransformGrid.getBoundingQuad();
     Quad preQuad = preTransformGrid.getBoundingQuad();
 
@@ -92,6 +98,12 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
         postQuad.getBottomLeft().position.x, postQuad.getBottomLeft().position.y);
 
     currentPerspective = new WarpPerspective(transform);
+
+    return transform;
+  }
+
+  public void recomputeNodesFromQuad() {
+    PerspectiveTransform transform = updatePerspective();
 
     float[] srcPoints = new float[postTransformGrid.getNodes().size() * 2];
 
@@ -178,16 +190,19 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
   @Override
   public void translate(float dx, float dy) {
     graphTransformer.translate(dx, dy);
+    updatePerspective();
   }
 
   @Override
   public void scale(float scale) {
     graphTransformer.scale(scale);
+    updatePerspective();
   }
 
   @Override
   public void rotate(float theta) {
     graphTransformer.rotate(theta);
+    updatePerspective();
   }
 
   @Override
@@ -284,8 +299,9 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
   @Override
   public void renderUI(PGraphics graphics) {
     if (showUI) {
+      int color = active ? ACTIVE_COLOR : DESELECTED_COLOR;
       graphics.noFill();
-      graphics.stroke(active ? 0xffffffff : 0x33ffffff);
+      graphics.stroke(color);
       graphics.strokeWeight(1);
       graphics.beginShape();
       for (Node node : postTransformGrid.getBoundingQuad().getNodes()) {
@@ -299,7 +315,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
         graphics.ellipse(node.getPosition().x, node.getPosition().y, 10, 10);
       }
 
-      GraphRenderer graphRenderer = new BasicGraphRenderer(1);
+      graphRenderer.setColor(color);
       graphRenderer.render(canvas, preTransformGrid);
     }
 
