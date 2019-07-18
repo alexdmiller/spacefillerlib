@@ -1,13 +1,12 @@
 package spacefiller.graph;
 
-import processing.core.PGraphics;
-import spacefiller.mapping.GraphTransformer;
+import spacefiller.mapping.Surface;
 import spacefiller.mapping.Grid;
 import spacefiller.mapping.Quad;
 
 public class GridUtils {
-  public static GraphTransformer createGraphTransformer(int rows, int cols, float spacing) {
-    return new GraphTransformer(createTriangleGrid(rows, cols, spacing));
+  public static Surface createGraphTransformer(int rows, int cols, float spacing) {
+    return new Surface(createTriangleGrid(rows, cols, spacing));
   }
 
   public static Grid createSimpleGrid(int rows, int cols, float xSpacing, float ySpacing) {
@@ -44,6 +43,10 @@ public class GridUtils {
     cols += 1;
     Node[][] nodes = new Node[rows][cols];
     Grid grid = new Grid();
+
+    grid.setRows(rows);
+    grid.setColumns(cols);
+    grid.setCellSize(spacing);
 
     for (int row = 0; row < rows; row += 2) {
       float yPos = row/2 * spacing;

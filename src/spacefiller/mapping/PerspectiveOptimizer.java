@@ -1,20 +1,16 @@
 package spacefiller.mapping;
 
 import processing.core.PVector;
-import spacefiller.Vector;
 
 import javax.media.jai.PerspectiveTransform;
 import javax.media.jai.WarpPerspective;
-import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class PerspectiveOptimizer {
   private static float bump = 0.01f;
 
   public static void optimize(
-      GraphTransformer transformer,
+      Surface transformer,
       PVector[] preTransformPoints,
       PVector[] postTransformPoints,
       int iterations) {
@@ -68,7 +64,7 @@ public class PerspectiveOptimizer {
   }
 
   public static float score(
-      GraphTransformer transformer,
+      Surface transformer,
       PVector[] preTransformPoints,
       PVector[] postTransformPoints) {
     return score(transformer.getPerspective(), preTransformPoints, postTransformPoints);

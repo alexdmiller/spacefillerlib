@@ -78,4 +78,40 @@ public class Graph implements Serializable {
     float d = (float) Math.random();
     return new PVector(e.n1.position.x + delta.x * d, e.n1.position.y + delta.y * d);
   }
+
+  public PVector computeCentroid() {
+    PVector center = new PVector(0, 0);
+    for (Node n : nodes) {
+      center.add(n.position);
+    }
+    center.div(nodes.size());
+    return center;
+  }
+
+  public void translate(float dx, float dy) {
+    for (Node node : nodes) {
+      node.position.x += dx;
+      node.position.y += dy;
+    }
+  }
+
+  public void scale(float scale) {
+    for (Node node : nodes) {
+      node.position.mult(scale);
+    }
+  }
+
+  public void rotate(float theta) {
+    for (Node node : nodes) {
+      rotate(theta, node);
+    }
+  }
+
+  protected void rotate(float theta, Node node) {
+    PVector p = node.getPosition();
+    float newX = (float) (p.x * Math.cos(theta) - p.y * Math.sin(theta));
+    float newY = (float) (p.x * Math.sin(theta) + p.y * Math.cos(theta));
+    p.x = newX;
+    p.y = newY;
+  }
 }

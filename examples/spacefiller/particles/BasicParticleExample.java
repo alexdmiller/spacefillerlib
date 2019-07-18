@@ -66,11 +66,7 @@ public class BasicParticleExample extends PApplet {
 //    System.out.println(shape.contains(200, 200));
 //    System.out.println(shape.contains(500, 200));
 
-    try {
-      system.update();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    system.update();
 
     stroke(255);
     strokeWeight(3);

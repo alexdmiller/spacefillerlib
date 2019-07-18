@@ -59,8 +59,13 @@ public abstract  class Transformable {
   public abstract void translate(float dx, float dy);
   public abstract void scale(float scale);
   public abstract void rotate(float theta);
+
+  // return anything that is draggable, pin or otherwise
   public abstract Draggable select(PVector point, boolean innerNodes);
+
+  // return just the closest pin
   public abstract Pin selectClosestPin(PVector point);
+
   public abstract PVector getCenter();
   public abstract PVector getRelativePoint(PVector point);
   public abstract boolean isPointOver(PVector point);

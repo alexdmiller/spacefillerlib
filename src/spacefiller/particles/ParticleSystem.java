@@ -223,7 +223,7 @@ public class ParticleSystem {
     }
   }
 
-  public void update() throws InterruptedException {
+  public void update() {
     for (Spring spring : springs) {
       spring.update();
     }
@@ -246,7 +246,12 @@ public class ParticleSystem {
     for (Particle p : particles) {
       runnables.add(Executors.callable(new ParticleRunnable(p)));
     }
-    pool.invokeAll(runnables);
+
+    try {
+      pool.invokeAll(runnables);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     for (int i = particles.size() - 1; i >= 0; i--) {
       Particle p = particles.get(i);

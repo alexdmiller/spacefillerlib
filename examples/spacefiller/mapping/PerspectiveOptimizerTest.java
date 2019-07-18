@@ -3,11 +3,9 @@ package spacefiller.mapping;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
-import processing.event.KeyEvent;
 import spacefiller.graph.GridUtils;
 import spacefiller.graph.Node;
 
-import javax.media.jai.WarpPerspective;
 import java.awt.geom.Point2D;
 
 public class PerspectiveOptimizerTest extends PApplet {
@@ -22,14 +20,14 @@ public class PerspectiveOptimizerTest extends PApplet {
   }
 
   private Mapper mapper;
-  private GraphTransformer transformer;
+  private Surface transformer;
   private PVector[] preTransformPoints;
   private PVector[] postTransformPoints;
   private Quad actualQuad;
 
   public void setup() {
     mapper = new Mapper(this);
-    transformer = new GraphTransformer(GridUtils.createSimpleGrid(10, 10, 50, 50));
+    transformer = new Surface(GridUtils.createSimpleGrid(10, 10, 50, 50));
     transformer.createCanvas(this);
 
     mapper.addTransformable(transformer);
