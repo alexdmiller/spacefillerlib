@@ -1,6 +1,7 @@
 package spacefiller.mapping;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import spacefiller.graph.GridUtils;
 
 public class BasicMappingTest extends PApplet {
@@ -28,11 +29,9 @@ public class BasicMappingTest extends PApplet {
   public void draw() {
     background(0);
 
-    surface.getCanvas().beginDraw();
-    surface.getCanvas().background(0);
-    surface.getCanvas().fill(255, 0 , 250);
-    surface.getCanvas().ellipse(250, 250, 300, 300);
-    // surface.renderUI(getGraphics());
-    surface.getCanvas().endDraw();
+    surface.drawToCanvas(graphics -> {
+      graphics.fill(255, 0 , 250);
+      graphics.ellipse(250, 250, 300, 300);
+    });
   }
 }

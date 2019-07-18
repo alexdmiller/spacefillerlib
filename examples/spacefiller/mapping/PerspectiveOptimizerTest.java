@@ -62,15 +62,13 @@ public class PerspectiveOptimizerTest extends PApplet {
     pushMatrix();
     translate(width/2 - transformer.getPreTransformGrid().getWidth() / 2f, height/2 - transformer.getPreTransformGrid().getHeight() /2f);
 
-    PGraphics canvas = transformer.getCanvas();
-    canvas.beginDraw();
-    canvas.clear();
-    canvas.strokeWeight(10);
-    canvas.stroke(255);
-    for (PVector p : preTransformPoints) {
-      canvas.point(p.x, p.y);
-    }
-    canvas.endDraw();
+    transformer.drawToCanvas(canvas -> {
+      canvas.strokeWeight(10);
+      canvas.stroke(255);
+      for (PVector p : preTransformPoints) {
+        canvas.point(p.x, p.y);
+      }
+    });
 
     strokeWeight(2);
     stroke(255, 0, 0);

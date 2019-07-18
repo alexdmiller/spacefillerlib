@@ -36,9 +36,10 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
   private WarpPerspective currentPerspective;
 
   private transient PGraphics canvas;
+  private transient boolean canvasDrawn;
   private transient BasicGraphRenderer graphRenderer;
-
   private transient boolean showMesh;
+
 
   public Surface(Grid grid) {
     this.postTransformGrid = grid;
@@ -65,11 +66,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
     return currentPerspective;
   }
 
-  public PGraphics getCanvas() {
-    return canvas;
-  }
-
-  public void setCanvas(PGraphics canvas) {
+  protected void setCanvas(PGraphics canvas) {
     this.canvas = canvas;
   }
 
@@ -302,6 +299,10 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
   public void renderUI(PGraphics graphics) {
     canvas.beginDraw();
 
+    if (!canvasDrawn) {
+      canvas.background(0);
+    }
+
     if (showUI) {
       int color = active ? ACTIVE_COLOR : DESELECTED_COLOR;
       graphics.noFill();
@@ -350,5 +351,17 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
 
   public void setShowMesh(boolean showMesh) {
     this.showMesh = showMesh;
+  }
+
+  public void drawToCanvas(DrawingFunction drawingFunction) {
+    canvas.beginDraw();
+    canvas.background(0);
+    drawingFunction.draw(canvas);
+    canvas.endDraw();
+    canvasDrawn = true;
+  }
+
+  public interface DrawingFunction {
+    void draw(PGraphics graphics);
   }
 }
