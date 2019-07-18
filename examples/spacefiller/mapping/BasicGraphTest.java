@@ -11,7 +11,6 @@ public class BasicGraphTest extends PApplet {
 
   private Mapper mapper;
   private Graph graph;
-  private GraphTransformer graphTransformer;
 
   @Override
   public void settings() {
@@ -23,19 +22,14 @@ public class BasicGraphTest extends PApplet {
   public void setup() {
     mapper = new Mapper(this);
 
-    graph = new Graph();
+    graph = mapper.createGraph();
     Node n1 = graph.createNode(200, 200);
     Node n2 = graph.createNode(200, 250);
     graph.createEdge(n1, n2);
-
-    graphTransformer = new GraphTransformer(graph);
-    mapper.addTransformable(graphTransformer);
   }
 
   @Override
   public void draw() {
     background(0);
-
-    graphTransformer.renderUI(getGraphics());
   }
 }

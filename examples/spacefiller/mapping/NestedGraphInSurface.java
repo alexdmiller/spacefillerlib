@@ -2,7 +2,6 @@ package spacefiller.mapping;
 
 import processing.core.PApplet;
 import spacefiller.graph.Graph;
-import spacefiller.graph.GridUtils;
 import spacefiller.graph.Node;
 
 public class NestedGraphInSurface extends PApplet {
@@ -23,11 +22,7 @@ public class NestedGraphInSurface extends PApplet {
   @Override
   public void setup() {
     mapper = new Mapper(this);
-
-    surface = GridUtils.createGraphTransformer(5, 5, 100);
-    surface.createCanvas(this);
-
-    mapper.addTransformable(surface);
+    surface = mapper.createSurface(10, 10, 50);
 
     graph = new Graph();
     Node n1 = graph.createNode(200, 200);
@@ -44,9 +39,7 @@ public class NestedGraphInSurface extends PApplet {
 
     surface.getCanvas().beginDraw();
     surface.getCanvas().background(0);
-    surface.renderUI(getGraphics());
+    surface.getCanvas().ellipse(200, 200, 100, 100);
     surface.getCanvas().endDraw();
-
-    surface.drawImage(getGraphics());
   }
 }

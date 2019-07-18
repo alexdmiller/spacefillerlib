@@ -9,6 +9,7 @@ import java.util.List;
 public abstract  class Transformable {
   protected boolean showUI;
   protected boolean active;
+
   private Transformable parent;
   private List<Transformable> children;
 

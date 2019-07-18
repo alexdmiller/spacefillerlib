@@ -1,14 +1,12 @@
-package spacefiller.mapping.modes;
+package spacefiller.mapping;
 
 import processing.core.PVector;
 import processing.event.MouseEvent;
-import spacefiller.mapping.Mapper;
-import spacefiller.mapping.Transformable;
 
-public class TranslateMode extends EditMode {
+public class RotateMode extends EditMode {
   private PVector lastMouse;
 
-  public TranslateMode(Mapper mooYoung) {
+  public RotateMode(Mapper mooYoung) {
     super(mooYoung);
     lastMouse = new PVector();
   }
@@ -27,13 +25,15 @@ public class TranslateMode extends EditMode {
           break;
 
         case MouseEvent.DRAG:
-          PVector delta = PVector.sub(mouse, lastMouse);
-
           if (target != null) {
-            target.translate(delta.x, delta.y);
-          }
+            PVector center = target.getCenter();
 
-          lastMouse = mouse;
+            float initialAngle = (float) Math.atan2(center.y - lastMouse.y, center.x - lastMouse.x);
+            float currentAngle = (float) Math.atan2(center.y - mouse.y, center.x - mouse.x);
+
+            target.rotate(currentAngle - initialAngle);
+            lastMouse = mouse;
+          }
           break;
       }
     }

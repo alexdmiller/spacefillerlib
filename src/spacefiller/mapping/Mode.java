@@ -1,4 +1,4 @@
-package spacefiller.mapping.modes;
+package spacefiller.mapping;
 
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;

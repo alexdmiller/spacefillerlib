@@ -1,19 +1,15 @@
 package spacefiller.mapping;
 
 import processing.core.PApplet;
-import processing.core.PGraphics;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import spacefiller.mapping.modes.*;
+import spacefiller.graph.Graph;
+import spacefiller.graph.GridUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
-import static processing.core.PConstants.LEFT;
-import static processing.core.PConstants.RIGHT;
-import static processing.core.PConstants.SCREEN;
 
 public class Mapper {
   public static final int ACTIVE_COLOR = 0xFFFFFFFF;
@@ -24,12 +20,15 @@ public class Mapper {
   private static final char ROTATE_MODE = 'r';
   private static final char SCALE_MODE = 's';
   private static final char TRANSLATE_MODE = 't';
+  private static final char SHOW_MESH = 'm';
 
   private Stack<List<Transformable>> transformables;
+  private List<Drawable> drawables;
   private Transformable activeTransformable;
   private Draggable lastDragged;
   private Mode mode;
   private PApplet parent;
+  private boolean meshesShown;
 
   public Mapper(PApplet parent) {
     this.mode = new WarpMode(this);
@@ -37,22 +36,12 @@ public class Mapper {
 
     parent.registerMethod("mouseEvent", this);
     parent.registerMethod("keyEvent", this);
+    parent.registerMethod("draw", this);
 
     transformables = new Stack<>();
     transformables.add(new ArrayList<>());
-  }
 
-  public void addTransformable(Transformable transformable) {
-    transformable.setShowUI(true);
-    transformables.peek().add(transformable);
-  }
-
-  public void pushTransformables(List<Transformable> transformables) {
-    this.transformables.push(transformables);
-  }
-
-  public Transformable getTransformTarget() {
-    return activeTransformable;
+    drawables = new ArrayList<>();
   }
 
   public void mouseEvent(MouseEvent event) {
@@ -78,15 +67,84 @@ public class Mapper {
     mode.mouseEvent(event);
   }
 
-  public Draggable getLastDragged() {
+  public void keyEvent(KeyEvent keyEvent) {
+    if (keyEvent.getAction() == KeyEvent.PRESS) {
+      if (keyEvent.getKey() == DRILL_OUT) {
+        drillOut();
+      } else if (keyEvent.getKey() == WARP_MODE) {
+        mode = new WarpMode(this);
+      } else if (keyEvent.getKey() == ROTATE_MODE) {
+        mode = new RotateMode(this);
+      } else if (keyEvent.getKey() == SCALE_MODE) {
+        mode = new ScaleMode(this);
+      } else if (keyEvent.getKey() == TRANSLATE_MODE) {
+        mode = new TranslateMode(this);
+      } else if (keyEvent.getKey() == SHOW_MESH) {
+        toggleMeshes();
+      }
+    } else if (keyEvent.getAction() == KeyEvent.RELEASE) {
+      mode = new WarpMode(this);
+    }
+
+    mode.keyEvent(keyEvent);
+  }
+
+  private List<Transformable> getRootTransformables() {
+    return transformables.get(0);
+  }
+
+
+  public void draw() {
+    for (Transformable transformable : getRootTransformables()) {
+      transformable.renderUI(parent.getGraphics());
+    }
+
+    for (Drawable drawable : drawables) {
+      drawable.draw(parent.getGraphics());
+    }
+  }
+
+  public Surface createSurface(int rows, int cols, int spacing) {
+    Surface surface = GridUtils.createSurface(rows, cols, spacing);
+    surface.createCanvas(parent);
+    addTransformable(surface);
+    addDrawable(surface);
+    return surface;
+  }
+
+  public Graph createGraph() {
+    Graph graph = new Graph();
+    GraphTransformer transformer = new GraphTransformer(graph);
+    addTransformable(transformer);
+    return graph;
+  }
+
+  private void addTransformable(Transformable transformable) {
+    transformable.setShowUI(true);
+    getRootTransformables().add(transformable);
+  }
+
+  private void addDrawable(Drawable drawable) {
+    drawables.add(drawable);
+  }
+
+  private void pushTransformables(List<Transformable> transformables) {
+    this.transformables.push(transformables);
+  }
+
+  protected Transformable getTransformTarget() {
+    return activeTransformable;
+  }
+
+  protected Draggable getLastDragged() {
     return lastDragged;
   }
 
-  public void setLastDragged(Draggable lastDragged) {
+  protected void setLastDragged(Draggable lastDragged) {
     this.lastDragged = lastDragged;
   }
 
-  public void setActiveTransformable(Transformable transformable) {
+  protected void setActiveTransformable(Transformable transformable) {
     if (activeTransformable != null) {
       activeTransformable.setActive(false);
     }
@@ -95,14 +153,14 @@ public class Mapper {
     activeTransformable = transformable;
   }
 
-  public void clearActiveTransformable() {
+  protected void clearActiveTransformable() {
     if (activeTransformable != null) {
       activeTransformable.setActive(false);
     }
     activeTransformable = null;
   }
 
-  public List<Transformable> getCurrentActiveLayer() {
+  protected List<Transformable> getCurrentActiveLayer() {
     if (!transformables.empty()) {
       return transformables.peek();
     } else {
@@ -110,7 +168,7 @@ public class Mapper {
     }
   }
 
-  public void drillOut() {
+  protected void drillOut() {
     for (Transformable t : getCurrentActiveLayer()) {
       t.setShowUI(false);
     }
@@ -126,7 +184,7 @@ public class Mapper {
     }
   }
 
-  public void drillIn(Transformable transformable) {
+  protected void drillIn(Transformable transformable) {
     if (transformable.getChildren() != null && !transformable.getChildren().isEmpty()) {
       for (Transformable t : getCurrentActiveLayer()) {
         t.setShowUI(false);
@@ -141,23 +199,34 @@ public class Mapper {
     }
   }
 
-  public void keyEvent(KeyEvent keyEvent) {
-    if (keyEvent.getAction() == KeyEvent.PRESS) {
-      if (keyEvent.getKey() == DRILL_OUT) {
-        drillOut();
-      } else if (keyEvent.getKey() == WARP_MODE) {
-        mode = new WarpMode(this);
-      } else if (keyEvent.getKey() == ROTATE_MODE) {
-        mode = new RotateMode(this);
-      } else if (keyEvent.getKey() == SCALE_MODE) {
-        mode = new ScaleMode(this);
-      } else if (keyEvent.getKey() == TRANSLATE_MODE) {
-        mode = new TranslateMode(this);
-      }
-    } else if (keyEvent.getAction() == KeyEvent.RELEASE) {
-      mode = new WarpMode(this);
+  private void toggleMeshes() {
+    if (!meshesShown) {
+      showMeshes();
+    } else {
+      hideMeshes();
     }
+  }
 
-    mode.keyEvent(keyEvent);
+  // TODO: this shows and hides all top level meshes
+  // there currently isn't any logic around showing / hiding meshes at
+  // certain levels in the hierarchy. for example, a surface that contains
+  // another surface. the code is set up to accommodate this -- just make
+  // showMeshes more similar to showUI.
+  private void showMeshes() {
+    for (Transformable transformable : getRootTransformables()) {
+      if (transformable instanceof Surface) {
+        ((Surface) transformable).setShowMesh(true);
+      }
+    }
+    meshesShown = true;
+  }
+
+  private void hideMeshes() {
+    for (Transformable transformable : getRootTransformables()) {
+      if (transformable instanceof Surface) {
+        ((Surface) transformable).setShowMesh(false);
+      }
+    }
+    meshesShown = false;
   }
 }

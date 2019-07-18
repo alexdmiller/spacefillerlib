@@ -20,7 +20,7 @@ import java.util.Map;
 import static spacefiller.mapping.Mapper.ACTIVE_COLOR;
 import static spacefiller.mapping.Mapper.DESELECTED_COLOR;
 
-public class Surface extends Transformable implements Draggable, NodeListener, Serializable {
+public class Surface extends Transformable implements Draggable, NodeListener, Serializable, Drawable {
   // This grid stores the original node positions, before a perspective transformation
   // is applied.
   private Grid preTransformGrid;
@@ -37,6 +37,8 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
 
   private transient PGraphics canvas;
   private transient BasicGraphRenderer graphRenderer;
+
+  private transient boolean showMesh;
 
   public Surface(Grid grid) {
     this.postTransformGrid = grid;
@@ -127,7 +129,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
 
   }
 
-  public void drawImage(PGraphics graphics) {
+  public void draw(PGraphics graphics) {
     graphics.beginShape(PApplet.TRIANGLES);
     graphics.noStroke();
     graphics.texture(canvas);
@@ -298,6 +300,8 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
 
   @Override
   public void renderUI(PGraphics graphics) {
+    canvas.beginDraw();
+
     if (showUI) {
       int color = active ? ACTIVE_COLOR : DESELECTED_COLOR;
       graphics.noFill();
@@ -315,13 +319,16 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
         graphics.ellipse(node.getPosition().x, node.getPosition().y, 10, 10);
       }
 
-      graphRenderer.setColor(color);
-      graphRenderer.render(canvas, preTransformGrid);
+      if (showMesh) {
+        graphRenderer.setColor(color);
+        graphRenderer.render(canvas, preTransformGrid);
+      }
     }
 
     for (Transformable t : getChildren()) {
       t.renderUI(canvas);
     }
+    canvas.endDraw();
   }
 
   @Override
@@ -335,5 +342,13 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
     postTransformGrid.getBoundingQuad().getBottomLeft().position.set(preTransformGrid.getBoundingQuad().getBottomLeft().position);
     postTransformGrid.getBoundingQuad().getBottomRight().position.set(preTransformGrid.getBoundingQuad().getBottomRight().position);
     recomputeNodesFromQuad();
+  }
+
+  public boolean isShowMesh() {
+    return showMesh;
+  }
+
+  public void setShowMesh(boolean showMesh) {
+    this.showMesh = showMesh;
   }
 }

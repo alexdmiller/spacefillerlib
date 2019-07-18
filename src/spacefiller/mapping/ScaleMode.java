@@ -1,14 +1,12 @@
-package spacefiller.mapping.modes;
+package spacefiller.mapping;
 
 import processing.core.PVector;
 import processing.event.MouseEvent;
-import spacefiller.mapping.Mapper;
-import spacefiller.mapping.Transformable;
 
-public class RotateMode extends EditMode {
+public class ScaleMode extends EditMode {
   private PVector lastMouse;
 
-  public RotateMode(Mapper mooYoung) {
+  public ScaleMode(Mapper mooYoung) {
     super(mooYoung);
     lastMouse = new PVector();
   }
@@ -30,12 +28,15 @@ public class RotateMode extends EditMode {
           if (target != null) {
             PVector center = target.getCenter();
 
-            float initialAngle = (float) Math.atan2(center.y - lastMouse.y, center.x - lastMouse.x);
-            float currentAngle = (float) Math.atan2(center.y - mouse.y, center.x - mouse.x);
+            float lastDistance = center.dist(lastMouse);
+            float currentDistance = center.dist(mouse);
 
-            target.rotate(currentAngle - initialAngle);
+            float scale = currentDistance / lastDistance;
+            target.scale(scale);
+
             lastMouse = mouse;
           }
+
           break;
       }
     }

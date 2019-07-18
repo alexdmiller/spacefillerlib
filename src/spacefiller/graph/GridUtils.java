@@ -5,7 +5,7 @@ import spacefiller.mapping.Grid;
 import spacefiller.mapping.Quad;
 
 public class GridUtils {
-  public static Surface createGraphTransformer(int rows, int cols, float spacing) {
+  public static Surface createSurface(int rows, int cols, float spacing) {
     return new Surface(createTriangleGrid(rows, cols, spacing));
   }
 

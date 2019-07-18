@@ -1,7 +1,5 @@
-package spacefiller.mapping.modes;
+package spacefiller.mapping;
 
-
-import spacefiller.mapping.Mapper;
 
 public class NoOpMode extends Mode {
   public NoOpMode(Mapper mooYoung) {

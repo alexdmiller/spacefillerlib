@@ -27,10 +27,7 @@ public class PerspectiveOptimizerTest extends PApplet {
 
   public void setup() {
     mapper = new Mapper(this);
-    transformer = new Surface(GridUtils.createSimpleGrid(10, 10, 50, 50));
-    transformer.createCanvas(this);
-
-    mapper.addTransformable(transformer);
+    transformer = mapper.createSurface(10, 10, 50);
 
     preTransformPoints = new PVector[10];
     for (int i = 0; i < preTransformPoints.length; i++) {
@@ -82,7 +79,7 @@ public class PerspectiveOptimizerTest extends PApplet {
     }
 
     strokeWeight(2);
-    transformer.drawImage(getGraphics());
+    transformer.draw(getGraphics());
     transformer.renderUI(getGraphics());
 
     stroke(255, 0, 0);

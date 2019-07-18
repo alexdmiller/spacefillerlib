@@ -1,14 +1,12 @@
-package spacefiller.mapping.modes;
+package spacefiller.mapping;
 
 import processing.core.PVector;
 import processing.event.MouseEvent;
-import spacefiller.mapping.Mapper;
-import spacefiller.mapping.Transformable;
 
-public class ScaleMode extends EditMode {
+public class TranslateMode extends EditMode {
   private PVector lastMouse;
 
-  public ScaleMode(Mapper mooYoung) {
+  public TranslateMode(Mapper mooYoung) {
     super(mooYoung);
     lastMouse = new PVector();
   }
@@ -27,18 +25,13 @@ public class ScaleMode extends EditMode {
           break;
 
         case MouseEvent.DRAG:
+          PVector delta = PVector.sub(mouse, lastMouse);
+
           if (target != null) {
-            PVector center = target.getCenter();
-
-            float lastDistance = center.dist(lastMouse);
-            float currentDistance = center.dist(mouse);
-
-            float scale = currentDistance / lastDistance;
-            target.scale(scale);
-
-            lastMouse = mouse;
+            target.translate(delta.x, delta.y);
           }
 
+          lastMouse = mouse;
           break;
       }
     }

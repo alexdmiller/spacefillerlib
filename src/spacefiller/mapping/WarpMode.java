@@ -1,10 +1,8 @@
-package spacefiller.mapping.modes;
+package spacefiller.mapping;
 
 import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import spacefiller.graph.Graph;
-import spacefiller.mapping.*;
 
 import static processing.core.PConstants.LEFT;
 import static processing.core.PConstants.RIGHT;
