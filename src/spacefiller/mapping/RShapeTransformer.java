@@ -185,11 +185,14 @@ public class RShapeTransformer extends Transformable implements Draggable, Seria
       canvas.noFill();
       canvas.strokeWeight(2);
       canvas.stroke(active ? Mapper.ACTIVE_COLOR : Mapper.DESELECTED_COLOR);
+      shape.draw(canvas);
 
       for (int i = 0; i < pins.size(); i ++) {
         RShapePin pin = pins.get(i);
         canvas.ellipse(pin.getPosition().x, pin.getPosition().y, 10, 10);
       }
+
+
     }
   }
 

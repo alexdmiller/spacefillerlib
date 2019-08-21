@@ -15,8 +15,6 @@ public class Mapper {
   public static final int ACTIVE_COLOR = 0xFFFFFFFF;
   public static final int DESELECTED_COLOR = 0x33FFFFFF;
 
-
-
   protected static final char DRILL_OUT = 'u';
   protected static final char WARP_MODE = 'e';
   protected static final char ROTATE_MODE = 'r';
@@ -25,6 +23,7 @@ public class Mapper {
   protected static final char SHOW_MESH = 'm';
   protected static final char FORCE_DRAG = 'f';
   protected static final char EDIT_MESH = 'n';
+  protected static final char TOGGLE = ' ';
 
   private Stack<List<Transformable>> transformables;
   private List<Drawable> drawables;
@@ -35,7 +34,8 @@ public class Mapper {
   private boolean meshesShown;
 
   public Mapper(PApplet parent) {
-    this.mode = new WarpMode(this);
+    // this.mode = new WarpMode(this);
+
     this.parent = parent;
 
     parent.registerMethod("mouseEvent", this);
@@ -47,10 +47,13 @@ public class Mapper {
 
     drawables = new ArrayList<>();
 
+    setMode(new NoOpMode(this));
+
     System.out.println();
     System.out.println("SPACEFILLER MAPPER");
     System.out.println("==================");
     System.out.println();
+    System.out.println("space" + "\t toggle mapper");
     System.out.println("ctrl+click" + "\t drill into surface");
     System.out.println(DRILL_OUT + "\t\t\t drill out");
     System.out.println(WARP_MODE + "+drag" + "\t\t warp");
@@ -62,7 +65,13 @@ public class Mapper {
   }
 
   public void mouseEvent(MouseEvent event) {
-    if (event.getAction() == MouseEvent.PRESS) {
+    if (mode instanceof NoOpMode) {
+      for (Transformable transformable : getRootTransformables()) {
+        if (transformable instanceof Surface) {
+          ((Surface) transformable).mouseEvent(event);
+        }
+      }
+    } if (event.getAction() == MouseEvent.PRESS) {
       PVector mouse = new PVector(event.getX(), event.getY());
 
       if (getCurrentActiveLayer() != null) {
@@ -86,24 +95,41 @@ public class Mapper {
 
   public void keyEvent(KeyEvent keyEvent) {
     if (keyEvent.getAction() == KeyEvent.PRESS) {
-      if (keyEvent.getKey() == DRILL_OUT) {
+      if (keyEvent.getKey() == TOGGLE) {
+        if (mode instanceof NoOpMode) {
+          setMode(new WarpMode( this));
+        } else {
+          setMode(new NoOpMode(this));
+        }
+      } else if (keyEvent.getKey() == DRILL_OUT) {
         drillOut();
       } else if (keyEvent.getKey() == WARP_MODE) {
-        mode = new WarpMode(this);
+        setMode(new WarpMode(this));
       } else if (keyEvent.getKey() == ROTATE_MODE) {
-        mode = new RotateMode(this);
+        setMode(new RotateMode(this));
       } else if (keyEvent.getKey() == SCALE_MODE) {
-        mode = new ScaleMode(this);
+        setMode(new ScaleMode(this));
       } else if (keyEvent.getKey() == TRANSLATE_MODE) {
-        mode = new TranslateMode(this);
+        setMode(new TranslateMode(this));
       } else if (keyEvent.getKey() == SHOW_MESH) {
         toggleMeshes();
       }
     } else if (keyEvent.getAction() == KeyEvent.RELEASE) {
-      mode = new WarpMode(this);
+      // if we're in NoOp mode, stay in NoOp mode even when key is released
+      if (!(mode instanceof NoOpMode)) {
+        setMode(new WarpMode(this));
+      }
     }
 
     mode.keyEvent(keyEvent);
+  }
+
+  private void setMode(Mode newMode) {
+    if (mode != null) {
+      mode.stop();
+    }
+    mode = newMode;
+    mode.start();
   }
 
   private List<Transformable> getRootTransformables() {
@@ -129,6 +155,14 @@ public class Mapper {
     return surface;
   }
 
+  public Surface createSurface(Grid grid) {
+    Surface surface = new Surface(grid);
+    surface.createCanvas(parent);
+    addTransformable(surface);
+    addDrawable(surface);
+    return surface;
+  }
+
   public Graph createGraph() {
     Graph graph = new Graph();
     GraphTransformer transformer = new GraphTransformer(graph);
@@ -136,8 +170,14 @@ public class Mapper {
     return graph;
   }
 
+  public void save() {
+
+  }
+
   private void addTransformable(Transformable transformable) {
-    transformable.setShowUI(true);
+    if (!(mode instanceof NoOpMode)) {
+      transformable.setShowUI(true);
+    }
     getRootTransformables().add(transformable);
   }
 
@@ -186,32 +226,41 @@ public class Mapper {
   }
 
   protected void drillOut() {
-    for (Transformable t : getCurrentActiveLayer()) {
-      t.setShowUI(false);
-    }
+    // turn off the current layer's UI
+    hideUI();
 
     if (transformables.size() > 1) {
       transformables.pop();
     }
 
+    // turn on the parent layer's UI
     clearActiveTransformable();
 
+    showUI();
+  }
+
+
+  protected void drillIn(Transformable transformable) {
+    if (transformable.getChildren() != null && !transformable.getChildren().isEmpty()) {
+      hideUI();
+
+      clearActiveTransformable();
+      pushTransformables(transformable.getChildren());
+
+      showUI();
+    }
+  }
+
+  protected void showUI() {
     for (Transformable t : getCurrentActiveLayer()) {
       t.setShowUI(true);
     }
   }
 
-  protected void drillIn(Transformable transformable) {
-    if (transformable.getChildren() != null && !transformable.getChildren().isEmpty()) {
+  protected void hideUI() {
+    if (getCurrentActiveLayer() != null) {
       for (Transformable t : getCurrentActiveLayer()) {
         t.setShowUI(false);
-      }
-
-      clearActiveTransformable();
-      pushTransformables(transformable.getChildren());
-
-      for (Transformable t : getCurrentActiveLayer()) {
-        t.setShowUI(true);
       }
     }
   }
@@ -246,4 +295,5 @@ public class Mapper {
     }
     meshesShown = false;
   }
+
 }

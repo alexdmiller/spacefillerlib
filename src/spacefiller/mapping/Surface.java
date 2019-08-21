@@ -1,6 +1,7 @@
 package spacefiller.mapping;
 
 import processing.core.*;
+import processing.event.MouseEvent;
 import spacefiller.graph.Edge;
 import spacefiller.graph.Node;
 import spacefiller.graph.NodeListener;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import static spacefiller.mapping.Mapper.ACTIVE_COLOR;
 import static spacefiller.mapping.Mapper.DESELECTED_COLOR;
@@ -39,6 +41,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
   private transient boolean canvasDrawn;
   private transient BasicGraphRenderer graphRenderer;
   private transient boolean showMesh;
+  private transient List<MoustEventListener> moustEventListeners;
 
 
   public Surface(Grid grid) {
@@ -56,10 +59,12 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
     recomputeNodesFromQuad();
 
     graphRenderer = new BasicGraphRenderer(1);
+
+    moustEventListeners = new ArrayList<>();
   }
 
   public void createCanvas(PApplet parent) {
-    canvas = parent.createGraphics((int) preTransformGrid.getWidth(), (int) preTransformGrid.getHeight());
+    canvas = parent.createGraphics((int) preTransformGrid.getWidth(), (int) preTransformGrid.getHeight(), PConstants.P3D);
   }
 
   public WarpPerspective getPerspective() {
@@ -353,9 +358,9 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
     this.showMesh = showMesh;
   }
 
-  public void drawToCanvas(DrawingFunction drawingFunction) {
+  public void drawToSurface(DrawingFunction drawingFunction) {
     canvas.beginDraw();
-    canvas.background(0);
+//    canvas.background(0);
     drawingFunction.draw(canvas);
     canvas.endDraw();
     canvasDrawn = true;
@@ -363,5 +368,36 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
 
   public interface DrawingFunction {
     void draw(PGraphics graphics);
+  }
+
+  public interface MoustEventListener {
+    void process(MouseEvent event);
+  }
+
+  public void onMouseEvent(MoustEventListener moustEventListener) {
+    moustEventListeners.add(moustEventListener);
+  }
+
+  protected void mouseEvent(MouseEvent event) {
+    MouseEvent transformedEvent = new MouseEvent(
+        event.getNative(),
+        event.getMillis(),
+        event.getAction(),
+        event.getModifiers(),
+        event.getX(),
+        event.getY(),
+        event.getButton(),
+        event.getCount());
+    moustEventListeners.forEach(listener -> listener.process(transformedEvent));
+
+    // TODO: notify children of mouse event (if there are ever nested surfaces?)
+  }
+
+  public float getWidth() {
+    return preTransformGrid.getWidth();
+  }
+
+  public float getHeight() {
+    return preTransformGrid.getHeight();
   }
 }

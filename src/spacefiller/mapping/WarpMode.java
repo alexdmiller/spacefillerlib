@@ -24,7 +24,7 @@ public class WarpMode extends EditMode {
   @Override
   public void mouseEvent(MouseEvent e) {
     PVector mouse = new PVector(e.getX(), e.getY());
-    Transformable target = mooYoung.getTransformTarget();
+    Transformable target = mapper.getTransformTarget();
 
     if (target != null) {
       mouse = target.getParentRelativePoint(mouse);
@@ -38,7 +38,7 @@ public class WarpMode extends EditMode {
             lastClicked = mouse;
           } else {
             dragged = target.select(mouse, innerNodes);
-            mooYoung.setLastDragged(dragged);
+            mapper.setLastDragged(dragged);
             lastClicked = mouse;
           }
           break;
@@ -67,8 +67,8 @@ public class WarpMode extends EditMode {
   }
 
   private void bump(int x, int y) {
-    if (mooYoung.getLastDragged() != null) {
-      mooYoung.getLastDragged().translate(x * bumpAmount, y * bumpAmount);
+    if (mapper.getLastDragged() != null) {
+      mapper.getLastDragged().translate(x * bumpAmount, y * bumpAmount);
     }
   }
 

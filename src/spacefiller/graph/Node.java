@@ -13,8 +13,14 @@ public class Node implements Serializable, Pin {
 
   private List<NodeListener> listeners;
 
-  protected Node() {
+  public Node() {
     position = new PVector();
+    connections = new ArrayList<>();
+    listeners = new ArrayList<>();
+  }
+
+  public Node(float x, float y) {
+    position = new PVector(x, y);
     connections = new ArrayList<>();
     listeners = new ArrayList<>();
   }

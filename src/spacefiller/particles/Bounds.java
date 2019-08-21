@@ -40,32 +40,6 @@ public class Bounds implements Serializable {
     return contains(p.x, p.y, p.z);
   }
 
-  public void constrain(Particle p) {
-    if (p.position.x < topBackLeft.x) {
-      p.position.x = topBackLeft.x;
-      p.velocity.x *= -1;
-    } else if (p.position.x > bottomFrontRight.x) {
-      p.position.x = bottomFrontRight.x;
-      p.velocity.x *= -1;
-    }
-
-    if (p.position.y < topBackLeft.y) {
-      p.position.y = topBackLeft.y;
-      p.velocity.y *= -1;
-    } else if (p.position.y > bottomFrontRight.y) {
-      p.position.y = bottomFrontRight.y;
-      p.velocity.y *= -1;
-    }
-
-    if (p.position.z < topBackLeft.z) {
-      p.position.z = topBackLeft.z;
-      p.velocity.z *= -1;
-    } else if (p.position.z > bottomFrontRight.z) {
-      p.position.z = bottomFrontRight.z;
-      p.velocity.z *= -1;
-    }
-  }
-
   public Vector getTopBackLeft() {
     return topBackLeft;
   }

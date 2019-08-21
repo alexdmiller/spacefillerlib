@@ -1,7 +1,6 @@
 package spacefiller.mapping;
 
 import processing.core.PApplet;
-import processing.core.PGraphics;
 import spacefiller.graph.Graph;
 import spacefiller.graph.Node;
 import spacefiller.graph.renderer.GraphRenderer;
@@ -43,7 +42,7 @@ public class NestedGraphInSurface extends PApplet {
   public void draw() {
     background(0);
 
-    surface.drawToCanvas(graphics -> {
+    surface.drawToSurface(graphics -> {
       renderer.render(graphics, graph);
     });
   }

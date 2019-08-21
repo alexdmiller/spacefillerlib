@@ -14,7 +14,7 @@ public class ScaleMode extends EditMode {
   @Override
   public void mouseEvent(MouseEvent e) {
     PVector mouse = new PVector(e.getX(), e.getY());
-    Transformable target = mooYoung.getTransformTarget();
+    Transformable target = mapper.getTransformTarget();
 
     if (target != null) {
       mouse = target.getParentRelativePoint(mouse);

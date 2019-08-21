@@ -6,7 +6,7 @@ import processing.core.PVector;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract  class Transformable {
+public abstract class Transformable {
   protected boolean showUI;
   protected boolean active;
 

@@ -136,4 +136,5 @@ public class MarchingSquares {
   public interface Function {
     float value(float x, float y);
   }
+
 }

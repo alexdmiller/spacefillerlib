@@ -1,9 +1,7 @@
 package spacefiller.mapping;
 
 import processing.core.PApplet;
-import processing.core.PGraphics;
 import processing.core.PVector;
-import spacefiller.graph.GridUtils;
 import spacefiller.graph.Node;
 
 import java.awt.geom.Point2D;
@@ -62,7 +60,7 @@ public class PerspectiveOptimizerTest extends PApplet {
     pushMatrix();
     translate(width/2 - transformer.getPreTransformGrid().getWidth() / 2f, height/2 - transformer.getPreTransformGrid().getHeight() /2f);
 
-    transformer.drawToCanvas(canvas -> {
+    transformer.drawToSurface(canvas -> {
       canvas.strokeWeight(10);
       canvas.stroke(255);
       for (PVector p : preTransformPoints) {
