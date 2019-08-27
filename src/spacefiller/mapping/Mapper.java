@@ -1,6 +1,7 @@
 package spacefiller.mapping;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
@@ -17,10 +18,12 @@ public class Mapper implements Serializable {
   public static final String DATA_DIRECTORY = "mapper_data";
 
   protected static final char DRILL_OUT = 'u';
-  protected static final char WARP_MODE = 'q';
-  protected static final char ROTATE_MODE = 'w';
-  protected static final char SCALE_MODE = 'e';
-  protected static final char TRANSLATE_MODE = 'r';
+
+  protected static final char ROTATE_MODE = '1';
+  protected static final char SCALE_MODE = '2';
+  protected static final char TRANSLATE_MODE = '3';
+  protected static final char WARP_MODE = '4';
+
   protected static final char SHOW_MESH = 'm';
   protected static final char FORCE_DRAG = 'f';
   protected static final char EDIT_MESH = 'n';
@@ -167,6 +170,11 @@ public class Mapper implements Serializable {
     }
 
     mode.mouseEvent(event);
+
+    // TODO: be smarter about when to save?
+    if (event.getAction() == MouseEvent.RELEASE) {
+      save();
+    }
   }
 
   public void keyEvent(KeyEvent keyEvent) {
@@ -222,6 +230,35 @@ public class Mapper implements Serializable {
     for (Drawable drawable : drawables) {
       drawable.draw(parent.getGraphics());
     }
+
+    if (inEditMode()) {
+      float spacing = 80;
+
+      drawModeIcon("ROTATE", ROTATE_MODE, RotateMode.class, spacing + spacing * 0, parent.height - spacing);
+      drawModeIcon("SCALE", SCALE_MODE, ScaleMode.class, spacing + spacing * 1, parent.height - spacing);
+      drawModeIcon("TRANSLATE", TRANSLATE_MODE, TranslateMode.class, spacing + spacing * 2, parent.height - spacing);
+      drawModeIcon("WARP", WARP_MODE, WarpMode.class, spacing + spacing * 3, parent.height - spacing);
+    }
+  }
+
+  private boolean inEditMode() {
+    return !(mode instanceof NoOpMode);
+  }
+
+  private void drawModeIcon(String modeName, char modeKey, Class modeClass, float x, float y) {
+    parent.pushMatrix();
+
+    parent.translate(x ,y);
+    parent.noSmooth();
+    parent.rectMode(PConstants.CENTER);
+    parent.fill(modeClass.isInstance(mode) ? parent.color(255, 0, 0) : parent.color(0));
+    parent.stroke(255);
+    parent.rect(0, 0, 70, 70);
+    parent.fill(255);
+    parent.textAlign(PConstants.CENTER);
+    parent.text(modeKey, 0, 0);
+    parent.text(modeName, 0, 20);
+    parent.popMatrix();
   }
 
   public Surface createSurface(String name, int rows, int cols, int spacing) {
