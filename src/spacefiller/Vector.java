@@ -177,4 +177,18 @@ public class Vector {
     this.y = y;
     this.z = z;
   }
+
+  public Vector cross(Vector v2) {
+    return new Vector(
+        this.y * v2.z - this.z * v2.y,
+        this.z * v2.x - this.x * v2.z,
+        this.x * v2.y - this.y * v2.x
+    );
+  }
+
+  public float dot(Vector v2) {
+    return this.x * v2.x +
+        this.y * v2.y +
+        this.z * v2.z;
+  }
 }

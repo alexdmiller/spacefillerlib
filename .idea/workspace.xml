@@ -7,42 +7,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5ea7cf0-83ce-442b-98a9-66ae154f2058" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/spacefiller/particles/CollisionEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/spacefiller/particles/CollisionEventListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/spacefiller/mapping/BasicMappingTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/examples/spacefiller/mapping/BasicMappingTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/spacefiller/mapping/NestedGraphInSurface.java" beforeDir="false" afterPath="$PROJECT_DIR$/examples/spacefiller/mapping/NestedGraphInSurface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/spacefiller/mapping/PerspectiveOptimizerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/examples/spacefiller/mapping/PerspectiveOptimizerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/spacefillerlib_jar/spacefillerlib.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/spacefillerlib_jar/spacefillerlib.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/graph/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/graph/Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/BasicMappingTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/BasicMappingTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/Mapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/Mapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/Mode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/Mode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/NestedGraphInSurface.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/NestedGraphInSurface.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/NoOpMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/NoOpMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/PerspectiveOptimizerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/PerspectiveOptimizerTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/RShapeTransformer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/RShapeTransformer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/RotateMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/RotateMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/ScaleMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/ScaleMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/Surface.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/Surface.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/TranslateMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/TranslateMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/WarpMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/mapping/WarpMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/particles/Bounds.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/particles/Bounds.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/Vector.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/Vector.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/particles/CollisionEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/particles/CollisionEvent.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/particles/behaviors/ReflectiveBounds.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/particles/behaviors/ReflectiveBounds.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/graph/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/graph/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/Mapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/Mapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/Mode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/Mode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/NoOpMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/NoOpMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/RShapeTransformer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/RShapeTransformer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/RotateMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/RotateMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/ScaleMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/ScaleMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/Surface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/Surface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/Transformable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/Transformable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/TranslateMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/TranslateMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/mapping/WarpMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/mapping/WarpMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/marching/MarchingSquares.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/marching/MarchingSquares.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/spacefiller/particles/Bounds.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/particles/Bounds.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/scene/SceneApplet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/spacefillerlib/spacefiller/scene/SceneApplet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spacefiller/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/Vector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spacefiller/particles/CollisionEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/particles/CollisionEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/spacefiller/particles/behaviors/ReflectiveBounds.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/particles/behaviors/ReflectiveBounds.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/spacefiller/scene/SceneApplet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/spacefiller/scene/SceneApplet.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -57,8 +31,8 @@
       <file leaf-file-name="Scene.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/spacefiller/scene/Scene.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+            <state relative-caret-position="320">
+              <caret line="23" selection-start-line="23" selection-end-line="23" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -69,8 +43,8 @@
       <file leaf-file-name="SceneApplet.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/spacefiller/scene/SceneApplet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="84" column="7" lean-forward="true" selection-start-line="84" selection-start-column="7" selection-end-line="84" selection-end-column="7" />
+            <state relative-caret-position="401">
+              <caret line="44" lean-forward="true" selection-start-line="44" selection-end-line="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -78,11 +52,29 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="RepelParticles.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/behaviors/RepelParticles.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RepelFixedPoints.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/behaviors/RepelFixedPoints.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="80">
+              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="ReflectiveBounds.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/behaviors/ReflectiveBounds.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="29" selection-start-line="29" selection-end-line="29" />
+            <state relative-caret-position="800">
+              <caret line="51" column="35" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
               <folding>
                 <element signature="e#533#534#0" expanded="true" />
                 <element signature="e#566#567#0" expanded="true" />
@@ -94,11 +86,22 @@
       <file leaf-file-name="CollisionEvent.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/CollisionEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+            <state relative-caret-position="440">
+              <caret line="29" selection-start-line="29" selection-end-line="29" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#776#777#0" expanded="true" />
+                <element signature="e#799#800#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Vector.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/spacefiller/Vector.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3260">
+              <caret line="179" selection-start-line="179" selection-end-line="179" />
             </state>
           </provider>
         </entry>
@@ -108,24 +111,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
               <caret line="3" column="39" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SceneMixer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/spacefiller/scene/SceneMixer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="940">
-              <caret line="47" column="2" selection-start-line="47" selection-start-column="2" selection-end-line="47" selection-end-column="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ParticleSystem.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/ParticleSystem.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="920">
-              <caret line="68" column="26" selection-start-line="68" selection-start-column="26" selection-end-line="68" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -144,15 +129,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="140">
               <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Particle.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/Particle.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1360">
-              <caret line="86" column="12" selection-start-line="86" selection-start-column="12" selection-end-line="86" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -196,10 +172,10 @@
       <find>drawTo</find>
       <find>create</find>
       <find>drillIn</find>
-      <find>draw</find>
       <find>fill</find>
       <find>isSetup</find>
       <find>HELL</find>
+      <find>draw</find>
     </findStrings>
     <replaceStrings>
       <replace>Vector</replace>
@@ -231,7 +207,6 @@
         <option value="$PROJECT_DIR$/src/spacefiller/particles/sources/AreaSource.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/particles/behaviors/RepelParticles.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/particles/Particle.java" />
-        <option value="$PROJECT_DIR$/src/spacefiller/Vector.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/particles/ParticleSystem.java" />
         <option value="$PROJECT_DIR$/examples/spacefiller/particles/BasicParticleExample.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/mapping/GridTransformer.java" />
@@ -261,8 +236,9 @@
         <option value="$PROJECT_DIR$/src/spacefiller/scene/Scene.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/particles/Bounds.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/particles/CollisionEventListener.java" />
-        <option value="$PROJECT_DIR$/src/spacefiller/particles/behaviors/ReflectiveBounds.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/particles/CollisionEvent.java" />
+        <option value="$PROJECT_DIR$/src/spacefiller/particles/behaviors/ReflectiveBounds.java" />
+        <option value="$PROJECT_DIR$/src/spacefiller/Vector.java" />
         <option value="$PROJECT_DIR$/src/spacefiller/scene/SceneApplet.java" />
       </list>
     </option>
@@ -277,9 +253,9 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="143" />
+    <option name="y" value="23" />
     <option name="width" value="1920" />
-    <option name="height" value="1057" />
+    <option name="height" value="1177" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -287,7 +263,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -333,8 +308,9 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -614,15 +590,19 @@
       <workItem from="1565891401648" duration="1628000" />
       <workItem from="1566001246650" duration="11000" />
       <workItem from="1566344949603" duration="4636000" />
-      <workItem from="1566368752137" duration="1888000" />
+      <workItem from="1566368752137" duration="2576000" />
+      <workItem from="1566424154133" duration="2405000" />
+      <workItem from="1566539451567" duration="598000" />
+      <workItem from="1566679528105" duration="75000" />
+      <workItem from="1566873513456" duration="124000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="531610000" />
+    <option name="totallyTimeSpent" value="535500000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="1057" extended-state="6" />
+    <frame x="0" y="23" width="1920" height="1177" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -639,24 +619,24 @@
       <window_info id="UI Designer" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.20648149" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.325" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.41458333" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.41458333" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19382322" />
       <window_info anchor="bottom" id="Run with VisualVM" order="8" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2087327" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug with VisualVM" order="8" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.325" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3293247" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3293247" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -671,13 +651,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/behaviors/ParticleBehavior.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/spacefiller/Util.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="66">
@@ -706,13 +679,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/behaviors/RepelParticles.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="30" column="24" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/behaviors/FlockParticles.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5170">
@@ -724,13 +690,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="550">
           <caret line="40" column="7" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/Vector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2992">
-          <caret line="148" column="16" selection-start-line="148" selection-start-column="16" selection-end-line="148" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -988,20 +947,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/CollisionEvent.java">
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/scene/Scene.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+        <state relative-caret-position="320">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/behaviors/RepelParticles.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/behaviors/RepelFixedPoints.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/behaviors/ReflectiveBounds.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        <state relative-caret-position="800">
+          <caret line="51" column="35" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
           <folding>
             <element signature="e#533#534#0" expanded="true" />
             <element signature="e#566#567#0" expanded="true" />
@@ -1009,20 +982,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/spacefiller/scene/Scene.java">
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/particles/CollisionEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+        <state relative-caret-position="440">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#776#777#0" expanded="true" />
+            <element signature="e#799#800#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/spacefiller/Vector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3260">
+          <caret line="179" selection-start-line="179" selection-end-line="179" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/spacefiller/scene/SceneApplet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="84" column="7" lean-forward="true" selection-start-line="84" selection-start-column="7" selection-end-line="84" selection-end-column="7" />
+        <state relative-caret-position="401">
+          <caret line="44" lean-forward="true" selection-start-line="44" selection-end-line="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

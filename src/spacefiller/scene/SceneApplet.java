@@ -39,8 +39,6 @@ public class SceneApplet extends PApplet {
   }
 
   public void draw() {
-    canvas.background(0);
-
     if (currentSceneIndex != -1) {
       scenes.get(currentSceneIndex).draw(canvas);
     }

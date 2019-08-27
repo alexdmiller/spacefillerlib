@@ -26,40 +26,40 @@ public class ReflectiveBounds extends ParticleBehavior {
     Vector bottomFrontRight = getParticleSystem().getBounds().getBottomFrontRight();
 
     Vector preCollisionVelocity = p.velocity.copy();
-    boolean collision = false;
+    Vector collisionNormal = null;
 
     if (p.position.x < topBackLeft.x) {
       p.position.x = topBackLeft.x;
       p.velocity.x *= -1;
-      collision = true;
+      collisionNormal = new Vector(1, 0, 0);
     } else if (p.position.x > bottomFrontRight.x) {
       p.position.x = bottomFrontRight.x;
       p.velocity.x *= -1;
-      collision = true;
+      collisionNormal = new Vector(-1, 0, 0);
     }
 
     if (p.position.y < topBackLeft.y) {
       p.position.y = topBackLeft.y;
       p.velocity.y *= -1;
-      collision = true;
+      collisionNormal = new Vector(0, 1, 0);
     } else if (p.position.y > bottomFrontRight.y) {
       p.position.y = bottomFrontRight.y;
       p.velocity.y *= -1;
-      collision = true;
+      collisionNormal = new Vector(0, -1, 0);
     }
 
     if (p.position.z < topBackLeft.z) {
       p.position.z = topBackLeft.z;
       p.velocity.z *= -1;
-      collision = true;
+      collisionNormal = new Vector(0, 0, 1);
     } else if (p.position.z > bottomFrontRight.z) {
       p.position.z = bottomFrontRight.z;
       p.velocity.z *= -1;
-      collision = true;
+      collisionNormal = new Vector(0, 0, -1);
     }
 
-    if (collision) {
-      CollisionEvent event = new CollisionEvent(p, p.position.copy(), preCollisionVelocity);
+    if (collisionNormal != null) {
+      CollisionEvent event = new CollisionEvent(p, p.position.copy(), preCollisionVelocity, collisionNormal);
       listeners.forEach(listener -> {
         listener.onCollide(event);
       });
