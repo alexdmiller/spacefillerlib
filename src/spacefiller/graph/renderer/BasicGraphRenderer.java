@@ -5,7 +5,9 @@ import spacefiller.graph.Edge;
 import spacefiller.graph.Graph;
 import spacefiller.graph.Node;
 
-public class BasicGraphRenderer implements GraphRenderer {
+import java.io.Serializable;
+
+public class BasicGraphRenderer implements GraphRenderer, Serializable {
   private float thickness;
   private int color;
 
