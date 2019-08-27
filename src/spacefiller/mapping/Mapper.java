@@ -93,10 +93,6 @@ public class Mapper implements Serializable {
       mapper.initializeSurface(surface);
     }
 
-    for (Graph graph : mapper.nameToGraph.values()) {
-      mapper.initializeGraph(graph);
-    }
-
     return mapper;
   }
 
@@ -253,7 +249,7 @@ public class Mapper implements Serializable {
 
   private void initializeSurface(Surface surface) {
     surface.createCanvas(parent);
-    addTransformable(surface);
+    addToRoot(surface);
     addDrawable(surface);
   }
 
@@ -274,16 +270,14 @@ public class Mapper implements Serializable {
 
     graph.setName(name);
     nameToGraph.put(name, graph);
-    initializeGraph(graph);
     return graph;
   }
 
-  private void initializeGraph(Graph graph) {
-    GraphTransformer transformer = new GraphTransformer(graph);
-    addTransformable(transformer);
+  public void addToRoot(Graph graph) {
+    addToRoot(new GraphTransformer(graph));
   }
 
-  private void addTransformable(Transformable transformable) {
+  public void addToRoot(Transformable transformable) {
     if (!(mode instanceof NoOpMode)) {
       transformable.setShowUI(true);
     }
