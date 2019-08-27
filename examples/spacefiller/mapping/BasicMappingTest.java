@@ -18,8 +18,7 @@ public class BasicMappingTest extends PApplet {
 
   @Override
   public void setup() {
-    mapper = new Mapper(this);
-
+    mapper = Mapper.load(this);
     surface = mapper.createSurface(10, 10, 50);
   }
 

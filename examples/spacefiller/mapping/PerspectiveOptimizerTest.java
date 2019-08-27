@@ -24,7 +24,7 @@ public class PerspectiveOptimizerTest extends PApplet {
   private Quad actualQuad;
 
   public void setup() {
-    mapper = new Mapper(this);
+    mapper = Mapper.load(this);
     transformer = mapper.createSurface(10, 10, 50);
 
     preTransformPoints = new PVector[10];

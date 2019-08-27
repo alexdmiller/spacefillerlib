@@ -7,48 +7,38 @@ import processing.event.MouseEvent;
 import spacefiller.graph.Graph;
 import spacefiller.graph.GridUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.io.*;
+import java.util.*;
 
-public class Mapper {
+public class Mapper implements Serializable {
   public static final int ACTIVE_COLOR = 0xFFFFFFFF;
   public static final int DESELECTED_COLOR = 0x33FFFFFF;
+  public static final String DEFAULT_NAME = "default.mapper";
+  public static final String DATA_DIRECTORY = "mapper_data";
 
   protected static final char DRILL_OUT = 'u';
-  protected static final char WARP_MODE = 'e';
-  protected static final char ROTATE_MODE = 'r';
-  protected static final char SCALE_MODE = 's';
-  protected static final char TRANSLATE_MODE = 't';
+  protected static final char WARP_MODE = 'q';
+  protected static final char ROTATE_MODE = 'w';
+  protected static final char SCALE_MODE = 'e';
+  protected static final char TRANSLATE_MODE = 'r';
   protected static final char SHOW_MESH = 'm';
   protected static final char FORCE_DRAG = 'f';
   protected static final char EDIT_MESH = 'n';
   protected static final char TOGGLE = ' ';
+  protected static final char SAVE = 's';
 
   private Stack<List<Transformable>> transformables;
   private List<Drawable> drawables;
-  private Transformable activeTransformable;
-  private Draggable lastDragged;
-  private Mode mode;
-  private PApplet parent;
-  private boolean meshesShown;
+  private Map<String, Surface> nameToSurface;
+  private String mapperName;
 
-  public Mapper(PApplet parent) {
-    // this.mode = new WarpMode(this);
+  private transient Transformable activeTransformable;
+  private transient Draggable lastDragged;
+  private transient Mode mode;
+  private transient PApplet parent;
+  private transient boolean meshesShown;
 
-    this.parent = parent;
-
-    parent.registerMethod("mouseEvent", this);
-    parent.registerMethod("keyEvent", this);
-    parent.registerMethod("draw", this);
-
-    transformables = new Stack<>();
-    transformables.add(new ArrayList<>());
-
-    drawables = new ArrayList<>();
-
-    setMode(new NoOpMode(this));
-
+  private static void printInstructions() {
     System.out.println();
     System.out.println("SPACEFILLER MAPPER");
     System.out.println("==================");
@@ -62,6 +52,85 @@ public class Mapper {
     System.out.println(SHOW_MESH + "\t\t\t toggle mesh");
     System.out.println(FORCE_DRAG + "\t\t\t force drag");
     System.out.println();
+  }
+
+  public static Mapper load(PApplet parent) {
+    return load(DEFAULT_NAME, parent);
+  }
+
+  public static Mapper load(String mapperName, PApplet parent) {
+    String mapperData = DATA_DIRECTORY + "/" + mapperName + ".ser";
+    try {
+      FileInputStream fileIn = new FileInputStream(mapperData);
+      ObjectInputStream in = new ObjectInputStream(fileIn);
+      Mapper mapper = (Mapper) in.readObject();
+      mapper.setParent(parent);
+      mapper.setMode(new NoOpMode(mapper));
+      mapper.setMapperName(mapperName);
+
+      for (Surface surface : mapper.nameToSurface.values()) {
+        mapper.initializeSurface(surface);
+      }
+
+      in.close();
+      fileIn.close();
+      printInstructions();
+      return mapper;
+    } catch (FileNotFoundException e) {
+      System.out.println("Warning: No saved mapper data found at " + mapperData + ". Call mapper.save() to save data.");
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+
+    return new Mapper(parent);
+  }
+
+  private Mapper(PApplet parent) {
+    setParent(parent);
+    transformables = new Stack<>();
+    transformables.add(new ArrayList<>());
+    drawables = new ArrayList<>();
+    nameToSurface = new HashMap<>();
+    setMode(new NoOpMode(this));
+    setMapperName(DEFAULT_NAME);
+    printInstructions();
+  }
+
+  public void save() {
+    File directory = new File(DATA_DIRECTORY);
+    if (! directory.exists()){
+      directory.mkdir();
+    }
+
+    String dataFile = DATA_DIRECTORY +  "/" + mapperName + ".ser";
+    try {
+      FileOutputStream fileOut =
+          new FileOutputStream(dataFile);
+      ObjectOutputStream out = new ObjectOutputStream(fileOut);
+      out.writeObject(this);
+      out.close();
+      fileOut.close();
+      System.out.println("Mapper data saved to " + dataFile);
+    } catch (IOException i) {
+      i.printStackTrace();
+    }
+  }
+
+  private void setParent(PApplet parent) {
+    this.parent = parent;
+    parent.registerMethod("mouseEvent", this);
+    parent.registerMethod("keyEvent", this);
+    parent.registerMethod("draw", this);
+  }
+
+  public String getMapperName() {
+    return mapperName;
+  }
+
+  public void setMapperName(String mapperName) {
+    this.mapperName = mapperName;
   }
 
   public void mouseEvent(MouseEvent event) {
@@ -113,6 +182,8 @@ public class Mapper {
         setMode(new TranslateMode(this));
       } else if (keyEvent.getKey() == SHOW_MESH) {
         toggleMeshes();
+      } else if (keyEvent.getKey() == SAVE) {
+        save();
       }
     } else if (keyEvent.getAction() == KeyEvent.RELEASE) {
       // if we're in NoOp mode, stay in NoOp mode even when key is released
@@ -148,11 +219,25 @@ public class Mapper {
   }
 
   public Surface createSurface(int rows, int cols, int spacing) {
+    return createSurface("untitled surface", rows, cols, spacing);
+  }
+
+  public Surface createSurface(String name, int rows, int cols, int spacing) {
+    if (nameToSurface.containsKey(name)) {
+      return nameToSurface.get(name);
+    }
+
     Surface surface = GridUtils.createSurface(rows, cols, spacing);
+    surface.setName(name);
+    nameToSurface.put(name, surface);
+    initializeSurface(surface);
+    return surface;
+  }
+
+  private void initializeSurface(Surface surface) {
     surface.createCanvas(parent);
     addTransformable(surface);
     addDrawable(surface);
-    return surface;
   }
 
   public Surface createSurface(Grid grid) {
@@ -168,10 +253,6 @@ public class Mapper {
     GraphTransformer transformer = new GraphTransformer(graph);
     addTransformable(transformer);
     return graph;
-  }
-
-  public void save() {
-
   }
 
   private void addTransformable(Transformable transformable) {

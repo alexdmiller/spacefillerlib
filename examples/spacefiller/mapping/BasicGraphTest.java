@@ -20,7 +20,7 @@ public class BasicGraphTest extends PApplet {
 
   @Override
   public void setup() {
-    mapper = new Mapper(this);
+    mapper = Mapper.load(this);
 
     graph = mapper.createGraph();
     Node n1 = graph.createNode(200, 200);

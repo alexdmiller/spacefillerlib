@@ -24,7 +24,7 @@ public class NestedGraphInSurface extends PApplet {
 
   @Override
   public void setup() {
-    mapper = new Mapper(this);
+    mapper = Mapper.load(this);
     surface = mapper.createSurface(10, 10, 50);
 
     graph = new Graph();
@@ -43,6 +43,7 @@ public class NestedGraphInSurface extends PApplet {
     background(0);
 
     surface.drawToSurface(graphics -> {
+      graphics.background(0);
       renderer.render(graphics, graph);
     });
   }

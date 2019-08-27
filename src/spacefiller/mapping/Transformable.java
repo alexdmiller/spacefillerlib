@@ -3,12 +3,13 @@ package spacefiller.mapping;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Transformable {
-  protected boolean showUI;
-  protected boolean active;
+public abstract class Transformable implements Serializable {
+  protected transient boolean showUI;
+  protected transient boolean active;
 
   private Transformable parent;
   private List<Transformable> children;
@@ -71,4 +72,6 @@ public abstract class Transformable {
   public abstract PVector getRelativePoint(PVector point);
   public abstract boolean isPointOver(PVector point);
   public abstract void renderUI(PGraphics canvas);
+
+
 }
