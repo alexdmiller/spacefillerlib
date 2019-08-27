@@ -14,6 +14,7 @@ import java.util.Map;
 public class Graph implements Serializable {
   protected List<Node> nodes;
   protected List<Edge> edges;
+  private String name;
 
   public Graph() {
     nodes = new ArrayList<>();
@@ -113,5 +114,13 @@ public class Graph implements Serializable {
     float newY = (float) (p.x * Math.sin(theta) + p.y * Math.cos(theta));
     p.x = newX;
     p.y = newY;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }

@@ -5,15 +5,15 @@ import spacefiller.mapping.Grid;
 import spacefiller.mapping.Quad;
 
 public class GridUtils {
-  public static Surface createSurface(int rows, int cols, float spacing) {
-    return new Surface(createTriangleGrid(rows, cols, spacing));
+  public static Surface createSurface(String name, int rows, int cols, float spacing) {
+    return new Surface(createTriangleGrid(name + " grid", rows, cols, spacing));
   }
 
-  public static Grid createSimpleGrid(int rows, int cols, float xSpacing, float ySpacing) {
+  public static Grid createSimpleGrid(String name, int rows, int cols, float xSpacing, float ySpacing) {
     rows++; cols++;
 
     Node[][] nodes = new Node[rows][cols];
-    Grid grid = new Grid();
+    Grid grid = new Grid(name);
 
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < cols; col++) {
@@ -37,12 +37,12 @@ public class GridUtils {
     return grid;
   }
 
-  public static Grid createTriangleGrid(int rows, int cols, float spacing) {
+  public static Grid createTriangleGrid(String name, int rows, int cols, float spacing) {
     rows *= 2;
     rows += 1;
     cols += 1;
     Node[][] nodes = new Node[rows][cols];
-    Grid grid = new Grid();
+    Grid grid = new Grid(name);
 
     grid.setRows(rows);
     grid.setColumns(cols);

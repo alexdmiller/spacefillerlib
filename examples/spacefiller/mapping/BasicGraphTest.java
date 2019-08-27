@@ -20,12 +20,13 @@ public class BasicGraphTest extends PApplet {
 
   @Override
   public void setup() {
-    mapper = Mapper.load(this);
+    mapper = Mapper.load("basic_graph_test", this);
 
-    graph = mapper.createGraph();
-    Node n1 = graph.createNode(200, 200);
-    Node n2 = graph.createNode(200, 250);
-    graph.createEdge(n1, n2);
+    graph = mapper.createGraph("graph", (graph) -> {
+      Node n1 = graph.createNode(200, 200);
+      Node n2 = graph.createNode(200, 250);
+      graph.createEdge(n1, n2);
+    });
   }
 
   @Override

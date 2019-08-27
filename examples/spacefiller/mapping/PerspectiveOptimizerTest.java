@@ -25,7 +25,7 @@ public class PerspectiveOptimizerTest extends PApplet {
 
   public void setup() {
     mapper = Mapper.load(this);
-    transformer = mapper.createSurface(10, 10, 50);
+    transformer = mapper.createSurface("surface", 10, 10, 50);
 
     preTransformPoints = new PVector[10];
     for (int i = 0; i < preTransformPoints.length; i++) {

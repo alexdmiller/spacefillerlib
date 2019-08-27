@@ -29,7 +29,9 @@ public class Mapper implements Serializable {
 
   private Stack<List<Transformable>> transformables;
   private List<Drawable> drawables;
+  // TODO: can we combine these into one map?
   private Map<String, Surface> nameToSurface;
+  private Map<String, Graph> nameToGraph;
   private String mapperName;
 
   private transient Transformable activeTransformable;
@@ -60,22 +62,17 @@ public class Mapper implements Serializable {
 
   public static Mapper load(String mapperName, PApplet parent) {
     String mapperData = DATA_DIRECTORY + "/" + mapperName + ".ser";
+    Mapper mapper = null;
+
     try {
       FileInputStream fileIn = new FileInputStream(mapperData);
       ObjectInputStream in = new ObjectInputStream(fileIn);
-      Mapper mapper = (Mapper) in.readObject();
-      mapper.setParent(parent);
-      mapper.setMode(new NoOpMode(mapper));
-      mapper.setMapperName(mapperName);
 
-      for (Surface surface : mapper.nameToSurface.values()) {
-        mapper.initializeSurface(surface);
-      }
+      mapper = (Mapper) in.readObject();
 
       in.close();
       fileIn.close();
       printInstructions();
-      return mapper;
     } catch (FileNotFoundException e) {
       System.out.println("Warning: No saved mapper data found at " + mapperData + ". Call mapper.save() to save data.");
     } catch (IOException e) {
@@ -84,17 +81,31 @@ public class Mapper implements Serializable {
       e.printStackTrace();
     }
 
-    return new Mapper(parent);
+    if (mapper == null) {
+      mapper = new Mapper();
+    }
+
+    mapper.setParent(parent);
+    mapper.setMode(new NoOpMode(mapper));
+    mapper.setMapperName(mapperName);
+
+    for (Surface surface : mapper.nameToSurface.values()) {
+      mapper.initializeSurface(surface);
+    }
+
+    for (Graph graph : mapper.nameToGraph.values()) {
+      mapper.initializeGraph(graph);
+    }
+
+    return mapper;
   }
 
-  private Mapper(PApplet parent) {
-    setParent(parent);
+  private Mapper() {
     transformables = new Stack<>();
     transformables.add(new ArrayList<>());
     drawables = new ArrayList<>();
     nameToSurface = new HashMap<>();
-    setMode(new NoOpMode(this));
-    setMapperName(DEFAULT_NAME);
+    nameToGraph = new HashMap<>();
     printInstructions();
   }
 
@@ -207,7 +218,6 @@ public class Mapper implements Serializable {
     return transformables.get(0);
   }
 
-
   public void draw() {
     for (Transformable transformable : getRootTransformables()) {
       transformable.renderUI(parent.getGraphics());
@@ -218,16 +228,23 @@ public class Mapper implements Serializable {
     }
   }
 
-  public Surface createSurface(int rows, int cols, int spacing) {
-    return createSurface("untitled surface", rows, cols, spacing);
-  }
-
   public Surface createSurface(String name, int rows, int cols, int spacing) {
     if (nameToSurface.containsKey(name)) {
       return nameToSurface.get(name);
     }
 
-    Surface surface = GridUtils.createSurface(rows, cols, spacing);
+    Surface surface = GridUtils.createSurface(name, rows, cols, spacing);
+    nameToSurface.put(name, surface);
+    initializeSurface(surface);
+    return surface;
+  }
+
+  public Surface createSurface(String name, Grid grid) {
+    if (nameToSurface.containsKey(name)) {
+      return nameToSurface.get(name);
+    }
+
+    Surface surface = new Surface(grid);
     surface.setName(name);
     nameToSurface.put(name, surface);
     initializeSurface(surface);
@@ -240,19 +257,30 @@ public class Mapper implements Serializable {
     addDrawable(surface);
   }
 
-  public Surface createSurface(Grid grid) {
-    Surface surface = new Surface(grid);
-    surface.createCanvas(parent);
-    addTransformable(surface);
-    addDrawable(surface);
-    return surface;
+  public Graph createGraph(String name) {
+    return createGraph(name, null);
   }
 
-  public Graph createGraph() {
+  public Graph createGraph(String name, GraphDefinition definition) {
+    if (nameToGraph.containsKey(name)) {
+      return nameToGraph.get(name);
+    }
+
     Graph graph = new Graph();
+
+    if (definition != null) {
+      definition.apply(graph);
+    }
+
+    graph.setName(name);
+    nameToGraph.put(name, graph);
+    initializeGraph(graph);
+    return graph;
+  }
+
+  private void initializeGraph(Graph graph) {
     GraphTransformer transformer = new GraphTransformer(graph);
     addTransformable(transformer);
-    return graph;
   }
 
   private void addTransformable(Transformable transformable) {

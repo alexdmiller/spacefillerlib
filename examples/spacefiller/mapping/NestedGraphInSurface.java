@@ -24,16 +24,14 @@ public class NestedGraphInSurface extends PApplet {
 
   @Override
   public void setup() {
-    mapper = Mapper.load(this);
-    surface = mapper.createSurface(10, 10, 50);
+    mapper = Mapper.load("nested_graph_test", this);
+    surface = mapper.createSurface("surface", 10, 10, 50);
 
-    graph = new Graph();
-    Node n1 = graph.createNode(200, 200);
-    Node n2 = graph.createNode(200, 250);
-    graph.createEdge(n1, n2);
-
-    graphTransformer = new GraphTransformer(graph);
-    surface.addChild(graphTransformer);
+    graph = mapper.createGraph("graph", (graph) -> {
+      Node n1 = graph.createNode(200, 200);
+      Node n2 = graph.createNode(200, 250);
+      graph.createEdge(n1, n2);
+    });
 
     renderer = new SinGraphRenderer();
   }

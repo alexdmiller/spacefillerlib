@@ -17,8 +17,7 @@ public class Grid extends Graph {
   private int columns;
   private int rows;
 
-  public Grid() {
-    super();
+  public Grid(String name) {
     triangles = new ArrayList<>();
     squares = new ArrayList<>();
   }

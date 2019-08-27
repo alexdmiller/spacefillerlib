@@ -148,7 +148,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
   }
 
   private void makeGraphCopy() {
-    preTransformGrid = new Grid();
+    preTransformGrid = new Grid(postTransformGrid.getName() + " pre");
 
     for (Node postNode : postTransformGrid.getNodes()) {
       Node preNode = preTransformGrid.createNode(postNode.position.x, postNode.position.y);
