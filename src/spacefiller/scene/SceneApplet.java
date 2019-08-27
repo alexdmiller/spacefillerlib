@@ -108,4 +108,8 @@ public class SceneApplet extends PApplet {
   public void setCanvas(PGraphics canvas) {
     this.canvas = canvas;
   }
+
+  public Scene getCurrentScene() {
+    return scenes.get(currentSceneIndex);
+  }
 }
