@@ -36,6 +36,7 @@ public class Mapper implements Serializable {
   private Map<String, Surface> nameToSurface;
   private Map<String, Graph> nameToGraph;
   private String mapperName;
+  private boolean manageCursor;
 
   private transient Transformable activeTransformable;
   private transient Draggable lastDragged;
@@ -395,6 +396,10 @@ public class Mapper implements Serializable {
     for (Transformable t : getCurrentActiveLayer()) {
       t.setShowUI(true);
     }
+
+    if (manageCursor) {
+      parent.cursor();
+    }
   }
 
   protected void hideUI() {
@@ -402,6 +407,10 @@ public class Mapper implements Serializable {
       for (Transformable t : getCurrentActiveLayer()) {
         t.setShowUI(false);
       }
+    }
+
+    if (manageCursor) {
+      parent.noCursor();
     }
   }
 
@@ -436,4 +445,9 @@ public class Mapper implements Serializable {
     meshesShown = false;
   }
 
+
+  public void manageCursor() {
+    manageCursor = true;
+    parent.noCursor();
+  }
 }

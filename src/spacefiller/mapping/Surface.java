@@ -174,6 +174,10 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
     for (Quad quad : postTransformGrid.getSquares()) {
       preTransformGrid.addSquare(copyQuad(quad));
     }
+
+    preTransformGrid.setColumns(postTransformGrid.getColumns());
+    preTransformGrid.setColumns(postTransformGrid.getRows());
+    preTransformGrid.setCellSize(postTransformGrid.getCellSize());
   }
 
   private Quad copyQuad(Quad quad) {
