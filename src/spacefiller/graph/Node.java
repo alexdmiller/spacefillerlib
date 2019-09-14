@@ -9,19 +9,18 @@ import java.util.List;
 
 public class Node implements Serializable, Pin {
   public PVector position;
-  public List<Edge> connections;
-
   private List<NodeListener> listeners;
+  private Graph graph;
 
-  public Node() {
+  public Node(Graph graph) {
+    this.graph = graph;
     position = new PVector();
-    connections = new ArrayList<>();
     listeners = new ArrayList<>();
   }
 
-  public Node(float x, float y) {
+  public Node(Graph graph, float x, float y) {
+    this.graph = graph;
     position = new PVector(x, y);
-    connections = new ArrayList<>();
     listeners = new ArrayList<>();
   }
 
@@ -30,7 +29,7 @@ public class Node implements Serializable, Pin {
   }
 
   public Node copy() {
-    Node n = new Node();
+    Node n = new Node(graph);
     n.position = this.position.copy();
     return n;
   }
@@ -59,5 +58,9 @@ public class Node implements Serializable, Pin {
     for (NodeListener listener : listeners) {
       listener.nodeUpdated();
     }
+  }
+
+  public List<Node> getNeighbors() {
+    return graph.getNeighbors(this);
   }
 }

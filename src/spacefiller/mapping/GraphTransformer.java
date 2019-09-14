@@ -58,7 +58,7 @@ public class GraphTransformer extends Transformable implements Draggable {
   public Draggable select(PVector point, boolean innerNodes) {
     // first, see if the point is over a node
     for (Node node : graph.getNodes()) {
-      if (point.dist(node.position) < 30) {
+      if (point.dist(node.getPosition()) < 30) {
         return node;
       }
     }
@@ -103,7 +103,7 @@ public class GraphTransformer extends Transformable implements Draggable {
   @Override
   public boolean isPointOver(PVector point) {
     for (Node node : graph.getNodes()) {
-      if (point.dist(node.position) < 30) {
+      if (point.dist(node.getPosition()) < 30) {
         return true;
       }
     }

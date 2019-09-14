@@ -45,10 +45,10 @@ public class Quad implements Serializable {
 
   public List<PVector> getVertices() {
     List<PVector> list = new ArrayList<>();
-    list.add(topLeft.position);
-    list.add(topRight.position);
-    list.add(bottomRight.position);
-    list.add(bottomLeft.position);
+    list.add(topLeft.getPosition());
+    list.add(topRight.getPosition());
+    list.add(bottomRight.getPosition());
+    list.add(bottomLeft.getPosition());
     return list;
   }
 
@@ -129,10 +129,10 @@ public class Quad implements Serializable {
   }
 
   public float getWidth() {
-    return topRight.position.x - topLeft.position.x;
+    return topRight.getPosition().x - topLeft.getPosition().x;
   }
 
   public float getHeight() {
-    return bottomLeft.position.y - topLeft.position.y;
+    return bottomLeft.getPosition().y - topLeft.getPosition().y;
   }
 }

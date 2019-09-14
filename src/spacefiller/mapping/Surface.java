@@ -93,14 +93,14 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
     Quad preQuad = preTransformGrid.getBoundingQuad();
 
     PerspectiveTransform transform = PerspectiveTransform.getQuadToQuad(
-        preQuad.getTopLeft().position.x, preQuad.getTopLeft().position.y,
-        preQuad.getTopRight().position.x, preQuad.getTopRight().position.y,
-        preQuad.getBottomRight().position.x, preQuad.getBottomRight().position.y,
-        preQuad.getBottomLeft().position.x, preQuad.getBottomLeft().position.y,
-        postQuad.getTopLeft().position.x, postQuad.getTopLeft().position.y,
-        postQuad.getTopRight().position.x, postQuad.getTopRight().position.y,
-        postQuad.getBottomRight().position.x, postQuad.getBottomRight().position.y,
-        postQuad.getBottomLeft().position.x, postQuad.getBottomLeft().position.y);
+        preQuad.getTopLeft().getPosition().x, preQuad.getTopLeft().getPosition().y,
+        preQuad.getTopRight().getPosition().x, preQuad.getTopRight().getPosition().y,
+        preQuad.getBottomRight().getPosition().x, preQuad.getBottomRight().getPosition().y,
+        preQuad.getBottomLeft().getPosition().x, preQuad.getBottomLeft().getPosition().y,
+        postQuad.getTopLeft().getPosition().x, postQuad.getTopLeft().getPosition().y,
+        postQuad.getTopRight().getPosition().x, postQuad.getTopRight().getPosition().y,
+        postQuad.getBottomRight().getPosition().x, postQuad.getBottomRight().getPosition().y,
+        postQuad.getBottomLeft().getPosition().x, postQuad.getBottomLeft().getPosition().y);
 
     currentPerspective = new WarpPerspective(transform);
 
@@ -114,8 +114,8 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
 
     int i = 0;
     for (Node node : preTransformGrid.getNodes()) {
-      srcPoints[i] = node.position.x;
-      srcPoints[i + 1] = node.position.y;
+      srcPoints[i] = node.getPosition().x;
+      srcPoints[i + 1] = node.getPosition().y;
       i += 2;
     }
 
@@ -125,8 +125,8 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
 
     i = 0;
     for (Node node : postTransformGrid.getNodes()) {
-      node.position.x = destPoints[i];
-      node.position.y = destPoints[i + 1];
+      node.getPosition().x = destPoints[i];
+      node.getPosition().y = destPoints[i + 1];
       i += 2;
     }
 
@@ -140,8 +140,8 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
       for (int i = 0; i < triangle.length; i++) {
         Node preNode = postToPre.get(triangle[i]);
         graphics.vertex(
-            triangle[i].position.x, triangle[i].position.y,
-            preNode.position.x, preNode.position.y);
+            triangle[i].getPosition().x, triangle[i].getPosition().y,
+            preNode.getPosition().x, preNode.getPosition().y);
       }
     }
     graphics.endShape(PConstants.CLOSE);
@@ -151,7 +151,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
     preTransformGrid = new Grid(postTransformGrid.getName() + " pre");
 
     for (Node postNode : postTransformGrid.getNodes()) {
-      Node preNode = preTransformGrid.createNode(postNode.position.x, postNode.position.y);
+      Node preNode = preTransformGrid.createNode(postNode.getPosition().x, postNode.getPosition().y);
       postToPre.put(postNode, preNode);
     }
 
@@ -218,7 +218,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
   public Draggable select(PVector point, boolean innerNodes) {
     if (showMesh) {
       for (Node node : postTransformGrid.getNodes()) {
-        if (point.dist(node.position) < 30) {
+        if (point.dist(node.getPosition()) < 30) {
           return node;
         }
       }
@@ -226,7 +226,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
       // first, see if one of the control points are selected
       List<Node> nodes = postTransformGrid.getBoundingQuad().getNodes();
       for (int i = 0; i < nodes.size(); i++) {
-        if (PApplet.dist(nodes.get(i).position.x, nodes.get(i).position.y, point.x, point.y) < 30) {
+        if (PApplet.dist(nodes.get(i).getPosition().x, nodes.get(i).getPosition().y, point.x, point.y) < 30) {
           return nodes.get(i);
         }
       }
@@ -245,15 +245,15 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
     return
         isPointInTriangle(
             point.x, point.y,
-            postTransformGrid.getBoundingQuad().getTopLeft().position,
-            postTransformGrid.getBoundingQuad().getTopRight().position,
-            postTransformGrid.getBoundingQuad().getBottomLeft().position)
+            postTransformGrid.getBoundingQuad().getTopLeft().getPosition(),
+            postTransformGrid.getBoundingQuad().getTopRight().getPosition(),
+            postTransformGrid.getBoundingQuad().getBottomLeft().getPosition())
         ||
         isPointInTriangle(
             point.x, point.y,
-            postTransformGrid.getBoundingQuad().getTopRight().position,
-            postTransformGrid.getBoundingQuad().getBottomRight().position,
-            postTransformGrid.getBoundingQuad().getBottomLeft().position);
+            postTransformGrid.getBoundingQuad().getTopRight().getPosition(),
+            postTransformGrid.getBoundingQuad().getBottomRight().getPosition(),
+            postTransformGrid.getBoundingQuad().getBottomLeft().getPosition());
   }
 
   private boolean isPointInTriangle(float x, float y, PVector a,
@@ -348,10 +348,10 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
   }
 
   public void resetTransform() {
-    postTransformGrid.getBoundingQuad().getTopLeft().position.set(preTransformGrid.getBoundingQuad().getTopLeft().position);
-    postTransformGrid.getBoundingQuad().getTopRight().position.set(preTransformGrid.getBoundingQuad().getTopRight().position);
-    postTransformGrid.getBoundingQuad().getBottomLeft().position.set(preTransformGrid.getBoundingQuad().getBottomLeft().position);
-    postTransformGrid.getBoundingQuad().getBottomRight().position.set(preTransformGrid.getBoundingQuad().getBottomRight().position);
+    postTransformGrid.getBoundingQuad().getTopLeft().getPosition().set(preTransformGrid.getBoundingQuad().getTopLeft().getPosition());
+    postTransformGrid.getBoundingQuad().getTopRight().getPosition().set(preTransformGrid.getBoundingQuad().getTopRight().getPosition());
+    postTransformGrid.getBoundingQuad().getBottomLeft().getPosition().set(preTransformGrid.getBoundingQuad().getBottomLeft().getPosition());
+    postTransformGrid.getBoundingQuad().getBottomRight().getPosition().set(preTransformGrid.getBoundingQuad().getBottomRight().getPosition());
     recomputeNodesFromQuad();
   }
 
@@ -381,7 +381,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
   }
 
   public void onMouseEvent(MouseEventListener mouseEventListener) {
-    if (mouseEventListener == null) {
+    if (mouseEventListeners == null) {
       mouseEventListeners = new ArrayList<>();
     }
 
@@ -423,5 +423,7 @@ public class Surface extends Transformable implements Draggable, NodeListener, S
     this.name = name;
   }
 
-
+  public PGraphics getCanvas() {
+    return canvas;
+  }
 }

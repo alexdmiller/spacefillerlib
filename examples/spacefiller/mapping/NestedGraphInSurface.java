@@ -41,8 +41,6 @@ public class NestedGraphInSurface extends PApplet {
 
   @Override
   public void draw() {
-    background(0);
-
     surface.drawToSurface(graphics -> {
       graphics.background(0);
       renderer.render(graphics, graph);

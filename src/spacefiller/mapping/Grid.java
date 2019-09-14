@@ -52,11 +52,11 @@ public class Grid extends Graph {
   }
 
   public float getWidth() {
-    return boundingQuad.getTopRight().position.x - boundingQuad.getTopLeft().position.x;
+    return boundingQuad.getTopRight().getPosition().x - boundingQuad.getTopLeft().getPosition().x;
   }
 
   public float getHeight() {
-    return boundingQuad.getBottomLeft().position.y - boundingQuad.getTopLeft().position.y;
+    return boundingQuad.getBottomLeft().getPosition().y - boundingQuad.getTopLeft().getPosition().y;
   }
 
   public void setBoundingQuad(Quad boundingQuad) {
@@ -97,7 +97,7 @@ public class Grid extends Graph {
   public void scale(float scale) {
     super.scale(scale);
     for (Node node : boundingQuad.getNodes()) {
-      node.position.mult(scale);
+      node.getPosition().mult(scale);
     }
   }
 

@@ -50,14 +50,14 @@ public class PerspectiveOptimizer {
 
   private static WarpPerspective getPerspective(Quad preQuad, Quad postQuad) {
     PerspectiveTransform transform = PerspectiveTransform.getQuadToQuad(
-        preQuad.getTopLeft().position.x, preQuad.getTopLeft().position.y,
-        preQuad.getTopRight().position.x, preQuad.getTopRight().position.y,
-        preQuad.getBottomRight().position.x, preQuad.getBottomRight().position.y,
-        preQuad.getBottomLeft().position.x, preQuad.getBottomLeft().position.y,
-        postQuad.getTopLeft().position.x, postQuad.getTopLeft().position.y,
-        postQuad.getTopRight().position.x, postQuad.getTopRight().position.y,
-        postQuad.getBottomRight().position.x, postQuad.getBottomRight().position.y,
-        postQuad.getBottomLeft().position.x, postQuad.getBottomLeft().position.y);
+        preQuad.getTopLeft().getPosition().x, preQuad.getTopLeft().getPosition().y,
+        preQuad.getTopRight().getPosition().x, preQuad.getTopRight().getPosition().y,
+        preQuad.getBottomRight().getPosition().x, preQuad.getBottomRight().getPosition().y,
+        preQuad.getBottomLeft().getPosition().x, preQuad.getBottomLeft().getPosition().y,
+        postQuad.getTopLeft().getPosition().x, postQuad.getTopLeft().getPosition().y,
+        postQuad.getTopRight().getPosition().x, postQuad.getTopRight().getPosition().y,
+        postQuad.getBottomRight().getPosition().x, postQuad.getBottomRight().getPosition().y,
+        postQuad.getBottomLeft().getPosition().x, postQuad.getBottomLeft().getPosition().y);
 
     WarpPerspective perspective = new WarpPerspective(transform);
     return perspective;

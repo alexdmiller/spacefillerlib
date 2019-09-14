@@ -17,7 +17,6 @@ public class SceneApplet extends PApplet {
   protected boolean transitioning = false;
 
   protected List<Scene> scenes;
-  protected PGraphics canvas;
 
   public SceneApplet() {
     scenes = new ArrayList<>();
@@ -30,7 +29,6 @@ public class SceneApplet extends PApplet {
   }
 
   public void setup() {
-    setCanvas(getGraphics());
     queueScene(0);
   }
 
@@ -38,7 +36,7 @@ public class SceneApplet extends PApplet {
     void done();
   }
 
-  public void draw() {
+  public void draw(PGraphics canvas) {
     if (currentSceneIndex != -1) {
       scenes.get(currentSceneIndex).draw(canvas);
     }
@@ -103,10 +101,6 @@ public class SceneApplet extends PApplet {
     for (int i = 0; i < sceneArray.length; i++) {
       addScene(sceneArray[i]);
     }
-  }
-
-  public void setCanvas(PGraphics canvas) {
-    this.canvas = canvas;
   }
 
   public Scene getCurrentScene() {

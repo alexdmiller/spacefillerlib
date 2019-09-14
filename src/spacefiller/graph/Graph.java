@@ -3,21 +3,21 @@ package spacefiller.graph;
 import processing.core.PVector;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by miller on 7/16/17.
  */
 public class Graph implements Serializable {
-  protected List<Node> nodes;
-  protected List<Edge> edges;
+  private List<Node> nodes;
+  private Map<Node, Set<Node>> nodeNeighbors;
+  private List<Edge> edges;
+
   private String name;
 
   public Graph() {
     nodes = new ArrayList<>();
+    nodeNeighbors = new HashMap<>();
     edges = new ArrayList<>();
   }
 
@@ -30,36 +30,48 @@ public class Graph implements Serializable {
   }
 
   public Node createNode(float x, float y) {
-    Node n = new Node();
-    n.position.x = x;
-    n.position.y = y;
+    Node n = new Node(this, x, y);
     nodes.add(n);
     return n;
   }
 
+  /*
+  TODO: remove Edge class?
+        remove connections array from Node?
+  */
+
   public Node createNode(Node n) {
-    Node newNode = new Node();
-    newNode.position.x = n.position.x;
-    newNode.position.y = n.position.y;
+    Node newNode = new Node(this, n.getPosition().x, n.getPosition().y);
     nodes.add(newNode);
     return newNode;
   }
 
-  public Edge createEdge(Node n1, Node n2) {
-    Edge e = new Edge(n1, n2);
-    edges.add(e);
+  public void createEdge(Node n1, Node n2) {
+//    Edge e = new Edge(n1, n2);
+//    edges.add(e);
+//    n1.connections.add(e);
+//    n2.connections.add(e);
+//    return e;
 
-    n1.connections.add(e);
-    n2.connections.add(e);
+    if (!nodeNeighbors.containsKey(n1)) {
+      nodeNeighbors.put(n1, new HashSet());
+    }
 
-    return e;
+    if (!nodeNeighbors.containsKey(n2)) {
+      nodeNeighbors.put(n2, new HashSet());
+    }
+
+    nodeNeighbors.get(n1).add(n2);
+    nodeNeighbors.get(n2).add(n1);
+
+    edges.add(new Edge(n1, n2));
   }
 
   public Graph copy() {
     Map<Node, Node> oldToNew = new HashMap<>();
     Graph newGraph = new Graph();
     for (Node n : nodes) {
-      Node newNode = newGraph.createNode(n.position.x, n.position.y);
+      Node newNode = newGraph.createNode(n.getPosition().x, n.getPosition().y);
       oldToNew.put(n, newNode);
     }
 
@@ -75,15 +87,15 @@ public class Graph implements Serializable {
   public PVector getRandomPointOnEdge() {
     Edge e = edges.get((int) Math.floor(Math.random() * edges.size()));
 
-    PVector delta = PVector.sub(e.n1.position, e.n2.position);
+    PVector delta = PVector.sub(e.n1.getPosition(), e.n2.getPosition());
     float d = (float) Math.random();
-    return new PVector(e.n1.position.x + delta.x * d, e.n1.position.y + delta.y * d);
+    return new PVector(e.n1.getPosition().x + delta.x * d, e.n1.getPosition().y + delta.y * d);
   }
 
   public PVector computeCentroid() {
     PVector center = new PVector(0, 0);
     for (Node n : nodes) {
-      center.add(n.position);
+      center.add(n.getPosition());
     }
     center.div(nodes.size());
     return center;
@@ -91,14 +103,14 @@ public class Graph implements Serializable {
 
   public void translate(float dx, float dy) {
     for (Node node : nodes) {
-      node.position.x += dx;
-      node.position.y += dy;
+      node.getPosition().x += dx;
+      node.getPosition().y += dy;
     }
   }
 
   public void scale(float scale) {
     for (Node node : nodes) {
-      node.position.mult(scale);
+      node.getPosition().mult(scale);
     }
   }
 
@@ -122,5 +134,9 @@ public class Graph implements Serializable {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public List<Node> getNeighbors(Node node) {
+    return null;
   }
 }

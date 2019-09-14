@@ -23,11 +23,11 @@ public class BasicGraphRenderer implements GraphRenderer, Serializable {
     graphics.strokeWeight(thickness);
 
     for (Node n : graph.getNodes()) {
-      graphics.ellipse(n.position.x, n.position.y, 3, 3);
+      graphics.ellipse(n.getPosition().x, n.getPosition().y, 3, 3);
     }
 
     for (Edge e: graph.getEdges()) {
-      graphics.line(e.n1.position.x, e.n1.position.y, e.n2.position.x, e.n2.position.y);
+      graphics.line(e.n1.getPosition().x, e.n1.getPosition().y, e.n2.getPosition().x, e.n2.getPosition().y);
     }
   }
 

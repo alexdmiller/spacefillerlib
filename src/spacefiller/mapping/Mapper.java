@@ -94,7 +94,8 @@ public class Mapper implements Serializable {
     mapper.setMapperName(mapperName);
 
     for (Surface surface : mapper.nameToSurface.values()) {
-      mapper.initializeSurface(surface);
+      // TODO: does this work??
+      surface.createCanvas(parent);
     }
 
     return mapper;
@@ -133,6 +134,7 @@ public class Mapper implements Serializable {
     this.parent = parent;
     parent.registerMethod("mouseEvent", this);
     parent.registerMethod("keyEvent", this);
+    parent.registerMethod("pre", this);
     parent.registerMethod("draw", this);
   }
 
@@ -223,13 +225,18 @@ public class Mapper implements Serializable {
     return transformables.get(0);
   }
 
+  public void pre() {
+    this.parent.background(0);
+
+    // TODO: drawables are getting added a lot!
+    for (Drawable drawable : drawables) {
+      drawable.draw(parent.getGraphics());
+    }
+  }
+
   public void draw() {
     for (Transformable transformable : getRootTransformables()) {
       transformable.renderUI(parent.getGraphics());
-    }
-
-    for (Drawable drawable : drawables) {
-      drawable.draw(parent.getGraphics());
     }
 
     if (inEditMode()) {

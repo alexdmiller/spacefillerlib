@@ -24,11 +24,13 @@ public class BasicMappingTest extends PApplet {
 
   @Override
   public void draw() {
-    background(0);
+//    background(0);
 
     surface.drawToSurface(graphics -> {
       graphics.fill(255, 0 , 250);
       graphics.ellipse(250, 250, 300, 300);
     });
+
+//    image(surface.getCanvas(), 0, 0);
   }
 }
