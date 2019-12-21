@@ -17,7 +17,7 @@ public class AttractParticles extends ParticleBehavior {
   @Override
   public void apply(Particle particle, List<Particle> neighbors) {
     for (Particle p2 : neighbors) {
-      Vector delta = Vector.sub(particle.position, p2.position);
+      Vector delta = Vector.sub(particle.getPosition(), p2.getPosition());
       float dist = (float) delta.magnitude();
       if (dist < attractThreshold) {
         delta.setMag(attractStrength);

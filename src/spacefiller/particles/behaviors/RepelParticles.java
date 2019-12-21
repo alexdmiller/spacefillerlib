@@ -17,12 +17,12 @@ public class RepelParticles extends ParticleBehavior {
   @Override
   public void apply(Particle particle, List<Particle> neighbors) {
     for (Particle p2 : neighbors) {
-      Vector delta = Vector.sub(particle.position, p2.position);
+      Vector delta = Vector.sub(particle.getPosition(), p2.getPosition());
       float mag = (float) delta.magnitude();
       if (mag < repelThreshold) {
         float force = repelStrength / (mag * mag + 0.0001f);
         delta.mult(force);
-        particle.velocity.add(delta);
+        particle.applyForce(delta);
       }
     }
   }

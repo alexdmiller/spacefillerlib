@@ -12,29 +12,33 @@ public class DonutBounds extends ParticleBehavior {
     Vector a = getParticleSystem().getBounds().getTopBackLeft();
     Vector b = getParticleSystem().getBounds().getBottomFrontRight();
 
+    Vector position = p.getPosition();
+
     p.setTeleportFlag(false);
-    if (p.position.x < a.x) {
-      p.position.x = b.x;
+    if (position.x < a.x) {
+      position.x = b.x;
       p.setTeleportFlag(true);
-    } else if (p.position.x > b.x) {
-      p.position.x = a.x;
-      p.setTeleportFlag(true);
-    }
-
-    if (p.position.y < a.y) {
-      p.position.y = b.y;
-      p.setTeleportFlag(true);
-    } else if (p.position.y > b.y) {
-      p.position.y = a.y;
+    } else if (position.x > b.x) {
+      position.x = a.x;
       p.setTeleportFlag(true);
     }
 
-    if (p.position.z < a.z) {
-      p.position.z = b.z;
+    if (position.y < a.y) {
+      position.y = b.y;
       p.setTeleportFlag(true);
-    } else if (p.position.z > b.z) {
-      p.position.z = a.z;
+    } else if (position.y > b.y) {
+      position.y = a.y;
       p.setTeleportFlag(true);
     }
+
+    if (position.z < a.z) {
+      position.z = b.z;
+      p.setTeleportFlag(true);
+    } else if (position.z > b.z) {
+      position.z = a.z;
+      p.setTeleportFlag(true);
+    }
+
+    p.setPosition(position);
   }
 }

@@ -30,7 +30,7 @@ public class FollowPaths extends ParticleBehavior {
     for (Pair<Vector, Vector> p : pathSegments) {
       if (p != null) {
         Vector normalPoint = getNormalPoint(p.getKey(), p.getValue(), particle);
-        float distance = (float) Vector.sub(particle.position, normalPoint).magnitude();
+        float distance = (float) Vector.sub(particle.getPosition(), normalPoint).magnitude();
         if (closestNormalPoint == null || distance < closestDistance) {
           closestNormalPoint = normalPoint;
           closestDistance = distance;
@@ -46,7 +46,7 @@ public class FollowPaths extends ParticleBehavior {
   }
 
   private Vector getNormalPoint(Vector start, Vector end, Particle particle) {
-    Vector predictedPosition = Vector.add(particle.position, particle.velocity);
+    Vector predictedPosition = Vector.add(particle.getPosition(), particle.getVelocity());
     Vector a = Vector.sub(predictedPosition, start);
     Vector b = Vector.sub(end, start);
     float segmentLength = (float) b.magnitude();

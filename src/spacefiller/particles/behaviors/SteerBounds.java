@@ -52,24 +52,27 @@ public class SteerBounds extends ParticleBehavior {
 
     Vector desired = null;
 
-    if (particle.position.x < topLeft.x + threshold) {
-      desired = new Vector(maxSpeed, particle.velocity.y);
+    Vector position = particle.getPosition();
+    Vector velocity = particle.getVelocity();
+
+    if (position.x < topLeft.x + threshold) {
+      desired = new Vector(maxSpeed, velocity.y);
     }
 
-    if (particle.position.x > bottomRight.x - threshold) {
-      desired = new Vector(-maxSpeed, particle.velocity.y);
+    if (position.x > bottomRight.x - threshold) {
+      desired = new Vector(-maxSpeed, velocity.y);
     }
 
-    if (particle.position.y < topLeft.y + threshold) {
-      desired = new Vector(particle.velocity.x, maxSpeed);
+    if (position.y < topLeft.y + threshold) {
+      desired = new Vector(velocity.x, maxSpeed);
     }
 
-    if (particle.position.y > bottomRight.y - threshold) {
-      desired = new Vector(particle.velocity.x, -maxSpeed);
+    if (position.y > bottomRight.y - threshold) {
+      desired = new Vector(velocity.x, -maxSpeed);
     }
 
     if (desired != null) {
-      Vector steer = Vector.sub(desired, particle.velocity);
+      Vector steer = Vector.sub(desired, velocity);
       steer.limit(maxForce);
       particle.applyForce(steer);
     }

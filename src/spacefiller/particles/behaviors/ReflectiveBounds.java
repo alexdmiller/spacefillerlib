@@ -25,41 +25,47 @@ public class ReflectiveBounds extends ParticleBehavior {
     Vector topBackLeft = getParticleSystem().getBounds().getTopBackLeft();
     Vector bottomFrontRight = getParticleSystem().getBounds().getBottomFrontRight();
 
-    Vector preCollisionVelocity = p.velocity.copy();
+    Vector preCollisionVelocity = p.getVelocity();
     Vector collisionNormal = null;
 
-    if (p.position.x < topBackLeft.x) {
-      p.position.x = topBackLeft.x;
-      p.velocity.x *= -1;
+    Vector position = p.getPosition();
+    Vector velocity = p.getVelocity();
+
+    if (position.x < topBackLeft.x) {
+      position.x = topBackLeft.x;
+      position.x *= -1;
       collisionNormal = new Vector(1, 0, 0);
-    } else if (p.position.x > bottomFrontRight.x) {
-      p.position.x = bottomFrontRight.x;
-      p.velocity.x *= -1;
+    } else if (position.x > bottomFrontRight.x) {
+      position.x = bottomFrontRight.x;
+      velocity.x *= -1;
       collisionNormal = new Vector(-1, 0, 0);
     }
 
-    if (p.position.y < topBackLeft.y) {
-      p.position.y = topBackLeft.y;
-      p.velocity.y *= -1;
+    if (position.y < topBackLeft.y) {
+      position.y = topBackLeft.y;
+      velocity.y *= -1;
       collisionNormal = new Vector(0, 1, 0);
-    } else if (p.position.y > bottomFrontRight.y) {
-      p.position.y = bottomFrontRight.y;
-      p.velocity.y *= -1;
+    } else if (position.y > bottomFrontRight.y) {
+      position.y = bottomFrontRight.y;
+      velocity.y *= -1;
       collisionNormal = new Vector(0, -1, 0);
     }
 
-    if (p.position.z < topBackLeft.z) {
-      p.position.z = topBackLeft.z;
-      p.velocity.z *= -1;
+    if (position.z < topBackLeft.z) {
+      position.z = topBackLeft.z;
+      velocity.z *= -1;
       collisionNormal = new Vector(0, 0, 1);
-    } else if (p.position.z > bottomFrontRight.z) {
-      p.position.z = bottomFrontRight.z;
-      p.velocity.z *= -1;
+    } else if (position.z > bottomFrontRight.z) {
+      position.z = bottomFrontRight.z;
+      velocity.z *= -1;
       collisionNormal = new Vector(0, 0, -1);
     }
 
+    p.setPosition(position);
+    p.setVelocity(velocity);
+
     if (collisionNormal != null) {
-      CollisionEvent event = new CollisionEvent(p, p.position.copy(), preCollisionVelocity, collisionNormal);
+      CollisionEvent event = new CollisionEvent(p, p.getPosition(), preCollisionVelocity, collisionNormal);
       listeners.forEach(listener -> {
         listener.onCollide(event);
       });

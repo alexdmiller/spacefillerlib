@@ -19,10 +19,10 @@ public class Mapper implements Serializable {
 
   protected static final char DRILL_OUT = 'u';
 
-  protected static final char ROTATE_MODE = '1';
-  protected static final char SCALE_MODE = '2';
-  protected static final char TRANSLATE_MODE = '3';
-  protected static final char WARP_MODE = '4';
+  protected static final char ROTATE_MODE = 'r';
+  protected static final char SCALE_MODE = 's';
+  protected static final char TRANSLATE_MODE = 't';
+  protected static final char WARP_MODE = 'w';
 
   protected static final char SHOW_MESH = 'm';
   protected static final char FORCE_DRAG = 'f';
@@ -43,6 +43,7 @@ public class Mapper implements Serializable {
   private transient Mode mode;
   private transient PApplet parent;
   private transient boolean meshesShown;
+  private boolean uiVisible = false;
 
   private static void printInstructions() {
     System.out.println();
@@ -270,6 +271,10 @@ public class Mapper implements Serializable {
   }
 
   public Surface createSurface(String name, int rows, int cols, int spacing) {
+    return createSurface(name, rows, cols, spacing, null);
+  }
+
+  public Surface createSurface(String name, int rows, int cols, int spacing, SurfaceDefinition definition) {
     if (nameToSurface.containsKey(name)) {
       return nameToSurface.get(name);
     }
@@ -277,10 +282,18 @@ public class Mapper implements Serializable {
     Surface surface = GridUtils.createSurface(name, rows, cols, spacing);
     nameToSurface.put(name, surface);
     initializeSurface(surface);
+
+    if (definition != null) {
+      definition.apply(surface);
+    }
     return surface;
   }
 
   public Surface createSurface(String name, Grid grid) {
+    return createSurface(name, grid, null);
+  }
+
+  public Surface createSurface(String name, Grid grid, SurfaceDefinition definition) {
     if (nameToSurface.containsKey(name)) {
       return nameToSurface.get(name);
     }
@@ -289,6 +302,11 @@ public class Mapper implements Serializable {
     surface.setName(name);
     nameToSurface.put(name, surface);
     initializeSurface(surface);
+
+    if (definition != null) {
+      definition.apply(surface);
+    }
+
     return surface;
   }
 
@@ -374,6 +392,8 @@ public class Mapper implements Serializable {
   }
 
   protected void drillOut() {
+    boolean lastUIState = uiVisible;
+
     // turn off the current layer's UI
     hideUI();
 
@@ -384,22 +404,25 @@ public class Mapper implements Serializable {
     // turn on the parent layer's UI
     clearActiveTransformable();
 
-    showUI();
+    if (lastUIState) showUI();
   }
 
 
   protected void drillIn(Transformable transformable) {
     if (transformable.getChildren() != null && !transformable.getChildren().isEmpty()) {
+      boolean lastUIState = uiVisible;
+
       hideUI();
 
       clearActiveTransformable();
       pushTransformables(transformable.getChildren());
 
-      showUI();
+      if (lastUIState) showUI();
     }
   }
 
   protected void showUI() {
+    uiVisible = true;
     for (Transformable t : getCurrentActiveLayer()) {
       t.setShowUI(true);
     }
@@ -410,6 +433,8 @@ public class Mapper implements Serializable {
   }
 
   protected void hideUI() {
+    uiVisible = false;
+
     if (getCurrentActiveLayer() != null) {
       for (Transformable t : getCurrentActiveLayer()) {
         t.setShowUI(false);

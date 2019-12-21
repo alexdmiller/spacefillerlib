@@ -37,7 +37,7 @@ public class ParticleSystem {
   private HashMap<Integer, List<Particle>> teamMap;
 
   private ArrayList<Particle>[] hash;
-  private int rows, cols;
+  private int rows, cols, stacks;
   private float cellSize;
 
   public ParticleSystem(Bounds bounds, int maxParticles, float cellSize) {
@@ -68,7 +68,8 @@ public class ParticleSystem {
     this.cellSize = cellSize;
     this.rows = (int) Math.ceil((bounds.getHeight() + cellSize) / cellSize);
     this.cols = (int) Math.ceil((bounds.getWidth() + cellSize) / cellSize);
-    this.hash = new ArrayList[rows * cols];
+    this.stacks = (int) Math.ceil((bounds.getDepth() + cellSize) / cellSize);
+    this.hash = new ArrayList[rows * cols * stacks];
     for (int i = 0; i < hash.length; i++) {
       hash[i] = new ArrayList<>();
     }
@@ -128,7 +129,6 @@ public class ParticleSystem {
   public Particle createParticle(float x, float y) {
     return createParticle(new Vector(x, y), 2, -1);
   }
-
 
   public void createLoop(float x, float y, float radius, int num, float springLength, float springK, int team) {
     PVector center = new PVector(x, y);
@@ -191,6 +191,12 @@ public class ParticleSystem {
     n1.addConnection(spring);
     n2.addConnection(spring);
     return spring;
+  }
+
+  public void setParticlePosition(Particle p, Vector newPosition) {
+    int oldHash = hashPosition(p.position);
+    p.position = newPosition;
+    updateCell(p, oldHash);
   }
 
   public List<Spring> getSprings() {
@@ -270,23 +276,48 @@ public class ParticleSystem {
     }
   }
 
-  private int hashPosition(Vector position) {
-    return (int) (position.y / cellSize) * cols + (int) (position.x / cellSize);
+  public void updateCell(Particle p, int oldHash) {
+    int newHash = hashPosition(p.getPosition());
+    if (newHash != oldHash) {
+      synchronized (hash) {
+        if (oldHash > -1) {
+          hash[oldHash].remove(p);
+        }
+        if (newHash > -1) {
+          hash[newHash].add(p);
+        }
+      }
+    }
+  }
+
+  public int hashPosition(Vector position) {
+    return hashCellCoordinates((int) (position.x / cellSize), (int) (position.y / cellSize), (int) (position.z / cellSize));
+  }
+
+  public int hashCellCoordinates(int x, int y, int z) {
+    return y * (cols * stacks) + x * (stacks) + z;
   }
 
   protected List<Particle> getNeighbors(Vector position) {
     int cx = (int) (position.x / cellSize);
     int cy = (int) (position.y / cellSize);
+    int cz = (int) (position.z / cellSize);
 
     List<Particle> neighbors = new ArrayList<>();
 
+//    System.out.println(cx + ", " + cy + ", " + cz);
+
     for (int x = cx - 1; x <= cx + 1; x++) {
       for (int y = cy - 1; y <= cy + 1; y++) {
-        if (x >= 0 && x < cols && y >= 0 && y < rows) {
-          neighbors.addAll(hash[x + y * cols]);
+        for (int z = cz - 1; z <= cz + 1; z++) {
+          if (x >= 0 && x < cols && y >= 0 && y < rows && z >= 0 && z < stacks) {
+//            System.out.println(bucket);
+            neighbors.addAll(hash[hashCellCoordinates(x, y, z)]);
+          }
         }
       }
     }
+
 
     return neighbors;
   }
@@ -326,6 +357,10 @@ public class ParticleSystem {
     return cols;
   }
 
+  public int getStacks() {
+    return stacks;
+  }
+
   private class ParticleRunnable implements Runnable {
     private Particle p;
 
@@ -344,13 +379,7 @@ public class ParticleSystem {
       p.flushForces(maxForce);
       p.update();
 
-      int newHash = hashPosition(p.position);
-      if (newHash != oldHash) {
-        synchronized (hash) {
-          hash[oldHash].remove(p);
-          hash[newHash].add(p);
-        }
-      }
+      updateCell(p, oldHash);
     }
   }
 

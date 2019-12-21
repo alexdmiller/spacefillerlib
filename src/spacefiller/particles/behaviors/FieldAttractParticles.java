@@ -23,11 +23,11 @@ public class FieldAttractParticles extends ParticleBehavior {
     if (neighbors != null) {
        for (Particle neighbor : neighbors) {
          if (particle != neighbor) {
-           Vector delta = Vector.sub(particle.position, neighbor.position);
+           Vector delta = Vector.sub(particle.getPosition(), neighbor.getPosition());
            float dist = (float) delta.magnitude();
-           float strength = attractionField.get(particle.position.x, particle.position.y, dist);
+           float strength = attractionField.get(particle.getPosition().x, particle.getPosition().y, dist);
            delta.setMag(strength);
-           particle.velocity.add(delta);
+           particle.applyForce(delta);
          }
        }
      }

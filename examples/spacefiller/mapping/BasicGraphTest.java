@@ -26,9 +26,8 @@ public class BasicGraphTest extends PApplet {
       Node n1 = graph.createNode(200, 200);
       Node n2 = graph.createNode(200, 250);
       graph.createEdge(n1, n2);
+      mapper.addToRoot(graph);
     });
-
-    mapper.addToRoot(graph);
   }
 
   @Override

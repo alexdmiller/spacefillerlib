@@ -10,16 +10,16 @@ public class WiggleParticles extends ParticleBehavior {
 
   @Override
   public void apply(Particle particle, List<Particle> neighbors) {
-    Vector wiggleDirection = particle.position.copy().rotate((float) Math.PI / 2f);
+    Vector wiggleDirection = particle.getPosition().rotate((float) Math.PI / 2f);
 
     if (!particle.hasUserData("wiggleStep")) {
       particle.setUserData("wiggleStep", 0f);
     }
     float wiggleStep = (float) particle.getUserData("wiggleStep");
 
-    wiggleDirection.setMag((float) Math.sin(wiggleStep) * particle.velocity.magnitude() * wiggleAmplitudeMultiplier);
-    particle.position.add(wiggleDirection);
-    wiggleStep += particle.position.magnitude() * wiggleStepMultiplier;
+    wiggleDirection.setMag((float) Math.sin(wiggleStep) * particle.getVelocity().magnitude() * wiggleAmplitudeMultiplier);
+    particle.translate(wiggleDirection);
+    wiggleStep += particle.getPosition().magnitude() * wiggleStepMultiplier;
     particle.setUserData("wiggleStep", wiggleStep);
   }
 }

@@ -119,16 +119,17 @@ public class FlockParticles extends ParticleBehavior {
   @Override
   public void apply(Particle p, List<Particle> particles) {
     if (filterTag == null || p.hasTag(filterTag)) {
-      float localMaxSpeed = maxSpeed.get(p.position.x, p.position.y);
-      float localMaxForce = maxForce.get(p.position.x, p.position.y);
+      Vector position = p.getPosition();
+      float localMaxSpeed = maxSpeed.get(position.x, position.y);
+      float localMaxForce = maxForce.get(position.x, position.y);
 
       Vector sep = separate(p, particles, localMaxSpeed, localMaxForce);
       Vector ali = align(p, particles, localMaxSpeed, localMaxForce);
       Vector coh = cohesion(p, particles, localMaxSpeed, localMaxForce);
 
-      sep.mult(separationWeight * separationField.get(p.position.x, p.position.y));
-      ali.mult(alignmentWeight * alignmentField.get(p.position.x, p.position.y));
-      coh.mult(cohesionWeight * cohesionField.get(p.position.x, p.position.y));
+      sep.mult(separationWeight * separationField.get(position.x, position.y));
+      ali.mult(alignmentWeight * alignmentField.get(position.x, position.y));
+      coh.mult(cohesionWeight * cohesionField.get(position.x, position.y));
 
       p.applyForce(sep);
       p.applyForce(ali);
@@ -165,11 +166,14 @@ public class FlockParticles extends ParticleBehavior {
     // For every boid in the system, check if it's too close
     for (Particle other : particles) {
       if (shouldCompareParticles(p, other)) {
-        float d = (float) p.position.dist(other.position);
-        float separation = desiredSeparation.get(p.position.x, p.position.y, p.getTeam() == other.getTeam() ? 1 : 2);
+        Vector pos1 = p.getPosition();
+        Vector pos2 = other.getPosition();
+
+        float d = (float) pos1.dist(pos2);
+        float separation = desiredSeparation.get(pos1.x, pos1.y, p.getTeam() == other.getTeam() ? 1 : 2);
         if (other != p && (d < separation)) {
           // Calculate vector pointing away from neighbor
-          Vector diff = Vector.sub(p.position, other.position);
+          Vector diff = Vector.sub(pos1, pos2);
           diff.normalize();
           diff.div(d);        // Weight by distance
           steer.add(diff);
@@ -186,7 +190,7 @@ public class FlockParticles extends ParticleBehavior {
     if (steer.magnitude() > 0) {
       steer.normalize();
       steer.mult(maxSpeed);
-      steer.sub(p.velocity);
+      steer.sub(p.getVelocity());
       steer.limit(maxForce);
     }
     return steer;
@@ -199,9 +203,9 @@ public class FlockParticles extends ParticleBehavior {
     int count = 0;
     for (Particle other : particles) {
       if (shouldCompareParticles(p, other)) {
-        float d = (float) p.position.dist(other.position);
+        float d = (float) p.getPosition().dist(other.getPosition());
         if ((d > 0) && (d < alignmentThreshold)) {
-          sum.add(other.velocity);
+          sum.add(other.getVelocity());
           count++;
         }
       }
@@ -218,7 +222,7 @@ public class FlockParticles extends ParticleBehavior {
       }
 
       sum.mult(maxSpeed);
-      Vector steer = Vector.sub(sum, p.velocity);
+      Vector steer = Vector.sub(sum, p.getVelocity());
       steer.limit(maxForce);
       return steer;
     }
@@ -234,10 +238,10 @@ public class FlockParticles extends ParticleBehavior {
     int count = 0;
     for (Particle other : particles) {
       if (shouldCompareParticles(p, other)) {
-        float d = (float) p.position.dist(other.position);
+        float d = (float) p.getPosition().dist(other.getPosition());
         float cohesionThreshold2 = cohesionThreshold;
         if ((d > 0) && (d < cohesionThreshold2)) {
-          sum.add(other.position); // Add position
+          sum.add(other.getPosition()); // Add position
           count++;
         }
       }

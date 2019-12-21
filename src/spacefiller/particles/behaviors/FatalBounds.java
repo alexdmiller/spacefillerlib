@@ -9,7 +9,7 @@ import java.util.List;
 public class FatalBounds extends ParticleBehavior {
   @Override
   public void apply(Particle particle, List<Particle> neighbors) {
-    if (!getParticleSystem().getBounds().contains(particle.position)) {
+    if (!getParticleSystem().getBounds().contains(particle.getPosition())) {
       particle.removeFlag = true;
     }
   }

@@ -16,7 +16,7 @@ public class CustomFatalBounds extends ParticleBehavior {
   @Override
   public void apply(Particle particle, List<Particle> neighbors) {
     // TODO: implement removeFlag logic in particle system
-    if (!bounds.contains(particle.position)) {
+    if (!bounds.contains(particle.getPosition())) {
       particle.removeFlag = true;
     }
   }

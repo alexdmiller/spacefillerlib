@@ -10,8 +10,8 @@ import java.util.List;
  * Created by miller on 9/28/16.
  */
 public class Particle {
-  public Vector position;
-  public Vector velocity;
+  protected Vector position;
+  protected Vector velocity;
   public boolean removeFlag = false;
   public Color color;
 
@@ -155,5 +155,25 @@ public class Particle {
 
   public int getLife() {
     return life;
+  }
+
+  public Vector getPosition() {
+    return position.copy();
+  }
+
+  public Vector getVelocity() {
+    return velocity.copy();
+  }
+
+  public void setPosition(Vector newPosition) {
+    system.setParticlePosition(this, newPosition);
+  }
+
+  public void setVelocity(Vector vel) {
+    velocity.set(vel.x, vel.y);
+  }
+
+  public void translate(Vector v) {
+    system.setParticlePosition(this, Vector.add(position, v));
   }
 }
